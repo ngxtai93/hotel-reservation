@@ -145,7 +145,7 @@ if(islogin==null)
 								
 								<% if(islogin.equalsIgnoreCase("false")) { %>
 								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876" id="menu-item-1876">
-								<a class="btn-ripple" href="jsp/login.jsp">
+								<a class="btn-ripple" href="login">
 								<span class="k2t-title-menu">LOGIN</span>
 								</a>
 								</li>
