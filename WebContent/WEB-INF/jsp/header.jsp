@@ -16,42 +16,42 @@ if(islogin==null)
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link sizes="16x16" href="images/upload/favicon.png" rel="icon" />
-		<link rel="stylesheet" type="text/css" href="css/main.css" />
-		<link rel="stylesheet" type="text/css" href="css/popular.css" />
-		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/material-design-iconic-font.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/js_composer.css" />
-		<link rel="stylesheet" type="text/css" href="css/responsive.css" />
-		<link href="css/jquery-ui.css" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" type="text/css" href="css/event.css" />
-		<script src="js/jquery.min.js" type="text/javascript"></script>
-		<script src="js/main.js" type="text/javascript"></script>
-		<script src="js/jquery.mousewheel.min.js" type="text/javascript"></script>
-		<script src="js/imagesloaded.pkgd.min.js" type="text/javascript"></script>
-		<script src="js/isotope.pkgd.min.js" type="text/javascript"></script>
-		<script src="js/jquery.cbpBGSlideshow.js" type="text/javascript"></script>
-		<script src="js/jquery.imageloaded.min.js" type="text/javascript"></script>
-		<script src="js/jquery.infinitescroll.min.js" type="text/javascript"></script>
-		<script src="js/jquery.stellar.min.js" type="text/javascript"></script>
-		<script src="js/jquery.waypoints.min.js" type="text/javascript"></script>
-		<script src="js/jquery-easing.js" type="text/javascript"></script>
-		<script src="js/owl.carousel.min.js" type="text/javascript"></script>
-		<script src="js/ripple.js" type="text/javascript"></script>
-		<script src="js/sequence.jquery.js" type="text/javascript"></script>
-		<script src="js/sequence.jquery-min.js" type="text/javascript"></script>
-		<script src="js/datepicker.min.js" type="text/javascript"></script>
-		<script src="js/zoom-effect.js" type="text/javascript"></script>
+		<link rel="stylesheet" type="text/css" href="resources/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="resources/css/popular.css" />
+		<link rel="stylesheet" type="text/css" href="resources/css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="resources/css/material-design-iconic-font.min.css" />
+		<link rel="stylesheet" type="text/css" href="resources/css/js_composer.css" />
+		<link rel="stylesheet" type="text/css" href="resources/css/responsive.css" />
+		<link href="resources/css/jquery-ui.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="resources/css/event.css" />
+		<script src="resources/js/jquery.min.js" type="text/javascript"></script>
+		<script src="resources/js/main.js" type="text/javascript"></script>
+		<script src="resources/js/jquery.mousewheel.min.js" type="text/javascript"></script>
+		<script src="resources/js/imagesloaded.pkgd.min.js" type="text/javascript"></script>
+		<script src="resources/js/isotope.pkgd.min.js" type="text/javascript"></script>
+		<script src="resources/js/jquery.cbpBGSlideshow.js" type="text/javascript"></script>
+		<script src="resources/js/jquery.imageloaded.min.js" type="text/javascript"></script>
+		<script src="resources/js/jquery.infinitescroll.min.js" type="text/javascript"></script>
+		<script src="resources/js/jquery.stellar.min.js" type="text/javascript"></script>
+		<script src="resources/js/jquery.waypoints.min.js" type="text/javascript"></script>
+		<script src="resources/js/jquery-easing.js" type="text/javascript"></script>
+		<script src="resources/js/owl.carousel.min.js" type="text/javascript"></script>
+		<script src="resources/js/ripple.js" type="text/javascript"></script>
+		<script src="resources/js/sequence.jquery.js" type="text/javascript"></script>
+		<script src="resources/js/sequence.jquery-min.js" type="text/javascript"></script>
+		<script src="resources/js/datepicker.min.js" type="text/javascript"></script>
+		<script src="resources/js/zoom-effect.js" type="text/javascript"></script>
 		<!-- SLIDER REVOLUTION 5.x SCRIPTS  -->
-		<script type="text/javascript" src="revolution/js/jquery.themepunch.tools.min.js?rev=5.0"></script>
-		<script type="text/javascript" src="revolution/js/jquery.themepunch.revolution.min.js?rev=5.0"></script>
-		<script type="text/javascript" src="revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
-		<script type="text/javascript" src="revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
-		<script type="text/javascript" src="revolution/js/extensions/revolution.extension.navigation.min.js"></script>
-		<script type="text/javascript" src="revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+		<script type="text/javascript" src="resources/revolution/js/jquery.themepunch.tools.min.js?rev=5.0"></script>
+		<script type="text/javascript" src="resources/revolution/js/jquery.themepunch.revolution.min.js?rev=5.0"></script>
+		<script type="text/javascript" src="resources/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+		<script type="text/javascript" src="resources/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+		<script type="text/javascript" src="resources/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+		<script type="text/javascript" src="resources/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
 		<!-- SLIDER REVOLUTION 5.x CSS SETTINGS -->
-		<link rel="stylesheet" type="text/css" href="revolution/css/layers.css">
-		<link rel="stylesheet" type="text/css" href="revolution/css/navigation.css">
-		<link rel="stylesheet" type="text/css" href="revolution/css/settings.css">
+		<link rel="stylesheet" type="text/css" href="resources/revolution/css/layers.css">
+		<link rel="stylesheet" type="text/css" href="resources/revolution/css/navigation.css">
+		<link rel="stylesheet" type="text/css" href="resources/revolution/css/settings.css">
 	</head>
 	<body class="offcanvas-type-default offcanvas-right">
 		<div id="loader-wrapper">

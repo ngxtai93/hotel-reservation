@@ -16,10 +16,10 @@
 											<!-- START REVOLUTION SLIDER 5.0.6 fullwidth mode -->
 											<div id="rev_slider_2_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.0.1">
 												<ul>
-													<li data-index="rs-3" data-transition="fade,fadefromtop,parallaxtoleft,parallaxvertical" data-slotamount="7,7,7,7,7"  data-randomtransition="on" data-easein="default,default,default,default,default" data-easeout="default,default,default,default,default" data-masterspeed="300,300,300,300,300"  data-thumb="images/upload/revo-21.jpg" data-rotate="0,0,0,0,0"  data-saveperformance="off"  data-title="Slide" data-description="">
+													<li data-index="rs-3" data-transition="fade,fadefromtop,parallaxtoleft,parallaxvertical" data-slotamount="7,7,7,7,7"  data-randomtransition="on" data-easein="default,default,default,default,default" data-easeout="default,default,default,default,default" data-masterspeed="300,300,300,300,300"  data-thumb="resources/images/upload/revo-21.jpg" data-rotate="0,0,0,0,0"  data-saveperformance="off"  data-title="Slide" data-description="">
 														<!-- MAIN IMAGE -->
 														<div class="slotholder" style="width: 100%; height: 100%; visibility: inherit; opacity: 1;">
-															<div class="tp-bgimg defaultimg" style="width: 100%; height: 100%; opacity: 1; visibility: inherit; z-index: 20; background-image: url(images/upload/revo-21.jpg); background-color: rgba(0, 0, 0, 0); background-size: cover; background-position: 50% 0%; background-repeat: no-repeat;" src="images/upload/revo-21.jpg">
+															<div class="tp-bgimg defaultimg" style="width: 100%; height: 100%; opacity: 1; visibility: inherit; z-index: 20; background-image: url(resources/images/upload/revo-21.jpg); background-color: rgba(0, 0, 0, 0); background-size: cover; background-position: 50% 0%; background-repeat: no-repeat;" src="resources/images/upload/revo-21.jpg">
 															</div>
 														</div>
 														<!-- LAYERS -->
@@ -333,7 +333,7 @@
 												</div>
 											</div>
 											<div class="w100 pull-left k2t-bg-title">
-												<img width="70" height="10" src="images/upload/bg-title-bar.png" class="vc_single_image-img attachment-thumbnail" alt="bg-title-bar">
+												<img width="70" height="10" src="resources/images/upload/bg-title-bar.png" class="vc_single_image-img attachment-thumbnail" alt="bg-title-bar">
 											</div>
 											
 											<div class="sub-title-room pull-left w100">
@@ -349,7 +349,7 @@
 															<div class="group">
 																<div class="event-classic-item">
 																	<div class="inner-post">
-																		<a href="" title="King Suite Room"><img width="1603" height="770" src="images/upload/tower.jpg" class="attachment-thumb_370x370 wp-post-image" alt="King Suite Room"></a>                            
+																		<a href="" title="King Suite Room"><img width="1603" height="770" src="resources/images/upload/tower.jpg" class="attachment-thumb_370x370 wp-post-image" alt="King Suite Room"></a>                            
 																		<div class="light-box">
 																		</div>
 																		<div class="info-classic">
@@ -381,7 +381,7 @@
 															<div class="group">
 																<div class="event-classic-item">
 																	<div class="inner-post">
-																		<a href="" title="Queen Suite Room"><img width="370" height="370" src="images/upload/img32.jpg" class="attachment-thumb_370x370 wp-post-image" alt="Queen Suite Room"></a>                            
+																		<a href="" title="Queen Suite Room"><img width="370" height="370" src="resources/images/upload/img32.jpg" class="attachment-thumb_370x370 wp-post-image" alt="Queen Suite Room"></a>                            
 																		<div class="light-box">
 																		</div>
 																		<div class="info-classic">
@@ -415,7 +415,7 @@
 															<div class="group">
 																<div class="event-classic-item">
 																	<div class="inner-post">
-																		<a href="single-room-gallery.jsp" title="Royal Single Room"><img width="370" height="370" src="images/upload/eiffel.jpg" class="attachment-thumb_370x370 wp-post-image" alt="Royal Single Room"></a>                            
+																		<a href="single-room-gallery.jsp" title="Royal Single Room"><img width="370" height="370" src="resources/images/upload/eiffel.jpg" class="attachment-thumb_370x370 wp-post-image" alt="Royal Single Room"></a>                            
 																		<div class="light-box">
 																		</div>
 																		<div class="info-classic">
@@ -448,7 +448,7 @@
 															<div class="group">
 																<div class="event-classic-item">
 																	<div class="inner-post">
-																		<a href="single-room-gallery.jsp" title="King Suite Room"><img width="770" height="370" src="images/upload/evening_sea_landscape_island_palms_hotel_1600x1200_hd-wallpaper-415647.jpg" class="attachment-thumb_370x370 wp-post-image" alt="King Suite Room"></a>                            
+																		<a href="single-room-gallery.jsp" title="King Suite Room"><img width="770" height="370" src="resources/images/upload/evening_sea_landscape_island_palms_hotel_1600x1200_hd-wallpaper-415647.jpg" class="attachment-thumb_370x370 wp-post-image" alt="King Suite Room"></a>                            
 																		<div class="light-box">
 																		</div>
 																		<div class="info-classic">
@@ -510,12 +510,12 @@
 							<div class="slider-entry w100 pull-left">
 								<div class="k2t-item pull-left">
 									<div class="k2t-item-avata pull-left">
-										<img src="images/upload/view01.png" alt="view01" />
+										<img src="resources/images/upload/view01.png" alt="view01" />
 									</div>
 									<div class="k2t-item-info">
 										<div class="k2t-itemh-l">
 											<a class="k2t-itemh-title" href="single-post-standard.jsp">Prince Carl Philip</a>
-											<div id="post-ratings-2089" class="post-ratings" data-nonce="85a286916f"><img src="images/stars_crystal/rating_on.gif" alt="1 Star" title="1 Star" onmouseover="current_rating(2089, 1, '1 Star');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="2 Stars" title="2 Stars" onmouseover="current_rating(2089, 2, '2 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="3 Stars" title="3 Stars" onmouseover="current_rating(2089, 3, '3 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="4 Stars" title="4 Stars" onmouseover="current_rating(2089, 4, '4 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="5 Stars" title="5 Stars" onmouseover="current_rating(2089, 5, '5 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"> <span class="post-ratings-text"></span></div>
+											<div id="post-ratings-2089" class="post-ratings" data-nonce="85a286916f"><img src="resources/images/stars_crystal/rating_on.gif" alt="1 Star" title="1 Star" onmouseover="current_rating(2089, 1, '1 Star');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="2 Stars" title="2 Stars" onmouseover="current_rating(2089, 2, '2 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="3 Stars" title="3 Stars" onmouseover="current_rating(2089, 3, '3 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="4 Stars" title="4 Stars" onmouseover="current_rating(2089, 4, '4 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="5 Stars" title="5 Stars" onmouseover="current_rating(2089, 5, '5 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"> <span class="post-ratings-text"></span></div>
 										</div>
 										<div class="k2t-itemh-sub">Duke of Värmland</div>
 										<div class="k2t-itemh-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua utenim.</div>
@@ -523,12 +523,12 @@
 								</div>
 								<div class="k2t-item pull-left">
 									<div class="k2t-item-avata pull-left">
-										<img src="images/upload/view02.jpg" alt="view02" />
+										<img src="resources/images/upload/view02.jpg" alt="view02" />
 									</div>
 									<div class="k2t-item-info">
 										<div class="k2t-itemh-l">
 											<a class="k2t-itemh-title" href="single-post-standard.jsp">Gwyneth Paltrow</a>
-											<div id="post-ratings-20891" class="post-ratings" data-nonce="85a286916f"><img src="images/stars_crystal/rating_on.gif" alt="1 Star" title="1 Star" onmouseover="current_rating(2089, 1, '1 Star');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="2 Stars" title="2 Stars" onmouseover="current_rating(2089, 2, '2 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="3 Stars" title="3 Stars" onmouseover="current_rating(2089, 3, '3 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="4 Stars" title="4 Stars" onmouseover="current_rating(2089, 4, '4 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="5 Stars" title="5 Stars" onmouseover="current_rating(2089, 5, '5 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"> <span class="post-ratings-text" id="ratings_2089_text"></span></div>
+											<div id="post-ratings-20891" class="post-ratings" data-nonce="85a286916f"><img src="resources/images/stars_crystal/rating_on.gif" alt="1 Star" title="1 Star" onmouseover="current_rating(2089, 1, '1 Star');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="2 Stars" title="2 Stars" onmouseover="current_rating(2089, 2, '2 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="3 Stars" title="3 Stars" onmouseover="current_rating(2089, 3, '3 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="4 Stars" title="4 Stars" onmouseover="current_rating(2089, 4, '4 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="5 Stars" title="5 Stars" onmouseover="current_rating(2089, 5, '5 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"> <span class="post-ratings-text" id="ratings_2089_text"></span></div>
 										</div>
 										<div class="k2t-itemh-sub">Actress, singer, author</div>
 										<div class="k2t-itemh-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua utenim.</div>
@@ -536,12 +536,12 @@
 								</div>
 								<div class="k2t-item pull-left">
 									<div class="k2t-item-avata pull-left">
-										<img src="images/upload/view01.png" alt="view01" />
+										<img src="resources/images/upload/view01.png" alt="view01" />
 									</div>
 									<div class="k2t-item-info">
 										<div class="k2t-itemh-l">
 											<a class="k2t-itemh-title" href="single-post-standard.jsp">Prince Carl Philip</a>
-											<div id="post-ratings-20892" class="post-ratings" data-nonce="85a286916f"><img src="images/stars_crystal/rating_on.gif" alt="1 Star" title="1 Star" onmouseover="current_rating(2089, 1, '1 Star');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="2 Stars" title="2 Stars" onmouseover="current_rating(2089, 2, '2 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="3 Stars" title="3 Stars" onmouseover="current_rating(2089, 3, '3 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="4 Stars" title="4 Stars" onmouseover="current_rating(2089, 4, '4 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="5 Stars" title="5 Stars" onmouseover="current_rating(2089, 5, '5 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"> <span class="post-ratings-text"></span></div>
+											<div id="post-ratings-20892" class="post-ratings" data-nonce="85a286916f"><img src="resources/images/stars_crystal/rating_on.gif" alt="1 Star" title="1 Star" onmouseover="current_rating(2089, 1, '1 Star');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="2 Stars" title="2 Stars" onmouseover="current_rating(2089, 2, '2 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="3 Stars" title="3 Stars" onmouseover="current_rating(2089, 3, '3 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="4 Stars" title="4 Stars" onmouseover="current_rating(2089, 4, '4 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="5 Stars" title="5 Stars" onmouseover="current_rating(2089, 5, '5 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"> <span class="post-ratings-text"></span></div>
 										</div>
 										<div class="k2t-itemh-sub">Duke of Värmland</div>
 										<div class="k2t-itemh-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua utenim.</div>
@@ -549,12 +549,12 @@
 								</div>
 								<div class="k2t-item pull-left">
 									<div class="k2t-item-avata pull-left">
-										<img src="images/upload/view02.jpg" alt="view02" />
+										<img src="resources/images/upload/view02.jpg" alt="view02" />
 									</div>
 									<div class="k2t-item-info">
 										<div class="k2t-itemh-l">
 											<a class="k2t-itemh-title" href="single-post-standard.jsp">Gwyneth Paltrow</a>
-											<div class="post-ratings" data-nonce="85a286916f"><img src="images/stars_crystal/rating_on.gif" alt="1 Star" title="1 Star" onmouseover="current_rating(2089, 1, '1 Star');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="2 Stars" title="2 Stars" onmouseover="current_rating(2089, 2, '2 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="3 Stars" title="3 Stars" onmouseover="current_rating(2089, 3, '3 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="4 Stars" title="4 Stars" onmouseover="current_rating(2089, 4, '4 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="5 Stars" title="5 Stars" onmouseover="current_rating(2089, 5, '5 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"> <span class="post-ratings-text"></span></div>
+											<div class="post-ratings" data-nonce="85a286916f"><img src="resources/images/stars_crystal/rating_on.gif" alt="1 Star" title="1 Star" onmouseover="current_rating(2089, 1, '1 Star');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="2 Stars" title="2 Stars" onmouseover="current_rating(2089, 2, '2 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="3 Stars" title="3 Stars" onmouseover="current_rating(2089, 3, '3 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="4 Stars" title="4 Stars" onmouseover="current_rating(2089, 4, '4 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="5 Stars" title="5 Stars" onmouseover="current_rating(2089, 5, '5 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"> <span class="post-ratings-text"></span></div>
 										</div>
 										<div class="k2t-itemh-sub">Actress, singer, author</div>
 										<div class="k2t-itemh-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua utenim.</div>
@@ -562,12 +562,12 @@
 								</div>
 								<div class="k2t-item pull-left">
 									<div class="k2t-item-avata pull-left">
-										<img src="images/upload/view01.png" alt="view01" />
+										<img src="resources/images/upload/view01.png" alt="view01" />
 									</div>
 									<div class="k2t-item-info">
 										<div class="k2t-itemh-l">
 											<a class="k2t-itemh-title" href="single-post-standard.jsp">Prince Carl Philip</a>
-											<div class="post-ratings" data-nonce="85a286916f"><img src="images/stars_crystal/rating_on.gif" alt="1 Star" title="1 Star" onmouseover="current_rating(2089, 1, '1 Star');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="2 Stars" title="2 Stars" onmouseover="current_rating(2089, 2, '2 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="3 Stars" title="3 Stars" onmouseover="current_rating(2089, 3, '3 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="4 Stars" title="4 Stars" onmouseover="current_rating(2089, 4, '4 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="images/stars_crystal/rating_on.gif" alt="5 Stars" title="5 Stars" onmouseover="current_rating(2089, 5, '5 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"> <span class="post-ratings-text"></span></div>
+											<div class="post-ratings" data-nonce="85a286916f"><img src="resources/images/stars_crystal/rating_on.gif" alt="1 Star" title="1 Star" onmouseover="current_rating(2089, 1, '1 Star');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="2 Stars" title="2 Stars" onmouseover="current_rating(2089, 2, '2 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="3 Stars" title="3 Stars" onmouseover="current_rating(2089, 3, '3 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="4 Stars" title="4 Stars" onmouseover="current_rating(2089, 4, '4 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"><img src="resources/images/stars_crystal/rating_on.gif" alt="5 Stars" title="5 Stars" onmouseover="current_rating(2089, 5, '5 Stars');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer; border: 0px;"> <span class="post-ratings-text"></span></div>
 										</div>
 										<div class="k2t-itemh-sub">Duke of Värmland</div>
 										<div class="k2t-itemh-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua utenim.</div>
