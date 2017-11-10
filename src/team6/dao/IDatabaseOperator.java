@@ -6,7 +6,7 @@ public interface IDatabaseOperator {
 	
 	// JDBC driver name and database URL
 	public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	public static final String DB_URL="jdbc:mysql://localhost/CS584Project";
+	public static final String DB_URL="jdbc:mysql://localhost/csp584_project";
 
     //  Database credentials
 	public static final String USER = "root";
