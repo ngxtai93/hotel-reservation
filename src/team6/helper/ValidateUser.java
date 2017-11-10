@@ -1,9 +1,9 @@
-package Helper;
+package team6.helper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import DAO.MySQLDatabaseOperator;
+import team6.dao.MySQLDatabaseOperator;
 
 public class ValidateUser {
 

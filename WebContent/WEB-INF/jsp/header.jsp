@@ -84,15 +84,15 @@ if(islogin==null)
 						
 							<ul class="h-element k2t-menu " id="menu-menu-1">
 							
-								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876" id="menu-item-1876"><a class="btn-ripple" href="index.jsp">
+								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876" id="menu-item-1876"><a class="btn-ripple" href="jsp/index.jsp">
 								<span class="k2t-title-menu">HOME</span></a>
 								</li>
 								
-								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876" id="menu-item-1876"><a class="btn-ripple" href="choose-date.jsp">
+								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876" id="menu-item-1876"><a class="btn-ripple" href="jsp/choose-date.jsp">
 								<span class="k2t-title-menu">Reservation</span></a>
 								</li>
 								
-								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876" id="menu-item-1876"><a class="btn-ripple" href="all-rooms.jsp"><span class="k2t-title-menu">ROOMS</span></a>
+								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876" id="menu-item-1876"><a class="btn-ripple" href="jsp/all-rooms.jsp"><span class="k2t-title-menu">ROOMS</span></a>
 								</li>
 								
 							</ul>
@@ -145,13 +145,13 @@ if(islogin==null)
 								
 								<% if(islogin.equalsIgnoreCase("false")) { %>
 								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876" id="menu-item-1876">
-								<a class="btn-ripple" href="login.jsp">
+								<a class="btn-ripple" href="jsp/login.jsp">
 								<span class="k2t-title-menu">LOGIN</span>
 								</a>
 								</li>
 								
 								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876" id="menu-item-1876">
-								<a class="btn-ripple" href="signup.jsp">
+								<a class="btn-ripple" href="jsp/signup.jsp">
 								<span class="k2t-title-menu">SIGNUP</span>
 								</a>
 								</li>

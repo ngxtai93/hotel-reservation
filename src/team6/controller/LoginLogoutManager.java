@@ -1,4 +1,4 @@
-package Controller;
+package team6.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import DAO.MySQLDatabaseOperator;
-import Helper.ValidateUser;
+import team6.dao.MySQLDatabaseOperator;
+import team6.helper.ValidateUser;
 
 public class LoginLogoutManager extends HttpServlet {
 

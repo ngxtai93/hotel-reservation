@@ -1,4 +1,4 @@
-package DAO;
+package team6.dao;
 
 import java.sql.ResultSet;
 

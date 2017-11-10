@@ -1,4 +1,4 @@
-package Helper;
+package team6.helper;
 
 public interface IHtmlPrinter {
 	

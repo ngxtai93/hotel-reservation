@@ -1,4 +1,4 @@
-package Model;
+package team6.model;
 
 public interface IStaff {
 
