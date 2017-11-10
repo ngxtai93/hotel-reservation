@@ -14,7 +14,7 @@
 							</aside>
 							<aside class="widget widget_text widget-f-info" id="text-4">
 								<div class="textwidget">
-									<i class="zmdi zmdi-phone zmdi-hc-fw"></i> Hoteline: +123 456 789 &nbsp; &nbsp; &nbsp; <i class="zmdi zmdi-email zmdi-hc-fw"></i> Email: CS584@CS584.com
+									<i class="zmdi zmdi-phone zmdi-hc-fw"></i> Hotline: +123 456 789 &nbsp; &nbsp; &nbsp; <i class="zmdi zmdi-email zmdi-hc-fw"></i> Email: CS584@CS584.com
 								</div>
 							</aside>
 							<aside class="widget social-widget" id="k2t_social-2">
