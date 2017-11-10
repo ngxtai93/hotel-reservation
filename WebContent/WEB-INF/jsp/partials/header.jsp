@@ -149,14 +149,14 @@ User currentUser = (User) session.getAttribute("current-user");
 							<% if(currentUser == null) { %>
 								<li
 									class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876"
-									id="menu-item-1876"><a class="btn-ripple" href="login">
+									id="menu-item-1876"><a class="btn-ripple" href="<%= rootPath %>/login">
 										<span class="k2t-title-menu">LOGIN</span>
 								</a></li>
 	
 								<li
 									class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876"
 									id="menu-item-1876"><a class="btn-ripple"
-									href="jsp/signup.jsp"> <span class="k2t-title-menu">SIGNUP</span>
+									href="<%= rootPath %>/register"> <span class="k2t-title-menu">REGISTER</span>
 								</a></li>
 							<% } %>
 

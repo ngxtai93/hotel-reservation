@@ -1,4 +1,5 @@
-<%@include file="header.jsp"%>
+<%@ page import = "java.util.List" %>
+<%@include file="./partials/header.jsp"%>
 
 		<div class="k2t-body">
 		
@@ -16,85 +17,43 @@
 				<div class="container k2t-wrap">
 					<main class="k2t-main page">
 						<div class="page-entry">
-						
-							
 								<center>
-	                        
 	                        	<br> <br>
-	                        
-	                        	<div class="k2t-gr1-field">
-	                               	<div class="div-border">
-	                               	<input id='email' type="text" placeholder="Email*" />
-	                               	</div>
-	                            </div>
-	                            
-	                            <br> 
-	                            
-	                            <div class="k2t-gr1-field">
-	                               	<div class="div-border">
-	                               	<input id='username' type="text" placeholder="Username*" />
-	                               	</div>
-	                            </div>
-	                            
-	                            <br> 
-	                            
-	                            <div class="k2t-gr1-field">
-									<div class="div-border">
-									<input id='password' type="password" placeholder="Password*" />
+	                        	<form method="post">
+		                        	<div class="k2t-gr1-field">
+		                               	<div class="div-border">
+		                               	<input name="email" id='email' type="text" placeholder="Email*" />
+		                               	</div>
+		                            </div>
+		                            <br> 
+		                            <div class="k2t-gr1-field">
+		                               	<div class="div-border">
+		                               	<input name="username" id='username' type="text" placeholder="Username*" />
+		                               	</div>
+		                            </div>
+		                            <br> 
+		                            <div class="k2t-gr1-field">
+										<div class="div-border">
+										<input name="password" id='password' type="password" placeholder="Password*" />
+										</div>
 									</div>
-								</div>
-								
-								<br> 
-								
-								<div class="k2t-gr1-field">
-									<div class="div-border">
-									<input id='cfp' type="password" placeholder="Confirm Password*" />
+									<br> 
+									<div class="k2t-gr1-field">
+										<div class="div-border">
+										<input name="cfp" id='cfp' type="password" placeholder="Confirm Password*" />
+										</div>
 									</div>
-								</div>
-								
-								<br> 
-								
-								
-									
-								<button id='signupbutton'> Sign up </button>
-
+									<br>
+									<% Boolean registerFailed = (Boolean) request.getAttribute("register-failed");
+									if(registerFailed != null && registerFailed.equals(Boolean.TRUE)) {
+										List<String> listError = (List<String>) request.getAttribute("list-error");
+										for(String str: listError) { %>
+											<span style="color:red"><%= str %></span>
+										<% }
+									} %>  
+									<button id='signupbutton'> Sign up </button>
+								</form>
 								</center>
-	        
-	        
-	        				<script>
-							
-							$('#signupbutton').click( function(e)
-									
-							{ 
-								
-								//alert("para:" + $('#username').val() + $('#password').val()); 
-								
-								$username = $('#username').val();
-								$password = $('#password').val();
-								$email    = $('#email').val();
-								
-								$.post("LoginLogoutManager?action=signup&username="+$username+"&password="+$password+"&email="+$email, function(responseText) {     
-
-							            if(responseText=="signupdone") {   
-												
-											alert("signup done");
-											window.location.href = 'index.jsp';
-												
-										} else {
-											
-											alert("duplicate username");	
-											
-										}
-											
-						            });
-
-							});
-							
-							
-							</script>
-							
-							
-							
 						</div>
 					</main>
 				</div>
@@ -105,4 +64,4 @@
 
 
 
-<%@include file="footer.jsp" %>
+<%@include file="./partials/footer.jsp" %>

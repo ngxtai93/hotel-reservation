@@ -26,4 +26,19 @@ public class Authenticator {
 		session.invalidate();
 	}
 	
+	/**
+	 * Do register function. Return an User object if successful, null otherwise
+	 */
+	public User doRegister(String username, String password, String email) {
+		User userInDb = userDao.selectUser(username);
+		
+		if(userInDb == null) {
+			userDao.insertUser(username, password, email);
+			User newUser = userDao.selectUser(username, password);
+			return newUser;
+		}
+		
+		return null;
+	}
+	
 }

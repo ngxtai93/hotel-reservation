@@ -13,6 +13,15 @@ public class UserDAO {
 		dbOperator = new MySQLDatabaseOperator();
 	}
 	
+	public User selectUser(String username) {
+		String sql = "SELECT * from user WHERE username = '" + username + "'";
+		ResultSet rs = dbOperator.FetchQuery(sql);
+		
+		User user = buildUser(rs);
+		
+		return user; 
+	}
+
 	/**
 	 * Select user in MySQL given username and password 
 	 */
@@ -23,6 +32,20 @@ public class UserDAO {
 		User user = buildUser(rs);
 		
 		return user; 
+	}
+
+	/**
+	 * Insert user into MySQL given parameter 
+	 */
+	public void insertUser(String username, String password, String email) {
+		String sql = "INSERT INTO `csp584_project`.`user` (`username`, `password`, `email`)"
+					+ "VALUES ("
+					+ "'" + username + "',"
+					+ "'" + password + "',"
+					+ "'" + email + "'"
+					+ ");"
+		;
+		dbOperator.NonFetchQuery(sql);
 	}
 
 	/**
