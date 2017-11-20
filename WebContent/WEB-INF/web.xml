@@ -4,8 +4,7 @@
   <welcome-file-list>
     <welcome-file>/WEB-INF/jsp/index.jsp</welcome-file>
   </welcome-file-list>
-  
-   <listener>
-       <listener-class>team6.listener.ContextListener</listener-class>
-   </listener>
+  <listener>
+    <listener-class>team6.listener.ContextListener</listener-class>
+  </listener>
 </web-app>

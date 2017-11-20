@@ -1,12 +1,12 @@
-package team6.model;
+package team6.entity;
 
 public interface IRoom {
 	
 	public int GetRoomNumber();
 	public void SetRoomNumber(int number);
 	
-	public RoomType GetRoomType();
-	public void SetRoomType(RoomType rt);
+	public BedType GetRoomType();
+	public void SetRoomType(BedType rt);
 	
 	public void Book();
 	public void Occupy();

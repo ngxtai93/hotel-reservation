@@ -1,11 +1,13 @@
-package team6.model;
+package team6.entity;
 
 import java.time.LocalDate;
+
+import team6.model.ITranscation;
 
 public interface ICustomer {
 
 	//this is called when a customer click confirm a book on website
-	public ITranscation Book(RoomType rt, LocalDate checkinDate);
+	public ITranscation Book(BedType rt, LocalDate checkinDate);
 	
 	public int GetCustomerID();
 	

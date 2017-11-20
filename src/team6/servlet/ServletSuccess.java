@@ -33,6 +33,12 @@ public class ServletSuccess extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/jsp/success/create-account.jsp").forward(request, response);
 				break;
 			}
+			case "add-hotel":
+			{
+				session.removeAttribute("action");
+				request.getRequestDispatcher("/WEB-INF/jsp/success/add-hotel.jsp").forward(request, response);
+				break;
+			}
 		}
 	}
 
