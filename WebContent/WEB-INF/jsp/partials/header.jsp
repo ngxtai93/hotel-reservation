@@ -15,62 +15,62 @@ User currentUser = (User) session.getAttribute("current-user");
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link sizes="16x16" href="images/upload/favicon.png" rel="icon" />
-<link rel="stylesheet" type="text/css" href="resources/css/main.css" />
-<link rel="stylesheet" type="text/css" href="resources/css/popular.css" />
+<link rel="stylesheet" type="text/css" href="<%= rootPath %>/resources/css/main.css" />
+<link rel="stylesheet" type="text/css" href="<%= rootPath %>/resources/css/popular.css" />
 <link rel="stylesheet" type="text/css"
-	href="resources/css/font-awesome.min.css" />
+	href="<%= rootPath %>/resources/css/font-awesome.min.css" />
 <link rel="stylesheet" type="text/css"
-	href="resources/css/material-design-iconic-font.min.css" />
+	href="<%= rootPath %>/resources/css/material-design-iconic-font.min.css" />
 <link rel="stylesheet" type="text/css"
-	href="resources/css/js_composer.css" />
+	href="<%= rootPath %>/resources/css/js_composer.css" />
 <link rel="stylesheet" type="text/css"
-	href="resources/css/responsive.css" />
-<link href="resources/css/jquery-ui.css" rel="stylesheet"
+	href="<%= rootPath %>/resources/css/responsive.css" />
+<link href="<%= rootPath %>/resources/css/jquery-ui.css" rel="stylesheet"
 	type="text/css">
-<link rel="stylesheet" type="text/css" href="resources/css/event.css" />
-<script src="resources/js/jquery.min.js" type="text/javascript"></script>
-<script src="resources/js/main.js" type="text/javascript"></script>
-<script src="resources/js/jquery.mousewheel.min.js"
+<link rel="stylesheet" type="text/css" href="<%= rootPath %>/resources/css/event.css" />
+<script src="<%= rootPath %>/resources/js/jquery.min.js" type="text/javascript"></script>
+<script src="<%= rootPath %>/resources/js/main.js" type="text/javascript"></script>
+<script src="<%= rootPath %>/resources/js/jquery.mousewheel.min.js"
 	type="text/javascript"></script>
-<script src="resources/js/imagesloaded.pkgd.min.js"
+<script src="<%= rootPath %>/resources/js/imagesloaded.pkgd.min.js"
 	type="text/javascript"></script>
-<script src="resources/js/isotope.pkgd.min.js" type="text/javascript"></script>
-<script src="resources/js/jquery.cbpBGSlideshow.js"
+<script src="<%= rootPath %>/resources/js/isotope.pkgd.min.js" type="text/javascript"></script>
+<script src="<%= rootPath %>/resources/js/jquery.cbpBGSlideshow.js"
 	type="text/javascript"></script>
-<script src="resources/js/jquery.imageloaded.min.js"
+<script src="<%= rootPath %>/resources/js/jquery.imageloaded.min.js"
 	type="text/javascript"></script>
-<script src="resources/js/jquery.infinitescroll.min.js"
+<script src="<%= rootPath %>/resources/js/jquery.infinitescroll.min.js"
 	type="text/javascript"></script>
-<script src="resources/js/jquery.stellar.min.js" type="text/javascript"></script>
-<script src="resources/js/jquery.waypoints.min.js"
+<script src="<%= rootPath %>/resources/js/jquery.stellar.min.js" type="text/javascript"></script>
+<script src="<%= rootPath %>/resources/js/jquery.waypoints.min.js"
 	type="text/javascript"></script>
-<script src="resources/js/jquery-easing.js" type="text/javascript"></script>
-<script src="resources/js/owl.carousel.min.js" type="text/javascript"></script>
-<script src="resources/js/ripple.js" type="text/javascript"></script>
-<script src="resources/js/sequence.jquery.js" type="text/javascript"></script>
-<script src="resources/js/sequence.jquery-min.js" type="text/javascript"></script>
-<script src="resources/js/datepicker.min.js" type="text/javascript"></script>
-<script src="resources/js/zoom-effect.js" type="text/javascript"></script>
+<script src="<%= rootPath %>/resources/js/jquery-easing.js" type="text/javascript"></script>
+<script src="<%= rootPath %>/resources/js/owl.carousel.min.js" type="text/javascript"></script>
+<script src="<%= rootPath %>/resources/js/ripple.js" type="text/javascript"></script>
+<script src="<%= rootPath %>/resources/js/sequence.jquery.js" type="text/javascript"></script>
+<script src="<%= rootPath %>/resources/js/sequence.jquery-min.js" type="text/javascript"></script>
+<script src="<%= rootPath %>/resources/js/datepicker.min.js" type="text/javascript"></script>
+<script src="<%= rootPath %>/resources/js/zoom-effect.js" type="text/javascript"></script>
 <!-- SLIDER REVOLUTION 5.x SCRIPTS  -->
 <script type="text/javascript"
-	src="resources/revolution/js/jquery.themepunch.tools.min.js?rev=5.0"></script>
+	src="<%= rootPath %>/resources/revolution/js/jquery.themepunch.tools.min.js?rev=5.0"></script>
 <script type="text/javascript"
-	src="resources/revolution/js/jquery.themepunch.revolution.min.js?rev=5.0"></script>
+	src="<%= rootPath %>/resources/revolution/js/jquery.themepunch.revolution.min.js?rev=5.0"></script>
 <script type="text/javascript"
-	src="resources/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+	src="<%= rootPath %>/resources/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
 <script type="text/javascript"
-	src="resources/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+	src="<%= rootPath %>/resources/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
 <script type="text/javascript"
-	src="resources/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+	src="<%= rootPath %>/resources/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
 <script type="text/javascript"
-	src="resources/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+	src="<%= rootPath %>/resources/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
 <!-- SLIDER REVOLUTION 5.x CSS SETTINGS -->
 <link rel="stylesheet" type="text/css"
-	href="resources/revolution/css/layers.css">
+	href="<%= rootPath %>/resources/revolution/css/layers.css">
 <link rel="stylesheet" type="text/css"
-	href="resources/revolution/css/navigation.css">
+	href="<%= rootPath %>/resources/revolution/css/navigation.css">
 <link rel="stylesheet" type="text/css"
-	href="resources/revolution/css/settings.css">
+	href="<%= rootPath %>/resources/revolution/css/settings.css">
 </head>
 <body class="offcanvas-type-default offcanvas-right">
 	<div id="loader-wrapper">
@@ -116,7 +116,7 @@ User currentUser = (User) session.getAttribute("current-user");
 							<li
 								class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876"
 								id="menu-item-1876"><a class="btn-ripple"
-								href="jsp/all-rooms.jsp"><span class="k2t-title-menu">ROOMS</span></a>
+								href="<%= rootPath %>/room/all"><span class="k2t-title-menu">ROOMS</span></a>
 							</li>
 
 						</ul>
@@ -129,7 +129,7 @@ User currentUser = (User) session.getAttribute("current-user");
 									class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876"
 									id="menu-item-1876"
 								>
-									<a class="btn-ripple" href="#">
+									<a class="btn-ripple" href="<%= rootPath %>/account">
 										<span class="k2t-title-menu">Account</span>
 									</a>
 								</li>

@@ -1,4 +1,4 @@
-<%@include file="header.jsp" %>
+<%@include file="./partials/header.jsp" %>
 
 		<script type="text/javascript">
 			$(window).load(function() {
@@ -106,48 +106,48 @@
 									<div class="k2t-event-gallery pull-left w100">
 										<div class="k2t-thumb-gallery">
 											<div class="item">
-												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="images/upload/Dusk-Exterior.jpg" />
+												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="<%= rootPath %>/resources/images/upload/Dusk-Exterior.jpg" />
 											</div>
 											<div class="item">
-												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="images/upload/500____college-hotelp1diapo1_718.jpg" />
+												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="<%= rootPath %>/resources/images/upload/500____college-hotelp1diapo1_718.jpg" />
 											</div>
 											<div class="item">
-												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="images/upload/58447-room-type-adina-apartment-hotel-sydney-one-bedroom-queen.jpg" />
+												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="<%= rootPath %>/resources/images/upload/58447-room-type-adina-apartment-hotel-sydney-one-bedroom-queen.jpg" />
 											</div>
 											<div class="item">
-												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="images/upload/7030704-casa-monica-hotel.jpg" />
+												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="<%= rootPath %>/resources/images/upload/7030704-casa-monica-hotel.jpg" />
 											</div>
 											<div class="item">
-												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="images/upload/mos2-14209716938.jpg" />
+												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="<%= rootPath %>/resources/images/upload/mos2-14209716938.jpg" />
 											</div>
 											<div class="item">
-												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="images/upload/Moscow_Izmailovo_hotel_complex_evening_14575121847.jpg" />
+												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="<%= rootPath %>/resources/images/upload/Moscow_Izmailovo_hotel_complex_evening_14575121847.jpg" />
 											</div>
 											<div class="item">
-												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="images/upload/7030704-casa-monica-hotel.jpg" />
+												<img width="710" height="455" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="attachment-thumb_710x455 wp-post-image" src="<%= rootPath %>/resources/images/upload/7030704-casa-monica-hotel.jpg" />
 											</div>
 										</div>
 										<div id="inavigation">
 											<div class="item">
-												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="images/upload/Dusk-Exterior-v2-23024px1-150x150.jpg" />
+												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="<%= rootPath %>/resources/images/upload/Dusk-Exterior-v2-23024px1-150x150.jpg" />
 											</div>
 											<div class="item">
-												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="images/upload/500____college-hotelp1diapo1_7181-150x150.jpg" />
+												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="<%= rootPath %>/resources/images/upload/500____college-hotelp1diapo1_7181-150x150.jpg" />
 											</div>
 											<div class="item">
-												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="images/upload/58447-room-type-adina-apartment-hotel-sydney-one-bedroom-queen1-150x150.jpg" />
+												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="<%= rootPath %>/resources/images/upload/58447-room-type-adina-apartment-hotel-sydney-one-bedroom-queen1-150x150.jpg" />
 											</div>
 											<div class="item">
-												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="images/upload/7030704-casa-monica-hotel1-150x150.jpg" />
+												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="<%= rootPath %>/resources/images/upload/7030704-casa-monica-hotel1-150x150.jpg" />
 											</div>
 											<div class="item">
-												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="images/upload/mos2-14209716938-150x150.jpg" />
+												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="<%= rootPath %>/resources/images/upload/mos2-14209716938-150x150.jpg" />
 											</div>
 											<div class="item">
-												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="images/upload/Moscow_Izmailovo_hotel_complex_evening_14575121847-150x150.jpg" />
+												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="<%= rootPath %>/resources/images/upload/Moscow_Izmailovo_hotel_complex_evening_14575121847-150x150.jpg" />
 											</div>
 											<div class="item">
-												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="images/upload/7030704-casa-monica-hotel1-150x150.jpg" />
+												<img width="110" height="110" alt="eiffel-tower-paris-las-vegas-hotel-casino-wallpaper-1056" class="" src="<%= rootPath %>/resources/images/upload/7030704-casa-monica-hotel1-150x150.jpg" />
 											</div>
 										</div>
 									</div>
@@ -272,4 +272,4 @@
 
 		
 		
-<%@include file="footer.jsp" %>
+<%@include file="./partials/footer.jsp" %>

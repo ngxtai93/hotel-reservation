@@ -1,4 +1,4 @@
-<%@include file="header.jsp" %>
+<%@include file="./partials/header.jsp" %>
 		
 		
 		<div class="k2t-body">
@@ -142,4 +142,4 @@
 		</div>
 
 		
-<%@include file="footer.jsp" %>
+<%@include file="./partials/footer.jsp" %>
