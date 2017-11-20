@@ -3,6 +3,7 @@ package team6.model;
 import javax.servlet.http.HttpSession;
 
 import team6.dao.UserDAO;
+import team6.entity.Role;
 import team6.entity.User;
 
 public class Authenticator {
@@ -29,11 +30,11 @@ public class Authenticator {
 	/**
 	 * Do register function. Return an User object if successful, null otherwise
 	 */
-	public User doRegister(String username, String password, String email) {
+	public User doRegister(String username, String password, String email, Role role) {
 		User userInDb = userDao.selectUser(username);
 		
 		if(userInDb == null) {
-			userDao.insertUser(username, password, email);
+			userDao.insertUser(username, password, email, role);
 			User newUser = userDao.selectUser(username, password);
 			return newUser;
 		}

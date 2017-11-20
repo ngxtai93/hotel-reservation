@@ -1,6 +1,6 @@
 <%@ page import = "java.util.List" %>
+<%@ page import = "team6.entity.User, team6.entity.Role" %>
 <%@include file="./partials/header.jsp"%>
-
 		<div class="k2t-body">
 		
 			<div class="k2t-title-bar">
@@ -19,7 +19,7 @@
 						<div class="page-entry">
 								<center>
 	                        	<br> <br>
-	                        	<form method="post">
+	                        	<form method="post" action="<%= rootPath %>/register">
 		                        	<div class="k2t-gr1-field">
 		                               	<div class="div-border">
 		                               	<input name="email" id='email' type="text" placeholder="Email*" />
@@ -44,6 +44,20 @@
 										</div>
 									</div>
 									<br>
+									<%-- TODO: frontend for input Role (manager function) --%>
+									<% if(currentUser != null && currentUser.getRole().equals(Role.MANAGER)) { %>
+										<div class="k2t-gr1-field">
+											<div class="div-border">
+											<label for="role">Role: </label>
+											<select name="role">
+												<% for(Role role: Role.values()) { %>
+													<option value="<%= role.toString().toLowerCase()%>"><%= role.toString() %></option>
+												<% } %>
+											</select>
+											</div>
+										</div>
+										<br>
+									<% } %>
 									<% Boolean registerFailed = (Boolean) request.getAttribute("register-failed");
 									if(registerFailed != null && registerFailed.equals(Boolean.TRUE)) {
 										List<String> listError = (List<String>) request.getAttribute("list-error");
