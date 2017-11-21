@@ -10,13 +10,14 @@ $(document).ready(function(){
 				success: function(responseJson) {
 					if(responseJson != "") {
 						var $form = $("<form method=\"get\">").appendTo($('#room-add-step-2'));
+						$("<table>").appendTo($form);
 						$.each(responseJson, function(index, hotel) {
-							$form
-								.append($("<input type=\"radio\" name=\"hotel\" value=\"" + hotel.seqNo + "\">"))
-								.append($("<span>").text(hotel.name))
-								.append($("<br>"))
+							$("<tr>").appendTo($form)
+								.append($("<td>").html($("<input type=\"radio\" name=\"hotel\" value=\"" + hotel.seqNo + "\">")))
+								.append($("<td>").html($("<span>").text(hotel.name)))
 							;
 						});
+						$form.append($("<br>"));
 					}
 				}
 			});
