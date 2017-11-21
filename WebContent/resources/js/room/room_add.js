@@ -10,7 +10,9 @@ $(document).ready(function(){
 				success: function(responseJson) {
 					if(responseJson != "") {
 						var $form = $("<form method=\"get\">").appendTo($('#room-add-step-2'));
-						$("<table>").appendTo($form);
+						$("<input type=\"hidden\" name=\"location\" value=\"" + location_id + "\">").appendTo($form);
+						$form = $("<table>").appendTo($form);
+						
 						$.each(responseJson, function(index, hotel) {
 							$("<tr>").appendTo($form)
 								.append($("<td>").html($("<input type=\"radio\" name=\"hotel\" value=\"" + hotel.seqNo + "\">")))
@@ -23,4 +25,6 @@ $(document).ready(function(){
 			});
 		}
 	});
+	
+	$()
 });
