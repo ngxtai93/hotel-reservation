@@ -12,7 +12,7 @@ $(document).ready(function(){
 						var $form = $("<form method=\"get\">").appendTo($('#room-add-step-2'));
 						$.each(responseJson, function(index, hotel) {
 							$form
-								.append($("<input type=\"radio\" id=\"" + hotel.seqNo + "\">"))
+								.append($("<input type=\"radio\" name=\"hotel\" value=\"" + hotel.seqNo + "\">"))
 								.append($("<span>").text(hotel.name))
 								.append($("<br>"))
 							;
