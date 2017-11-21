@@ -11,6 +11,7 @@ import java.util.Map;
 
 import team6.entity.BedType;
 import team6.entity.Hotel;
+import team6.entity.Location;
 import team6.entity.RoomType;
 
 public class HotelDAO {
@@ -46,16 +47,46 @@ public class HotelDAO {
 		return listRoomType;
 	}
 
+	public List<Hotel> selectHotelByLocation(int locationId) {
+		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address"
+				+ " FROM csp584_project.hotel h JOIN csp584_project.location l"
+				+ " ON h.location = l.seq_no"
+				+ " WHERE h.location = ?;"
+		;
+		List<Hotel> listHotel = null;
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, locationId);
+			ResultSet rs = ps.executeQuery();
+			if(rs.isBeforeFirst()) {
+				listHotel = new ArrayList<>();
+				while(rs.next()) {
+					Hotel hotel = buildHotelObject(rs);
+					listHotel.add(hotel);
+				}
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return listHotel;
+	}
+
 	/**
 	 * Select hotel by address and given location
 	 */
-	public Hotel selectHotel(String address, Integer locationSeqNo) {
-		String sql = "SELECT * from csp584_project.hotel WHERE address = ? AND location = ?";
+	public Hotel selectHotel(String address, Location location) {
+		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address"
+				+ " FROM csp584_project.hotel h JOIN csp584_project.location l"
+				+ " ON h.location = l.seq_no"
+				+ " WHERE h.address = ? AND h.location = ?;"
+		;
 		Hotel hotel = null;
 		
 		try(PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setString(1, address);
-			ps.setInt(2, locationSeqNo.intValue());
+			ps.setInt(2, location.getSeqNo().intValue());
 			ResultSet rs = ps.executeQuery();
 			if(rs.isBeforeFirst()) {
 				rs.next();
@@ -70,19 +101,20 @@ public class HotelDAO {
 	}
 	
 	public void insertHotel(Hotel hotel) {
-		String city = hotel.getCity();
-		String state = hotel.getState();
-		String zip = hotel.getZip();
+		Location location = hotel.getLocation();
+		String city = location.getCity();
+		String state = location.getState();
+		String zip = location.getZip();
 		
-		Integer locationSeqNo = selectLocationSeqNo(city, state, zip);
-		if(locationSeqNo == null) {
+		Location locationDb = selectLocation(city, state, zip);
+		if(locationDb == null) {
 			insertLocation(city, state, zip);
-			locationSeqNo = selectLocationSeqNo(city, state, zip);
+			locationDb = selectLocation(city, state, zip);
 		}
 		
 		String sql = "INSERT INTO `csp584_project`.`hotel` (`location`, `name`, `address`) VALUES (?, ?, ?);";
 		try(PreparedStatement ps = conn.prepareStatement(sql)) {
-			ps.setInt(1, locationSeqNo.intValue());
+			ps.setInt(1, locationDb.getSeqNo().intValue());
 			ps.setString(2, hotel.getName());
 			ps.setString(3, hotel.getAddress());
 			ps.execute();
@@ -108,11 +140,11 @@ public class HotelDAO {
 	}
 
 	/**
-	 * Get seq_no by given info
+	 * Get Location by given info
 	 */
-	public Integer selectLocationSeqNo(String city, String state, String zip) {
-		String sql = "SELECT seq_no from csp584_project.location WHERE city = ? AND state = ? AND zip = ?";
-		Integer result = null;
+	public Location selectLocation(String city, String state, String zip) {
+		String sql = "SELECT * from csp584_project.location WHERE city = ? AND state = ? AND zip = ?";
+		Location result = null;
 		
 		try(PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setString(1, city);
@@ -121,7 +153,7 @@ public class HotelDAO {
 			ResultSet rs = ps.executeQuery();
 			if(rs.isBeforeFirst()) {
 				rs.next();
-				result = Integer.valueOf(rs.getInt("seq_no"));
+				result = buildLocationObject(rs);
 			}
 		}
 		catch(SQLException e) {
@@ -131,71 +163,26 @@ public class HotelDAO {
 		return result;
 	}
 
-	/**
-	 * Build RoomType object from SQL 
-	 */
-	private RoomType buildRoomTypeObject(ResultSet rs) {
-		RoomType roomType = new RoomType();
-		
-		try {
-			roomType.setSeqNo(rs.getInt("seq_no"));
-			roomType.setName(rs.getString("name"));
-			roomType.setBedMap(parseBedColumn(rs.getString("bed")));
-			roomType.setPeopleNo(Integer.valueOf(rs.getInt("people_no")));
-			roomType.setView(rs.getString("view"));
-			roomType.setIsWifi(rs.getBoolean("is_wifi"));
-			roomType.setIsTV(rs.getBoolean("is_tv"));
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
-		
-		return roomType;
-	}
-
-	/**
-	 * Build Hotel object from SQL
-	 */
-	private Hotel buildHotelObject(ResultSet rs) {
-		Hotel hotel = new Hotel();
-		try {
-			hotel.setSeqNo(rs.getInt("seq_no"));
-			hotel.setName(rs.getString("name"));
-			hotel.setAddress(rs.getString("address"));
-			
-			ResultSet locationResult = getLocationResultSet(rs.getInt("location"));
-			hotel.setCity(locationResult.getString("city"));
-			hotel.setState(locationResult.getString("state"));
-			hotel.setZip(locationResult.getString("zip"));
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
-		
-		return hotel;
-	}
-
-	/**
-	 * Get result set of location from given seq_no. Return null if not found.
-	 */
-	private ResultSet getLocationResultSet(int seqNo) {
-		String sql = "SELECT * from csp584_project.location WHERE seq_no = ?";
+	public List<Location> selectAllLocation() {
+		List<Location> listLocation = null;
+		String sql = "SELECT * from csp584_project.location";
 		
 		try(PreparedStatement ps = conn.prepareStatement(sql)) {
-			ps.setInt(1, seqNo);
 			ResultSet rs = ps.executeQuery();
 			if(rs.isBeforeFirst()) {
-				rs.next();
-				return rs;
+				listLocation = new ArrayList<>();
 			}
+			while(rs.next()) {
+				Location location = buildLocationObject(rs);
+				listLocation.add(location);
+			}
+			
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
-		return null;
+		return listLocation;
 	}
 
 	/**
@@ -222,5 +209,69 @@ public class HotelDAO {
 		}
 		
 		return result;
+	}
+
+	/**
+	 * Build RoomType object from SQL 
+	 */
+	private RoomType buildRoomTypeObject(ResultSet rs) {
+		RoomType roomType = new RoomType();
+		
+		try {
+			roomType.setSeqNo(Integer.valueOf(rs.getInt("seq_no")));
+			roomType.setName(rs.getString("name"));
+			roomType.setBedMap(parseBedColumn(rs.getString("bed")));
+			roomType.setPeopleNo(Integer.valueOf(rs.getInt("people_no")));
+			roomType.setView(rs.getString("view"));
+			roomType.setIsWifi(rs.getBoolean("is_wifi"));
+			roomType.setIsTV(rs.getBoolean("is_tv"));
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		return roomType;
+	}
+
+	private Location buildLocationObject(ResultSet rs) {
+		Location location = new Location();
+		try {
+			location.setSeqNo(Integer.valueOf(rs.getInt("seq_no")));
+			location.setCity(rs.getString("city"));
+			location.setState(rs.getString("state"));
+			location.setZip(rs.getString("zip"));
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		return location;
+	}
+
+	/**
+	 * Build Hotel object from SQL
+	 */
+	private Hotel buildHotelObject(ResultSet rs) {
+		Hotel hotel = new Hotel();
+		try {
+			hotel.setSeqNo(Integer.valueOf(rs.getInt("seq_no")));
+			hotel.setName(rs.getString("name"));
+			hotel.setAddress(rs.getString("address"));
+			
+			Location location = new Location();
+			location.setSeqNo(Integer.valueOf(rs.getInt("location")));
+			location.setCity(rs.getString("city"));
+			location.setState(rs.getString("state"));
+			location.setZip(rs.getString("zip"));
+			hotel.setLocation(location);
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		return hotel;
 	}
 }

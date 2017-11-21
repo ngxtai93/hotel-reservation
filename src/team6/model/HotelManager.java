@@ -5,6 +5,7 @@ import java.util.List;
 
 import team6.dao.HotelDAO;
 import team6.entity.Hotel;
+import team6.entity.Location;
 import team6.entity.RoomType;
 
 public class HotelManager {
@@ -24,9 +25,9 @@ public class HotelManager {
 		List<String> listError = new ArrayList<>();
 		
 		// check duplicate address
-		Integer locationSeqNo = hotelDao.selectLocationSeqNo(city, state, zip);
-		if(locationSeqNo != null) {	// location already registered
-			Hotel hotel = hotelDao.selectHotel(address, locationSeqNo);
+		Location location = hotelDao.selectLocation(city, state, zip);
+		if(location != null) {	// location already registered
+			Hotel hotel = hotelDao.selectHotel(address, location);
 			if(hotel != null) {
 				listError.add("Address already has a hotel.");
 			}
@@ -38,6 +39,17 @@ public class HotelManager {
 	public void addHotel(String name, String address, String city, String state, String zip) {
 		Hotel hotel = new Hotel(name, address, city, state, zip);
 		hotelDao.insertHotel(hotel);
+	}
+
+	public List<Location> getAvailableLocation() {
+		return hotelDao.selectAllLocation();
+	}
+
+	/**
+	 * Get all available hotel in an Location 
+	 */
+	public List<Hotel> getAvailableHotel(int locationId) {
+		return hotelDao.selectHotelByLocation(locationId);
 	}
 
 }

@@ -18,7 +18,7 @@ USE `csp584_project`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `customerprofile`
+-- Table structure for table `customer_profile`
 --
 
 DROP TABLE IF EXISTS `customer_profile`;
@@ -47,6 +47,58 @@ LOCK TABLES `customer_profile` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `hotel`
+--
+
+DROP TABLE IF EXISTS `hotel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hotel` (
+  `seq_no` int(11) NOT NULL AUTO_INCREMENT,
+  `location` int(11) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `address` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`seq_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hotel`
+--
+
+LOCK TABLES `hotel` WRITE;
+/*!40000 ALTER TABLE `hotel` DISABLE KEYS */;
+INSERT INTO `hotel` VALUES (1,1,'Hampton Inn Majestic Chicago Theatre District','22 W. Monroe'),(2,2,'theWit Chicago - a DoubleTree by Hilton Hotel','201 N. State Street'),(3,1,'Palmer House a Hilton Hotel','17 East Monroe Street');
+/*!40000 ALTER TABLE `hotel` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `location`
+--
+
+DROP TABLE IF EXISTS `location`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `location` (
+  `seq_no` int(11) NOT NULL AUTO_INCREMENT,
+  `city` varchar(45) DEFAULT NULL,
+  `state` varchar(10) DEFAULT NULL,
+  `zip` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`seq_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `location`
+--
+
+LOCK TABLES `location` WRITE;
+/*!40000 ALTER TABLE `location` DISABLE KEYS */;
+INSERT INTO `location` VALUES (1,'Chicago','IL','60603'),(2,'Chicago','IL','60601');
+/*!40000 ALTER TABLE `location` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `room`
 --
 
@@ -71,7 +123,36 @@ LOCK TABLES `room` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `staffprofile`
+-- Table structure for table `room_type`
+--
+
+DROP TABLE IF EXISTS `room_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `room_type` (
+  `seq_no` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `bed` varchar(255) DEFAULT NULL,
+  `people_no` int(11) DEFAULT NULL,
+  `view` varchar(45) DEFAULT NULL,
+  `is_wifi` tinyint(4) DEFAULT NULL,
+  `is_tv` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`seq_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `room_type`
+--
+
+LOCK TABLES `room_type` WRITE;
+/*!40000 ALTER TABLE `room_type` DISABLE KEYS */;
+INSERT INTO `room_type` VALUES (1,'Room A','king_bed,1;',4,'City',1,1);
+/*!40000 ALTER TABLE `room_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `staff_profile`
 --
 
 DROP TABLE IF EXISTS `staff_profile`;
@@ -131,13 +212,14 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `uid` int(255) NOT NULL,
+  `uid` int(255) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
+  `role` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +228,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'manager','manager','manager@website'),(2,'staff','staff','staff@website');
+INSERT INTO `user` VALUES (1,'manager','manager','manager@website','manager'),(2,'staff','staff','staff@website','staff');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -159,4 +241,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-09 22:40:41
+-- Dump completed on 2017-11-21  0:26:50

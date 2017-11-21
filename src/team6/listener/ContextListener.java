@@ -5,6 +5,7 @@ import javax.servlet.*;
 import team6.dao.MySQLDatabaseOperator;
 
 public class ContextListener implements ServletContextListener {
+	
     @Override
     public void contextDestroyed(ServletContextEvent e) {
     	closeMySqlConnection();

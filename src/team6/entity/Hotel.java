@@ -4,9 +4,7 @@ public class Hotel {
 	private Integer seqNo;
 	private String name;
 	private String address;
-	private String city;
-	private String state;
-	private String zip;
+	private Location location;
 	
 	public Hotel() {
 		
@@ -15,9 +13,11 @@ public class Hotel {
 	public Hotel(String name, String address, String city, String state, String zip) {
 		this.name = name;
 		this.address = address;
-		this.city = city;
-		this.state = state;
-		this.zip = zip;
+		Location location = new Location();
+		location.setCity(city);
+		location.setState(state);
+		location.setZip(zip);
+		this.location = location;
 	}
 	
 	public Integer getSeqNo() {
@@ -38,22 +38,10 @@ public class Hotel {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getCity() {
-		return city;
+	public Location getLocation() {
+		return location;
 	}
-	public void setCity(String city) {
-		this.city = city;
-	}
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
-	}
-	public String getZip() {
-		return zip;
-	}
-	public void setZip(String zip) {
-		this.zip = zip;
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 }
