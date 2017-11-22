@@ -12,6 +12,7 @@ import java.util.Map;
 import team6.entity.BedType;
 import team6.entity.Hotel;
 import team6.entity.Location;
+import team6.entity.Room;
 import team6.entity.RoomType;
 
 public class HotelDAO {
@@ -185,6 +186,114 @@ public class HotelDAO {
 		return listLocation;
 	}
 
+	public void insertRoom(int hotelId, int roomNum, int roomTypeId) {
+		String sql = "INSERT INTO `csp584_project`.`room` (`hotel`, `room_number`, `room_type`) VALUES (?, ?, ?);";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, hotelId);
+			ps.setInt(2, roomNum);
+			ps.setInt(3, roomTypeId);
+			ps.execute();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public Room selectRoom(int hotelId, int roomNum) {
+		String sql = "SELECT * from csp584_project.room WHERE hotel = ? AND room_number = ?";
+		Room room = null;
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, hotelId);
+			ps.setInt(2, roomNum);
+			ResultSet rs = ps.executeQuery();
+			if(rs.isBeforeFirst()) {
+				rs.next();
+				room = buildRoomObject(rs);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		if(room != null) {
+			populateHotel(room.getHotel());
+			populateRoomType(room.getRoomType());
+		}
+		
+		return room;
+	}
+
+	/**
+	 * Populate room type given seq_no
+	 */
+	private void populateRoomType(RoomType roomType) {
+		String sql = "SELECT * from csp584_project.room_type WHERE seq_no = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, roomType.getSeqNo());
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			
+			roomType.setName(rs.getString("name"));
+			roomType.setBedMap(parseBedColumn(rs.getString("bed")));
+			roomType.setPeopleNo(Integer.valueOf(rs.getInt("people_no")));
+			roomType.setView(rs.getString("view"));
+			roomType.setIsWifi(rs.getBoolean("is_wifi"));
+			roomType.setIsTV(rs.getBoolean("is_tv"));
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
+	/**
+	 * Populate hotel given seq_no
+	 */
+	private void populateHotel(Hotel hotel) {
+		String sql = "SELECT * from csp584_project.hotel WHERE seq_no = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, hotel.getSeqNo());
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			
+			hotel.setLocation(new Location());
+			hotel.getLocation().setSeqNo(Integer.valueOf(rs.getString("location")));
+			hotel.setName(rs.getString("name"));
+			hotel.setAddress(rs.getString("address"));
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		populateLocation(hotel.getLocation());
+	}
+
+	/**
+	 * Populate location given seq_no
+	 */
+	private void populateLocation(Location location) {
+		String sql = "SELECT * from csp584_project.location WHERE seq_no = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, location.getSeqNo());
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			
+			location.setCity(rs.getString("city"));
+			location.setState(rs.getString("state"));
+			location.setZip(rs.getString("zip"));
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
 	/**
 	 * Parse bed entry with format: <bedtype,amount;>
 	 */
@@ -273,5 +382,26 @@ public class HotelDAO {
 		}
 		
 		return hotel;
+	}
+
+	/**
+	 * Build Hotel object from SQL
+	 */
+	private Room buildRoomObject(ResultSet rs) {
+		Room room = new Room();
+		
+		try {
+			room.setSeqNo(Integer.valueOf(rs.getInt("seq_no")));
+			room.setHotel(new Hotel());
+			room.getHotel().setSeqNo(Integer.valueOf(rs.getInt("hotel")));
+			room.setRoomNumber(Integer.valueOf(rs.getInt("room_number")));
+			room.setRoomType(new RoomType());
+			room.getRoomType().setSeqNo(Integer.valueOf(rs.getInt("room_type")));
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return room;
 	}
 }

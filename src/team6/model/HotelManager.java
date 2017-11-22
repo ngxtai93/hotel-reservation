@@ -6,6 +6,7 @@ import java.util.List;
 import team6.dao.HotelDAO;
 import team6.entity.Hotel;
 import team6.entity.Location;
+import team6.entity.Room;
 import team6.entity.RoomType;
 
 public class HotelManager {
@@ -50,6 +51,15 @@ public class HotelManager {
 	 */
 	public List<Hotel> getAvailableHotel(int locationId) {
 		return hotelDao.selectHotelByLocation(locationId);
+	}
+
+	public void addRoom(int hotelId, int roomNum, int roomTypeId) {
+		hotelDao.insertRoom(hotelId, roomNum, roomTypeId);
+	}
+
+	public boolean isRoomExist(int hotelId, int roomNum) {
+		Room room = hotelDao.selectRoom(hotelId, roomNum);
+		return (room != null ? true : false);
 	}
 
 }
