@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
+import team6.entity.Hotel;
+import team6.entity.Location;
 import team6.entity.Role;
 import team6.entity.User;
 import team6.model.HotelManager;
@@ -20,6 +24,7 @@ import team6.model.HotelManager;
 public class ServletHotelManagement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private HotelManager hotel = new HotelManager();
+	private Gson gson = new Gson();
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
@@ -48,14 +53,14 @@ public class ServletHotelManagement extends HttpServlet {
 				processGetAddHotel(request, response);
 				break;
 			}
+			case "update":
+			{
+				processGetUpdateHotel(request, response);
+				break;
+			}
 		}
 	}
 
-	private void processGetAddHotel(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/jsp/hotel/hotel_add.jsp").forward(request, response);
-	}
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		User currentUser = (User) request.getSession().getAttribute("current-user");
@@ -82,8 +87,58 @@ public class ServletHotelManagement extends HttpServlet {
 				processPostAddHotel(request, response);
 				break;
 			}
+			case "update":
+			{
+				processPostUpdateHotel(request, response);
+				break;
+			}
 		}
 		
+	}
+
+	private void processGetAddHotel(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/jsp/hotel/hotel_add.jsp").forward(request, response);
+	}
+	
+	private void processGetUpdateHotel(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		String queryString = request.getQueryString();
+		
+		// go to page if no query string
+		if(queryString == null) {
+			List<Location> listLocation = hotel.getAvailableLocation();
+			request.setAttribute("list-location", listLocation);
+			request.getRequestDispatcher("/WEB-INF/jsp/hotel/hotel_update.jsp").forward(request, response);
+		}
+		else {
+			String[] queryStringSplit = queryString.split("&");
+			String[] queryAction = queryStringSplit[0].split("=");
+			if(!queryAction[0].equals("action")) {
+				return;
+			}
+			
+			String action = queryAction[1];
+			switch(action) {
+				case "getHotel":
+				{
+					String[] firstParam = queryStringSplit[1].split("=");
+					if(firstParam[0].equals("location")) {
+						processGetHotelByLocation
+							(request, response, Integer.parseInt(firstParam[1]));
+					}
+					else if(firstParam[0].equals("city")) {
+						String[] secondParam = queryStringSplit[2].split("=");
+						String[] thirdParam = queryStringSplit[3].split("=");
+						if(secondParam[0].equals("state") && thirdParam[0].equals("zip")) {
+							Location location = hotel.getLocation(firstParam[1], secondParam[1], thirdParam[1]);
+							processGetHotelByLocation(request, response, location.getSeqNo());
+						}
+					}
+					break;
+				}
+			}
+		}
 	}
 
 	private void processPostAddHotel(HttpServletRequest request, HttpServletResponse response)
@@ -101,6 +156,34 @@ public class ServletHotelManagement extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/success");
 		}
 		
+	}
+	
+	private void processPostUpdateHotel(HttpServletRequest request, HttpServletResponse response)
+		throws IOException {
+		int hotelId = Integer.valueOf(request.getParameter("hotel-id"));
+		String name = request.getParameter("name");
+		String address = request.getParameter("address");
+		String city = request.getParameter("city");
+		String state = request.getParameter("state");
+		String zip = request.getParameter("zip");
+		
+		hotel.updateHotel(hotelId, name, address, city, state, zip);
+		request.getSession().setAttribute("action", "update-hotel");
+		response.sendRedirect(request.getContextPath() + "/success");
+			
+	}
+	
+	/**
+	 * Process AJAX request get list hotel. Return an JSON object of list hotel 
+	 */
+	private void processGetHotelByLocation(HttpServletRequest request, HttpServletResponse response, int locationId)
+		throws IOException {
+		List<Hotel> listHotel = hotel.getAvailableHotel(locationId);
+		String json = listHotel == null ? "" : gson.toJson(listHotel);
+		
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json);
 	}
 
 }

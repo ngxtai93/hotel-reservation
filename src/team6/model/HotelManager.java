@@ -77,4 +77,14 @@ public class HotelManager {
 		hotelDao.deleteRoom(roomId);
 	}
 
+	public Location getLocation(String city, String state, String zip) {
+		return hotelDao.selectLocation(city, state, zip);
+	}
+
+	public void updateHotel(int hotelId, String name, String address, String city, String state, String zip) {
+		Hotel hotel = new Hotel(name, address, city, state, zip);
+		hotel.setSeqNo(Integer.valueOf(hotelId));
+		hotelDao.updateHotel(hotel);
+	}
+
 }

@@ -126,6 +126,32 @@ public class HotelDAO {
 		}
 	}
 
+	public void updateHotel(Hotel hotel) {
+		Location location = hotel.getLocation();
+		String city = location.getCity();
+		String state = location.getState();
+		String zip = location.getZip();
+		
+		Location locationDb = selectLocation(city, state, zip);
+		if(locationDb == null) {
+			insertLocation(city, state, zip);
+			locationDb = selectLocation(city, state, zip);
+		}
+		
+		String sql = "UPDATE csp584_project.hotel SET location = ?, name = ?, address = ? WHERE seq_no = ?;";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, locationDb.getSeqNo().intValue());
+			ps.setString(2, hotel.getName());
+			ps.setString(3, hotel.getAddress());
+			ps.setInt(4, hotel.getSeqNo().intValue());
+			ps.execute();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+
 	private void insertLocation(String city, String state, String zip) {
 		String sql = "INSERT INTO `csp584_project`.`location` (`city`, `state`, `zip`) VALUES (?, ?, ?);";
 		try(PreparedStatement ps = conn.prepareStatement(sql)) {
