@@ -58,6 +58,11 @@ public class ServletRoomManagement extends HttpServlet {
 				processGetUpdateRoom(request, response);
 				break;
 			}
+			case "delete":
+			{
+				processGetDeleteRoom(request, response);
+				break;
+			}
 		}
 	}
 
@@ -92,6 +97,11 @@ public class ServletRoomManagement extends HttpServlet {
 			case "update":
 			{
 				processPostUpdateRoom(request, response);
+				break;
+			}
+			case "delete":
+			{
+				processPostDeleteRoom(request, response);
 				break;
 			}
 		}
@@ -154,6 +164,52 @@ public class ServletRoomManagement extends HttpServlet {
 			List<Location> listLocation = hotel.getAvailableLocation();
 			request.setAttribute("list-location", listLocation);
 			request.getRequestDispatcher("/WEB-INF/jsp/room/room_update.jsp").forward(request, response);
+		}
+		else {
+			String[] queryStringSplit = queryString.split("&");
+			String[] queryAction = queryStringSplit[0].split("=");
+			if(!queryAction[0].equals("action")) {
+				return;
+			}
+			
+			String action = queryAction[1];
+			switch(action) {
+				case "getHotel":
+				{
+					String[] locationParam = queryStringSplit[1].split("=");
+					if(locationParam[0].equals("location")) {
+						processGetHotelByLocation
+							(request, response, Integer.parseInt(locationParam[1]));
+					}
+					break;
+				}
+				case "getRoom":
+				{
+					String[] hotelParam = queryStringSplit[1].split("=");
+					if(hotelParam[0].equals("hotel")) {
+						processGetListRoom(request, response, Integer.parseInt(hotelParam[1]));
+					}
+					break;
+				}
+				case "getRoomType":
+				{
+					processGetRoomType(request, response);
+					break;
+				}
+			}
+		}
+		
+	}
+
+	private void processGetDeleteRoom(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		String queryString = request.getQueryString();
+		
+		// go to page if no query string
+		if(queryString == null) {
+			List<Location> listLocation = hotel.getAvailableLocation();
+			request.setAttribute("list-location", listLocation);
+			request.getRequestDispatcher("/WEB-INF/jsp/room/room_delete.jsp").forward(request, response);
 		}
 		else {
 			String[] queryStringSplit = queryString.split("&");
@@ -259,6 +315,16 @@ public class ServletRoomManagement extends HttpServlet {
 		hotel.updateRoom(roomId, roomNum, roomTypeId);
 		
 		request.getSession().setAttribute("action", "update-room");
+		response.sendRedirect(request.getContextPath() + "/success");
+	}
+	
+	private void processPostDeleteRoom(HttpServletRequest request, HttpServletResponse response)
+		throws IOException {
+		int roomId = Integer.parseInt(request.getParameter("room-id"));
+		
+		hotel.deleteRoom(roomId);
+		
+		request.getSession().setAttribute("action", "delete-room");
 		response.sendRedirect(request.getContextPath() + "/success");
 	}
 

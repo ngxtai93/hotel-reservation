@@ -73,4 +73,8 @@ public class HotelManager {
 		hotelDao.updateRoom(roomId, roomNum, roomTypeId);
 	}
 
+	public void deleteRoom(int roomId) {
+		hotelDao.deleteRoom(roomId);
+	}
+
 }

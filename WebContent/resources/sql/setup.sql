@@ -106,11 +106,13 @@ DROP TABLE IF EXISTS `room`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `room` (
-  `room_number` int(255) NOT NULL,
-  `room_type` varchar(255) DEFAULT NULL,
-  `room_description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`room_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `seq_no` int(255) NOT NULL AUTO_INCREMENT,
+  `hotel` int(11) DEFAULT NULL,
+  `room_number` int(11) DEFAULT NULL,
+  `room_type` int(11) DEFAULT NULL,
+  `del_flag` tinyint(4) DEFAULT '0',
+  PRIMARY KEY (`seq_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,6 +121,7 @@ CREATE TABLE `room` (
 
 LOCK TABLES `room` WRITE;
 /*!40000 ALTER TABLE `room` DISABLE KEYS */;
+INSERT INTO `room` VALUES (1,1,523,2,1),(2,1,312,1,0);
 /*!40000 ALTER TABLE `room` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,7 +141,7 @@ CREATE TABLE `room_type` (
   `is_wifi` tinyint(4) DEFAULT NULL,
   `is_tv` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`seq_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +150,7 @@ CREATE TABLE `room_type` (
 
 LOCK TABLES `room_type` WRITE;
 /*!40000 ALTER TABLE `room_type` DISABLE KEYS */;
-INSERT INTO `room_type` VALUES (1,'Room A','king_bed,1;',4,'City',1,1);
+INSERT INTO `room_type` VALUES (1,'Room A','king_bed,1;',4,'City',1,1),(2,'Room B','double_bed,2;',2,'City',1,1);
 /*!40000 ALTER TABLE `room_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,7 +222,7 @@ CREATE TABLE `user` (
   `role` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,4 +244,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-21  0:26:50
+-- Dump completed on 2017-11-23  0:09:38
