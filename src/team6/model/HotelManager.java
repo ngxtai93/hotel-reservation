@@ -20,6 +20,13 @@ public class HotelManager {
 	}
 
 	/**
+	 * Return list of room by given hotel 
+	 */
+	public List<Room> getListRoom(int hotelId) {
+		return hotelDao.selectRoomByHotel(hotelId);
+	}
+
+	/**
 	 * Input validation. Return a list of error
 	 */
 	public List<String> validateInput(String name, String address, String city, String state, String zip) {
@@ -60,6 +67,10 @@ public class HotelManager {
 	public boolean isRoomExist(int hotelId, int roomNum) {
 		Room room = hotelDao.selectRoom(hotelId, roomNum);
 		return (room != null ? true : false);
+	}
+
+	public void updateRoom(int roomId, int roomNum, int roomTypeId) {
+		hotelDao.updateRoom(roomId, roomNum, roomTypeId);
 	}
 
 }

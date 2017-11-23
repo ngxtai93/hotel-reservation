@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import team6.entity.Hotel;
 import team6.entity.Location;
 import team6.entity.Role;
+import team6.entity.Room;
 import team6.entity.RoomType;
 import team6.entity.User;
 import team6.model.HotelManager;
@@ -52,6 +53,11 @@ public class ServletRoomManagement extends HttpServlet {
 				processGetAddRoom(request, response);
 				break;
 			}
+			case "update":
+			{
+				processGetUpdateRoom(request, response);
+				break;
+			}
 		}
 	}
 
@@ -81,6 +87,11 @@ public class ServletRoomManagement extends HttpServlet {
 			case "add":
 			{
 				processPostAddRoom(request, response);
+				break;
+			}
+			case "update":
+			{
+				processPostUpdateRoom(request, response);
 				break;
 			}
 		}
@@ -134,6 +145,61 @@ public class ServletRoomManagement extends HttpServlet {
 		}
 	}
 
+	private void processGetUpdateRoom(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		String queryString = request.getQueryString();
+		
+		// go to page if no query string
+		if(queryString == null) {
+			List<Location> listLocation = hotel.getAvailableLocation();
+			request.setAttribute("list-location", listLocation);
+			request.getRequestDispatcher("/WEB-INF/jsp/room/room_update.jsp").forward(request, response);
+		}
+		else {
+			String[] queryStringSplit = queryString.split("&");
+			String[] queryAction = queryStringSplit[0].split("=");
+			if(!queryAction[0].equals("action")) {
+				return;
+			}
+			
+			String action = queryAction[1];
+			switch(action) {
+				case "getHotel":
+				{
+					String[] locationParam = queryStringSplit[1].split("=");
+					if(locationParam[0].equals("location")) {
+						processGetHotelByLocation
+							(request, response, Integer.parseInt(locationParam[1]));
+					}
+					break;
+				}
+				case "getRoom":
+				{
+					String[] hotelParam = queryStringSplit[1].split("=");
+					if(hotelParam[0].equals("hotel")) {
+						processGetListRoom(request, response, Integer.parseInt(hotelParam[1]));
+					}
+					break;
+				}
+				case "getRoomType":
+				{
+					processGetRoomType(request, response);
+					break;
+				}
+			}
+		}
+		
+	}
+
+	private void processGetListRoom(HttpServletRequest request, HttpServletResponse response, int hotelId)
+		throws IOException {
+		List<Room> listRoom = hotel.getListRoom(hotelId);
+		String json = listRoom == null ? "" : gson.toJson(listRoom);
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json);
+	}
+
 	private void processCheckRoomExist
 		(HttpServletRequest request, HttpServletResponse response, int hotelId, int roomNum)
 		throws IOException {
@@ -181,6 +247,18 @@ public class ServletRoomManagement extends HttpServlet {
 		hotel.addRoom(hotelId, roomNum, roomTypeId);
 		
 		request.getSession().setAttribute("action", "add-room");
+		response.sendRedirect(request.getContextPath() + "/success");
+	}
+
+	private void processPostUpdateRoom(HttpServletRequest request, HttpServletResponse response)
+		throws IOException {
+		int roomId = Integer.parseInt(request.getParameter("room-id"));
+		int roomNum = Integer.parseInt(request.getParameter("room-num"));
+		int roomTypeId = Integer.parseInt(request.getParameter("room-type"));
+		
+		hotel.updateRoom(roomId, roomNum, roomTypeId);
+		
+		request.getSession().setAttribute("action", "update-room");
 		response.sendRedirect(request.getContextPath() + "/success");
 	}
 

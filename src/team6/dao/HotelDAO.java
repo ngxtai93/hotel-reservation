@@ -48,6 +48,35 @@ public class HotelDAO {
 		return listRoomType;
 	}
 
+	public List<Room> selectRoomByHotel(int hotelId) {
+		String sql = "SELECT * from csp584_project.room WHERE hotel = ?";
+		List<Room> listRoom = null;
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, hotelId);
+			ResultSet rs = ps.executeQuery();
+			if(rs.isBeforeFirst()) {
+				listRoom = new ArrayList<>();
+				while(rs.next()) {
+					Room room = buildRoomObject(rs);
+					listRoom.add(room);
+				}
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		if(listRoom != null) {
+			for(Room room: listRoom) {
+				populateHotel(room.getHotel());
+				populateRoomType(room.getRoomType());
+			}
+		}
+		
+		return listRoom;
+	}
+
 	public List<Hotel> selectHotelByLocation(int locationId) {
 		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address"
 				+ " FROM csp584_project.hotel h JOIN csp584_project.location l"
@@ -224,6 +253,20 @@ public class HotelDAO {
 		}
 		
 		return room;
+	}
+
+	public void updateRoom(int roomSeqNo, int roomNum, int roomTypeId) {
+		String sql = "UPDATE csp584_project.room SET room_number = ?, room_type = ? WHERE seq_no = ?;";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, roomNum);
+			ps.setInt(2, roomTypeId);
+			ps.setInt(3, roomSeqNo);
+			ps.execute();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
 	}
 
 	/**
