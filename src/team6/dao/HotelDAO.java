@@ -52,7 +52,7 @@ public class HotelDAO {
 		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address"
 				+ " FROM csp584_project.hotel h JOIN csp584_project.location l"
 				+ " ON h.location = l.seq_no"
-				+ " WHERE h.location = ?;"
+				+ " WHERE h.location = ? AND h.del_flag = 0;"
 		;
 		List<Hotel> listHotel = null;
 		
@@ -81,7 +81,7 @@ public class HotelDAO {
 		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address"
 				+ " FROM csp584_project.hotel h JOIN csp584_project.location l"
 				+ " ON h.location = l.seq_no"
-				+ " WHERE h.address = ? AND h.location = ?;"
+				+ " WHERE h.address = ? AND h.location = ? AND h.del_flag = 0;"
 		;
 		Hotel hotel = null;
 		
@@ -144,6 +144,18 @@ public class HotelDAO {
 			ps.setString(2, hotel.getName());
 			ps.setString(3, hotel.getAddress());
 			ps.setInt(4, hotel.getSeqNo().intValue());
+			ps.execute();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void deleteHotel(int seqNo) {
+		String sql = "UPDATE csp584_project.hotel SET del_flag = 1 WHERE seq_no = ?;";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, seqNo);
 			ps.execute();
 		}
 		catch(SQLException e) {

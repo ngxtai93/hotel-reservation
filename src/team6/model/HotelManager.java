@@ -49,6 +49,20 @@ public class HotelManager {
 		hotelDao.insertHotel(hotel);
 	}
 
+	public void updateHotel(int hotelId, String name, String address, String city, String state, String zip) {
+		Hotel hotel = new Hotel(name, address, city, state, zip);
+		hotel.setSeqNo(Integer.valueOf(hotelId));
+		hotelDao.updateHotel(hotel);
+	}
+
+	public void deleteHotel(int hotelId) {
+		List<Room> listRoom = hotelDao.selectRoomByHotel(hotelId);
+		for(Room r: listRoom) {
+			hotelDao.deleteRoom(r.getSeqNo());
+		}
+		hotelDao.deleteHotel(hotelId);
+	}
+
 	public List<Location> getAvailableLocation() {
 		return hotelDao.selectAllLocation();
 	}
@@ -79,12 +93,6 @@ public class HotelManager {
 
 	public Location getLocation(String city, String state, String zip) {
 		return hotelDao.selectLocation(city, state, zip);
-	}
-
-	public void updateHotel(int hotelId, String name, String address, String city, String state, String zip) {
-		Hotel hotel = new Hotel(name, address, city, state, zip);
-		hotel.setSeqNo(Integer.valueOf(hotelId));
-		hotelDao.updateHotel(hotel);
 	}
 
 }

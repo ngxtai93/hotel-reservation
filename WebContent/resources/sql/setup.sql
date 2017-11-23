@@ -58,6 +58,7 @@ CREATE TABLE `hotel` (
   `location` int(11) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `address` varchar(45) DEFAULT NULL,
+  `del_flag` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`seq_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -68,7 +69,7 @@ CREATE TABLE `hotel` (
 
 LOCK TABLES `hotel` WRITE;
 /*!40000 ALTER TABLE `hotel` DISABLE KEYS */;
-INSERT INTO `hotel` VALUES (1,1,'Hampton Inn Majestic Chicago Theatre District','22 W. Monroe'),(2,2,'theWit Chicago - a DoubleTree by Hilton Hotel','201 N. State Street'),(3,1,'Palmer House a Hilton Hotel','17 East Monroe Street');
+INSERT INTO `hotel` VALUES (1,1,'Hampton Inn Majestic Chicago Theatre District','22 W. Monroe',0),(2,2,'theWit Chicago - a DoubleTree by Hilton Hotel','201 N. State Street',0),(3,1,'Palmer House - A Hilton Hotel','17 East Monroe Street',0);
 /*!40000 ALTER TABLE `hotel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +86,7 @@ CREATE TABLE `location` (
   `state` varchar(10) DEFAULT NULL,
   `zip` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`seq_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +122,7 @@ CREATE TABLE `room` (
 
 LOCK TABLES `room` WRITE;
 /*!40000 ALTER TABLE `room` DISABLE KEYS */;
-INSERT INTO `room` VALUES (1,1,523,2,1),(2,1,312,1,0);
+INSERT INTO `room` VALUES (1,1,523,2,0),(2,1,312,1,0);
 /*!40000 ALTER TABLE `room` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,4 +245,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-23  0:09:38
+-- Dump completed on 2017-11-23 15:57:41

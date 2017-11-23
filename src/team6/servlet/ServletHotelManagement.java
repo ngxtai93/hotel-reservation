@@ -58,6 +58,11 @@ public class ServletHotelManagement extends HttpServlet {
 				processGetUpdateHotel(request, response);
 				break;
 			}
+			case "delete":
+			{
+				processGetDeleteHotel(request, response);
+				break;
+			}
 		}
 	}
 
@@ -92,6 +97,12 @@ public class ServletHotelManagement extends HttpServlet {
 				processPostUpdateHotel(request, response);
 				break;
 			}
+			case "delete":
+			{
+				processPostDeleteHotel(request, response);
+				break;
+			}
+			
 		}
 		
 	}
@@ -140,6 +151,38 @@ public class ServletHotelManagement extends HttpServlet {
 			}
 		}
 	}
+	
+	private void processGetDeleteHotel(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+			String queryString = request.getQueryString();
+			
+			// go to page if no query string
+			if(queryString == null) {
+				List<Location> listLocation = hotel.getAvailableLocation();
+				request.setAttribute("list-location", listLocation);
+				request.getRequestDispatcher("/WEB-INF/jsp/hotel/hotel_delete.jsp").forward(request, response);
+			}
+			else {
+				String[] queryStringSplit = queryString.split("&");
+				String[] queryAction = queryStringSplit[0].split("=");
+				if(!queryAction[0].equals("action")) {
+					return;
+				}
+				
+				String action = queryAction[1];
+				switch(action) {
+					case "getHotel":
+					{
+						String[] firstParam = queryStringSplit[1].split("=");
+						if(firstParam[0].equals("location")) {
+							processGetHotelByLocation
+								(request, response, Integer.parseInt(firstParam[1]));
+						}
+						break;
+					}
+				}
+			}
+		}
 
 	private void processPostAddHotel(HttpServletRequest request, HttpServletResponse response)
 		throws IOException {
@@ -169,6 +212,16 @@ public class ServletHotelManagement extends HttpServlet {
 		
 		hotel.updateHotel(hotelId, name, address, city, state, zip);
 		request.getSession().setAttribute("action", "update-hotel");
+		response.sendRedirect(request.getContextPath() + "/success");
+			
+	}
+	
+	private void processPostDeleteHotel(HttpServletRequest request, HttpServletResponse response)
+		throws IOException {
+		int hotelId = Integer.valueOf(request.getParameter("hotel-id"));
+		
+		hotel.deleteHotel(hotelId);
+		request.getSession().setAttribute("action", "delete-hotel");
 		response.sendRedirect(request.getContextPath() + "/success");
 			
 	}
