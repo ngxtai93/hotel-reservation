@@ -1,8 +1,16 @@
 package team6.dao;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import javax.servlet.ServletContext;
+
+import team6.utils.ScriptRunner;
 
 public enum MySQLDatabaseOperator implements IDatabaseOperator {
 	INSTANCE;
@@ -13,6 +21,7 @@ public enum MySQLDatabaseOperator implements IDatabaseOperator {
 	public static final int DB_PORT= 3306;
 	public static final String DB_SCHEMA = "csp584_project";
 	public static final String DB_OPTION = "?useSSL=false";
+	public static final String DB_CONFIG_FILE_PATH = "resources/sql/setup.sql";
 
     //  Database credentials
 	public static final String USER = "root";
@@ -68,4 +77,18 @@ public enum MySQLDatabaseOperator implements IDatabaseOperator {
             }
         }
     }
+	
+	@Override
+	public void setupDb(ServletContext sc) {
+		String sqlFilePath = sc.getRealPath(DB_CONFIG_FILE_PATH);
+		ScriptRunner runner = new ScriptRunner(conn, false, false);
+		try(Reader reader = new BufferedReader(new FileReader(sqlFilePath))) {
+			runner.runScript(reader);
+		}
+		catch(IOException | SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+	}
 }

@@ -6,6 +6,7 @@ import team6.dao.MySQLDatabaseOperator;
 
 public class ContextListener implements ServletContextListener {
 	
+	private MySQLDatabaseOperator mySql = MySQLDatabaseOperator.INSTANCE;
     @Override
     public void contextDestroyed(ServletContextEvent e) {
     	closeMySqlConnection();
@@ -13,14 +14,15 @@ public class ContextListener implements ServletContextListener {
 
 	@Override
     public void contextInitialized(ServletContextEvent e) {
-    	initMySqlConnection();
+    	initMySqlConnection(e.getServletContext());
     }
 
-	private void initMySqlConnection() {
-		MySQLDatabaseOperator.INSTANCE.initConnection();
+	private void initMySqlConnection(ServletContext sc) {
+		mySql.initConnection();
+		mySql.setupDb(sc);
 	}
 	
     private void closeMySqlConnection() {
-		MySQLDatabaseOperator.INSTANCE.closeConnection();
+    	mySql.closeConnection();
 	}
 }
