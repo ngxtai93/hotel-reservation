@@ -1,6 +1,7 @@
 package team6.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,12 +10,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
 import com.google.gson.Gson;
 
 import team6.entity.Hotel;
 import team6.entity.Location;
 import team6.entity.Role;
 import team6.entity.User;
+import team6.helper.FileUploadHelper;
 import team6.model.HotelManager;
 
 /**
@@ -25,7 +30,7 @@ public class ServletHotelManagement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private HotelManager hotel = new HotelManager();
 	private Gson gson = new Gson();
-       
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		User currentUser = (User) request.getSession().getAttribute("current-user");
@@ -153,48 +158,63 @@ public class ServletHotelManagement extends HttpServlet {
 	}
 	
 	private void processGetDeleteHotel(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-			String queryString = request.getQueryString();
-			
-			// go to page if no query string
-			if(queryString == null) {
-				List<Location> listLocation = hotel.getAvailableLocation();
-				request.setAttribute("list-location", listLocation);
-				request.getRequestDispatcher("/WEB-INF/jsp/hotel/hotel_delete.jsp").forward(request, response);
+		throws ServletException, IOException {
+		String queryString = request.getQueryString();
+		
+		// go to page if no query string
+		if(queryString == null) {
+			List<Location> listLocation = hotel.getAvailableLocation();
+			request.setAttribute("list-location", listLocation);
+			request.getRequestDispatcher("/WEB-INF/jsp/hotel/hotel_delete.jsp").forward(request, response);
+		}
+		else {
+			String[] queryStringSplit = queryString.split("&");
+			String[] queryAction = queryStringSplit[0].split("=");
+			if(!queryAction[0].equals("action")) {
+				return;
 			}
-			else {
-				String[] queryStringSplit = queryString.split("&");
-				String[] queryAction = queryStringSplit[0].split("=");
-				if(!queryAction[0].equals("action")) {
-					return;
-				}
-				
-				String action = queryAction[1];
-				switch(action) {
-					case "getHotel":
-					{
-						String[] firstParam = queryStringSplit[1].split("=");
-						if(firstParam[0].equals("location")) {
-							processGetHotelByLocation
-								(request, response, Integer.parseInt(firstParam[1]));
-						}
-						break;
+			
+			String action = queryAction[1];
+			switch(action) {
+				case "getHotel":
+				{
+					String[] firstParam = queryStringSplit[1].split("=");
+					if(firstParam[0].equals("location")) {
+						processGetHotelByLocation
+							(request, response, Integer.parseInt(firstParam[1]));
 					}
+					break;
 				}
 			}
 		}
+	}
 
 	private void processPostAddHotel(HttpServletRequest request, HttpServletResponse response)
 		throws IOException {
-		String name = request.getParameter("name");
-		String address = request.getParameter("address");
-		String city = request.getParameter("city");
-		String state = request.getParameter("state");
-		String zip = request.getParameter("zip");
+		if(!ServletFileUpload.isMultipartContent(request)) {return;}	// ensure it's multi part request
+		FileUploadHelper fuh = new FileUploadHelper();
+		
+		List<FileItem> listItem = fuh.parseMultipartRequest(request);
+		
+		String name = listItem.get(0).getString();
+		String address = listItem.get(1).getString();
+		String city = listItem.get(2).getString();
+		String state = listItem.get(3).getString();
+		String zip = listItem.get(4).getString();
+		List<String> listImage = null;
+		
+		List<FileItem> toBeUploaded = new ArrayList<>();
+		for(int i = 5; i < listItem.size(); i++) {
+			toBeUploaded.add(listItem.get(i));
+		}
 		
 		List<String> listError = hotel.validateInput(name, address, city, state, zip);
 		if(listError == null) {
-			hotel.addHotel(name, address, city, state, zip);
+			Hotel newHotel = hotel.addHotel(name, address, city, state, zip);
+			listImage = fuh.uploadImage(this, request.getServletContext(), toBeUploaded, newHotel.getSeqNo().intValue());
+			newHotel.setListImage(listImage);
+			
+			hotel.addNewListImage(newHotel.getSeqNo().intValue(), listImage);
 			request.getSession().setAttribute("action", "add-hotel");
 			response.sendRedirect(request.getContextPath() + "/success");
 		}
@@ -238,5 +258,4 @@ public class ServletHotelManagement extends HttpServlet {
 	    response.setCharacterEncoding("UTF-8");
 	    response.getWriter().write(json);
 	}
-
 }

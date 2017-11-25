@@ -4,7 +4,7 @@
 
 <%-- TODO: frontend --%>
 <h2>Add a hotel</h2>
- <form method="post" action="<%= rootPath %>/hotel/add">
+ <form method="post" enctype="multipart/form-data" action="<%= rootPath %>/hotel/add">
    <table>
        <tr>
            <th><b>Hotel name:</b></th>
@@ -25,6 +25,10 @@
        <tr>
            <th><b>ZIP Code: </b></th>
            <td><input required name="zip" type="text" size="5"></td>
+       </tr>
+       <tr>
+           <th><b>Images: </b></th>
+           <td><input required name="image[]" type="file" multiple></td>
        </tr>
    </table>
    

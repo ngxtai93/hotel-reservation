@@ -1,7 +1,10 @@
 package team6.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import team6.dao.HotelDAO;
 import team6.entity.Hotel;
@@ -12,6 +15,8 @@ import team6.entity.RoomType;
 public class HotelManager {
 
 	private HotelDAO hotelDao = new HotelDAO();
+	private final String CHECK_IN_TIME = "14:00";
+	private final String CHECK_OUT_TIME = "12:00";
 	/**
 	 * Get list of available room type from DB 
 	 */
@@ -44,9 +49,10 @@ public class HotelManager {
 		return (listError.size() == 0 ? null : listError);
 	}
 
-	public void addHotel(String name, String address, String city, String state, String zip) {
+	public Hotel addHotel(String name, String address, String city, String state, String zip) {
 		Hotel hotel = new Hotel(name, address, city, state, zip);
 		hotelDao.insertHotel(hotel);
+		return hotel;
 	}
 
 	public void updateHotel(int hotelId, String name, String address, String city, String state, String zip) {
@@ -93,6 +99,26 @@ public class HotelManager {
 
 	public Location getLocation(String city, String state, String zip) {
 		return hotelDao.selectLocation(city, state, zip);
+	}
+
+	/**
+	 * Search hotels by <checkin, checkout, city, state>
+	 */
+	public Map<Hotel, Boolean> doSearch(String city, String state, LocalDate checkIn, LocalDate checkOut) {
+		// TODO: filter by current order
+		List<Hotel> listHotel = hotelDao.selectHotelByLocation(city, state);
+		Map<Hotel, Boolean> mapHotelRoomAvail = null;
+		if(listHotel != null) {
+			mapHotelRoomAvail = new LinkedHashMap<>();
+			for(Hotel h: listHotel) {
+				mapHotelRoomAvail.put(h, Boolean.TRUE);
+			}
+		}
+		return mapHotelRoomAvail;
+	}
+
+	public void addNewListImage(int hotelId, List<String> listImage) {
+		hotelDao.updateListImage(hotelId, listImage);
 	}
 
 }

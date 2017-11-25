@@ -1,10 +1,14 @@
 package team6.entity;
 
+import java.util.List;
+
 public class Hotel {
 	private Integer seqNo;
 	private String name;
 	private String address;
 	private Location location;
+	private List<String> listImage;
+	
 	
 	public Hotel() {
 		
@@ -43,5 +47,11 @@ public class Hotel {
 	}
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+	public List<String> getListImage() {
+		return listImage;
+	}
+	public void setListImage(List<String> listImage) {
+		this.listImage = listImage;
 	}
 }

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,33 @@ public class HotelDAO {
 			System.out.println(e.getMessage());
 		}
 		return listRoomType;
+	}
+
+	public List<Hotel> selectHotelByLocation(String city, String state) {
+		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address, h.image_link"
+				+ " FROM csp584_project.hotel h JOIN csp584_project.location l"
+				+ " ON h.location = l.seq_no"
+				+ " WHERE l.city = ? AND l.state = ? AND h.del_flag = 0;"
+		;
+		List<Hotel> listHotel = null;
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, city);
+			ps.setString(2, state);
+			ResultSet rs = ps.executeQuery();
+			if(rs.isBeforeFirst()) {
+				listHotel = new ArrayList<>();
+				while(rs.next()) {
+					Hotel hotel = buildHotelObject(rs);
+					listHotel.add(hotel);
+				}
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return listHotel;
 	}
 
 	public List<Hotel> selectHotelByLocation(int locationId) {
@@ -112,12 +140,47 @@ public class HotelDAO {
 			insertLocation(city, state, zip);
 			locationDb = selectLocation(city, state, zip);
 		}
+		hotel.setLocation(locationDb);
 		
 		String sql = "INSERT INTO `csp584_project`.`hotel` (`location`, `name`, `address`) VALUES (?, ?, ?);";
 		try(PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, locationDb.getSeqNo().intValue());
 			ps.setString(2, hotel.getName());
 			ps.setString(3, hotel.getAddress());
+			ps.execute();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		// get the last inserted id and set to the Hotel object
+		int lastInsertId = -1;
+		sql = "SELECT LAST_INSERT_ID();";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			lastInsertId = rs.getInt(1);
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		hotel.setSeqNo(Integer.valueOf(lastInsertId));
+		
+	}
+
+	public void updateListImage(int seqNo, List<String> listImage) {
+		// listImage -> image_link
+		StringBuilder imageLink = new StringBuilder();
+		for(String s: listImage) {
+			imageLink.append(s).append(",");
+		}
+		
+		String sql = "UPDATE csp584_project.hotel SET image_link = ? WHERE seq_no = ?;";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, imageLink.toString());
+			ps.setInt(2, seqNo);
 			ps.execute();
 		}
 		catch(SQLException e) {
@@ -389,32 +452,6 @@ public class HotelDAO {
 	}
 
 	/**
-	 * Parse bed entry with format: <bedtype,amount;>
-	 */
-	private Map<BedType, Integer> parseBedColumn(String input) {
-		String[] inputSplitEntry = input.split(";");
-		Map<BedType, Integer> result = new HashMap<>();
-		
-		for(String entry: inputSplitEntry) {
-			String[] entrySplit = entry.split(",");
-			String bedTypeStr = entrySplit[0];
-			Integer amount = Integer.valueOf(entrySplit[1]);
-			
-			bedTypeStr = bedTypeStr.replaceAll("_", "").toUpperCase();
-			BedType bt = null;
-			for(BedType bed: BedType.values()) {
-				if(bedTypeStr.equals(bed.toString())) {
-					bt = bed;
-					break;
-				}
-			}
-			result.put(bt, amount);
-		}
-		
-		return result;
-	}
-
-	/**
 	 * Build RoomType object from SQL 
 	 */
 	private RoomType buildRoomTypeObject(ResultSet rs) {
@@ -462,6 +499,7 @@ public class HotelDAO {
 			hotel.setSeqNo(Integer.valueOf(rs.getInt("seq_no")));
 			hotel.setName(rs.getString("name"));
 			hotel.setAddress(rs.getString("address"));
+			hotel.setListImage(parseImageLink(rs.getString("image_link")));
 			
 			Location location = new Location();
 			location.setSeqNo(Integer.valueOf(rs.getInt("location")));
@@ -497,5 +535,42 @@ public class HotelDAO {
 			System.out.println(e.getMessage());
 		}
 		return room;
+	}
+
+	/**
+	 * Parse bed entry with format: <bedtype,amount;>
+	 */
+	private Map<BedType, Integer> parseBedColumn(String input) {
+		String[] inputSplitEntry = input.split(";");
+		Map<BedType, Integer> result = new HashMap<>();
+		
+		for(String entry: inputSplitEntry) {
+			String[] entrySplit = entry.split(",");
+			String bedTypeStr = entrySplit[0];
+			Integer amount = Integer.valueOf(entrySplit[1]);
+			
+			bedTypeStr = bedTypeStr.replaceAll("_", "").toUpperCase();
+			BedType bt = null;
+			for(BedType bed: BedType.values()) {
+				if(bedTypeStr.equals(bed.toString())) {
+					bt = bed;
+					break;
+				}
+			}
+			result.put(bt, amount);
+		}
+		
+		return result;
+	}
+
+	/**
+	 * Parse image file list with format: <image,image,>
+	 */
+	private List<String> parseImageLink(String imageLink) {
+		List<String> result = null;
+		if(imageLink != null) {
+			result = Arrays.asList(imageLink.split(","));
+		}
+		return result;
 	}
 }
