@@ -58,6 +58,7 @@ CREATE TABLE `hotel` (
   `location` int(11) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `address` varchar(45) DEFAULT NULL,
+  `description` text,
   `image_link` text,
   `del_flag` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`seq_no`)
@@ -70,7 +71,7 @@ CREATE TABLE `hotel` (
 
 LOCK TABLES `hotel` WRITE;
 /*!40000 ALTER TABLE `hotel` DISABLE KEYS */;
-INSERT INTO `hotel` VALUES (1,1,'Hampton Inn Majestic Chicago Theatre District','22 W. Monroe','1.jpg,2.jpg,3.jpg,4.jpg,5.jpg,6.jpg,7.jpg,8.jpg,9.jpg,10.jpg,',0),(2,2,'theWit Chicago - a DoubleTree by Hilton Hotel','201 N. State Street','1.jpg,2.jpg,3.jpg,4.jpg,5.jpg,6.jpg,7.jpg,8.jpg,9.jpg,10.jpg,11.jpg,12.jpg,',0),(3,1,'Palmer House - A Hilton Hotel','17 East Monroe Street','1.jpg,2.jpg,3.jpg,4.jpg,5.jpg,6.jpg,7.jpg,8.jpg,9.jpg,10.jpg,11.jpg,12.jpg,',0);
+INSERT INTO `hotel` VALUES (1,1,'Hampton Inn Majestic Chicago Theatre District','22 W. Monroe','The Hampton Majestic experience is unlike any other, attached to CIBC Theatre and steps from State Street, museums, Millennium Park and Willis Tower.','1.jpg,2.jpg,3.jpg,4.jpg,5.jpg,6.jpg,7.jpg,8.jpg,9.jpg,10.jpg,',0),(2,2,'theWit Chicago - a DoubleTree by Hilton Hotel','201 N. State Street','Award-winning downtown hotel and rooftop bar offers a dramatic sensory experience, blending the amenities of a resort with the flair of a boutique hotel','1.jpg,2.jpg,3.jpg,4.jpg,5.jpg,6.jpg,7.jpg,8.jpg,9.jpg,10.jpg,11.jpg,12.jpg,',0),(3,1,'Palmer House - A Hilton Hotel','17 East Monroe Street','AAA Four Diamond, historic hotel located in the heart of the Loop. Steps from theatre, shopping, the Art Institute of Chicago and Millennium Park.','1.jpg,2.jpg,3.jpg,4.jpg,5.jpg,6.jpg,7.jpg,8.jpg,9.jpg,10.jpg,11.jpg,12.jpg,',0);
 /*!40000 ALTER TABLE `hotel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,6 +141,8 @@ CREATE TABLE `room` (
   `hotel` int(11) DEFAULT NULL,
   `room_number` int(11) DEFAULT NULL,
   `room_type` int(11) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `discount` double DEFAULT NULL,
   `del_flag` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`seq_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
@@ -151,7 +154,7 @@ CREATE TABLE `room` (
 
 LOCK TABLES `room` WRITE;
 /*!40000 ALTER TABLE `room` DISABLE KEYS */;
-INSERT INTO `room` VALUES (1,1,523,2,0),(2,1,312,1,0);
+INSERT INTO `room` VALUES (1,1,523,1,139,3,0),(2,1,312,1,139,3,0);
 /*!40000 ALTER TABLE `room` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,7 +183,7 @@ CREATE TABLE `room_type` (
 
 LOCK TABLES `room_type` WRITE;
 /*!40000 ALTER TABLE `room_type` DISABLE KEYS */;
-INSERT INTO `room_type` VALUES (1,'Room A','king_bed,1;',4,'City',1,1),(2,'Room B','double_bed,2;',2,'City',1,1);
+INSERT INTO `room_type` VALUES (1,'1 King Bed','king_bed,1;',4,'City',1,1),(2,'Room B','double_bed,2;',2,'City',1,1);
 /*!40000 ALTER TABLE `room_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,4 +277,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-24 23:42:01
+-- Dump completed on 2017-11-25  0:46:24

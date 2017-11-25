@@ -7,14 +7,10 @@ public class Hotel {
 	private String name;
 	private String address;
 	private Location location;
+	private String description;
 	private List<String> listImage;
 	
-	
-	public Hotel() {
-		
-	}
-	
-	public Hotel(String name, String address, String city, String state, String zip) {
+	public Hotel(String name, String address, String city, String state, String zip, String description) {
 		this.name = name;
 		this.address = address;
 		Location location = new Location();
@@ -22,8 +18,12 @@ public class Hotel {
 		location.setState(state);
 		location.setZip(zip);
 		this.location = location;
+		this.description = description;
 	}
 	
+	public Hotel() {
+	}
+
 	public Integer getSeqNo() {
 		return seqNo;
 	}
@@ -47,6 +47,12 @@ public class Hotel {
 	}
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public List<String> getListImage() {
 		return listImage;

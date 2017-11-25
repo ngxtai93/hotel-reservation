@@ -26,7 +26,6 @@ public class FileUploadHelper {
 
 	/**
 	 * Retrieve a list of FileItem from POST request 
-	 * @param request TODO
 	 */
 	public List<FileItem> parseMultipartRequest(HttpServletRequest request) {
 		List<FileItem> listFileItem = null;
@@ -50,10 +49,6 @@ public class FileUploadHelper {
 	/**
 	 * Do upload image. Return a list of image file name
 	 * Uploaded image goes to ./resources/images/upload/[hotel-id]/ 
-	 * @param servletHotelManagement TODO
-	 * @param sc TODO
-	 * @param toBeUploaded TODO
-	 * @param hotelId TODO
 	 */
 	public List<String> uploadImage(ServletHotelManagement servletHotelManagement, ServletContext sc, List<FileItem> toBeUploaded, int hotelId) {
 		if(toBeUploaded.size() == 0) {

@@ -50,7 +50,7 @@ public class HotelDAO {
 	}
 
 	public List<Hotel> selectHotelByLocation(String city, String state) {
-		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address, h.image_link"
+		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address, h.image_link, h.description"
 				+ " FROM csp584_project.hotel h JOIN csp584_project.location l"
 				+ " ON h.location = l.seq_no"
 				+ " WHERE l.city = ? AND l.state = ? AND h.del_flag = 0;"
@@ -77,7 +77,7 @@ public class HotelDAO {
 	}
 
 	public List<Hotel> selectHotelByLocation(int locationId) {
-		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address"
+		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address, h.image_link, h.description"
 				+ " FROM csp584_project.hotel h JOIN csp584_project.location l"
 				+ " ON h.location = l.seq_no"
 				+ " WHERE h.location = ? AND h.del_flag = 0;"
@@ -106,7 +106,7 @@ public class HotelDAO {
 	 * Select hotel by address and given location
 	 */
 	public Hotel selectHotel(String address, Location location) {
-		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address"
+		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address, h.image_link, h.description"
 				+ " FROM csp584_project.hotel h JOIN csp584_project.location l"
 				+ " ON h.location = l.seq_no"
 				+ " WHERE h.address = ? AND h.location = ? AND h.del_flag = 0;"
@@ -142,11 +142,12 @@ public class HotelDAO {
 		}
 		hotel.setLocation(locationDb);
 		
-		String sql = "INSERT INTO `csp584_project`.`hotel` (`location`, `name`, `address`) VALUES (?, ?, ?);";
+		String sql = "INSERT INTO `csp584_project`.`hotel` (`location`, `name`, `address`, `description`) VALUES (?, ?, ?, ?);";
 		try(PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, locationDb.getSeqNo().intValue());
 			ps.setString(2, hotel.getName());
 			ps.setString(3, hotel.getAddress());
+			ps.setString(4, hotel.getDescription());
 			ps.execute();
 		}
 		catch(SQLException e) {
@@ -201,12 +202,13 @@ public class HotelDAO {
 			locationDb = selectLocation(city, state, zip);
 		}
 		
-		String sql = "UPDATE csp584_project.hotel SET location = ?, name = ?, address = ? WHERE seq_no = ?;";
+		String sql = "UPDATE csp584_project.hotel SET location = ?, name = ?, address = ?, description = ? WHERE seq_no = ?;";
 		try(PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, locationDb.getSeqNo().intValue());
 			ps.setString(2, hotel.getName());
 			ps.setString(3, hotel.getAddress());
-			ps.setInt(4, hotel.getSeqNo().intValue());
+			ps.setString(4, hotel.getDescription());
+			ps.setInt(5, hotel.getSeqNo().intValue());
 			ps.execute();
 		}
 		catch(SQLException e) {
@@ -287,12 +289,15 @@ public class HotelDAO {
 		return listLocation;
 	}
 
-	public void insertRoom(int hotelId, int roomNum, int roomTypeId) {
-		String sql = "INSERT INTO `csp584_project`.`room` (`hotel`, `room_number`, `room_type`) VALUES (?, ?, ?);";
+	public void insertRoom(int hotelId, int roomNum, int roomTypeId, double price, double discount) {
+		String sql = "INSERT INTO `csp584_project`.`room` (`hotel`, `room_number`, `room_type`, `price`, `discount`)"
+				+ " VALUES (?, ?, ?, ?, ?);";
 		try(PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, hotelId);
 			ps.setInt(2, roomNum);
 			ps.setInt(3, roomTypeId);
+			ps.setDouble(4, price);
+			ps.setDouble(5, discount);
 			ps.execute();
 		}
 		catch(SQLException e) {
@@ -421,6 +426,8 @@ public class HotelDAO {
 			hotel.getLocation().setSeqNo(Integer.valueOf(rs.getString("location")));
 			hotel.setName(rs.getString("name"));
 			hotel.setAddress(rs.getString("address"));
+			hotel.setListImage(parseImageLink(rs.getString("image_link")));
+			hotel.setDescription(rs.getString("description"));
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
@@ -507,6 +514,8 @@ public class HotelDAO {
 			location.setState(rs.getString("state"));
 			location.setZip(rs.getString("zip"));
 			hotel.setLocation(location);
+			
+			hotel.setDescription(rs.getString("description"));
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
@@ -524,11 +533,18 @@ public class HotelDAO {
 		
 		try {
 			room.setSeqNo(Integer.valueOf(rs.getInt("seq_no")));
+			
 			room.setHotel(new Hotel());
 			room.getHotel().setSeqNo(Integer.valueOf(rs.getInt("hotel")));
+			
 			room.setRoomNumber(Integer.valueOf(rs.getInt("room_number")));
+			
 			room.setRoomType(new RoomType());
 			room.getRoomType().setSeqNo(Integer.valueOf(rs.getInt("room_type")));
+			
+			room.setPrice(Double.valueOf(rs.getDouble("price")));
+			
+			room.setDiscount(Double.valueOf(rs.getDouble("discount")));
 		}
 		catch(SQLException e) {
 			e.printStackTrace();

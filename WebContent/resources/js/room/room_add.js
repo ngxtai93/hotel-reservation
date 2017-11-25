@@ -70,6 +70,12 @@ $(document).ready(function(){
 				$("<tr>").appendTo($table)
 					.append($("<td>").text("Room type"))
 					.append($("<td>").html($roomType));
+				$("<tr>").appendTo($table)
+					.append($("<td>").text("Price"))
+					.append($("<td>").html($("<input required type=\"text\" name=\"price\">")));
+				$("<tr>").appendTo($table)
+					.append($("<td>").text("Discount"))
+					.append($("<td>").html($("<input required type=\"text\" name=\"discount\" value=\"0\">")));
 				$("<button id=\"submit-add-hotel\" type=\"submit\">").text("Submit").appendTo($form);
 				$('#room-form').on("submit", onSubmit);
 			}
@@ -78,6 +84,8 @@ $(document).ready(function(){
 	
 	function onSubmit() {
 		var roomNumVal = document.forms['room-form'].elements['room-num'].value;
+		var priceVal = document.forms['room-form'].elements['price'].value;
+		var discountVal = document.forms['room-form'].elements['discount'].value;
 		var hotelId = document.forms['room-form'].elements['hotel-id'].value;
 		var url = window.location.href;
 		$("#room-add-error").empty();
@@ -86,7 +94,20 @@ $(document).ready(function(){
 		if(!($.isNumeric(roomNumVal)) || roomNumVal < 0) {
 			$("<span style=\"color:red\">")
 			.text("Invalid room number.").appendTo($("#room-add-error"));
+			$("<br>").appendTo($("#room-add-error"));
 			isError = true;
+		}
+		if(!($.isNumeric(priceVal)) || roomNumVal < 0) {
+			$("<span style=\"color:red\">")
+			.text("Invalid price value.").appendTo($("#room-add-error"));
+			isError = true;
+		}
+		if(!($.isNumeric(discountVal)) || roomNumVal < 0) {
+			$("<span style=\"color:red\">")
+			.text("Invalid discount value.").appendTo($("#room-add-error"));
+			isError = true;
+		}
+		if(isError) {
 			return false;
 		}
 		

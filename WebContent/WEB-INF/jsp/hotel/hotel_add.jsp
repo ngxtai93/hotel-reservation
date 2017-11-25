@@ -27,6 +27,10 @@
            <td><input required name="zip" type="text" size="5"></td>
        </tr>
        <tr>
+           <th><b>Description </b></th>
+           <td><textarea required name="description"></textarea></td>
+       </tr>
+       <tr>
            <th><b>Images: </b></th>
            <td><input required name="image[]" type="file" multiple></td>
        </tr>

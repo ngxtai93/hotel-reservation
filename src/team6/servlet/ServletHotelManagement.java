@@ -201,16 +201,17 @@ public class ServletHotelManagement extends HttpServlet {
 		String city = listItem.get(2).getString();
 		String state = listItem.get(3).getString();
 		String zip = listItem.get(4).getString();
+		String description = listItem.get(5).getString();
 		List<String> listImage = null;
 		
 		List<FileItem> toBeUploaded = new ArrayList<>();
-		for(int i = 5; i < listItem.size(); i++) {
+		for(int i = 6; i < listItem.size(); i++) {
 			toBeUploaded.add(listItem.get(i));
 		}
 		
 		List<String> listError = hotel.validateInput(name, address, city, state, zip);
 		if(listError == null) {
-			Hotel newHotel = hotel.addHotel(name, address, city, state, zip);
+			Hotel newHotel = hotel.addHotel(name, address, city, state, zip, description);
 			listImage = fuh.uploadImage(this, request.getServletContext(), toBeUploaded, newHotel.getSeqNo().intValue());
 			newHotel.setListImage(listImage);
 			
@@ -229,8 +230,9 @@ public class ServletHotelManagement extends HttpServlet {
 		String city = request.getParameter("city");
 		String state = request.getParameter("state");
 		String zip = request.getParameter("zip");
+		String description = request.getParameter("description");
 		
-		hotel.updateHotel(hotelId, name, address, city, state, zip);
+		hotel.updateHotel(hotelId, name, address, city, state, zip, description);
 		request.getSession().setAttribute("action", "update-hotel");
 		response.sendRedirect(request.getContextPath() + "/success");
 			

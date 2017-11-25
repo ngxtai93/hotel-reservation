@@ -49,14 +49,14 @@ public class HotelManager {
 		return (listError.size() == 0 ? null : listError);
 	}
 
-	public Hotel addHotel(String name, String address, String city, String state, String zip) {
-		Hotel hotel = new Hotel(name, address, city, state, zip);
+	public Hotel addHotel(String name, String address, String city, String state, String zip, String description) {
+		Hotel hotel = new Hotel(name, address, city, state, zip, description);
 		hotelDao.insertHotel(hotel);
 		return hotel;
 	}
 
-	public void updateHotel(int hotelId, String name, String address, String city, String state, String zip) {
-		Hotel hotel = new Hotel(name, address, city, state, zip);
+	public void updateHotel(int hotelId, String name, String address, String city, String state, String zip, String description) {
+		Hotel hotel = new Hotel(name, address, city, state, zip, description);
 		hotel.setSeqNo(Integer.valueOf(hotelId));
 		hotelDao.updateHotel(hotel);
 	}
@@ -80,8 +80,8 @@ public class HotelManager {
 		return hotelDao.selectHotelByLocation(locationId);
 	}
 
-	public void addRoom(int hotelId, int roomNum, int roomTypeId) {
-		hotelDao.insertRoom(hotelId, roomNum, roomTypeId);
+	public void addRoom(int hotelId, int roomNum, int roomTypeId, double price, double discount) {
+		hotelDao.insertRoom(hotelId, roomNum, roomTypeId, price, discount);
 	}
 
 	public boolean isRoomExist(int hotelId, int roomNum) {

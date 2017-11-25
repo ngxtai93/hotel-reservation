@@ -106,6 +106,12 @@ $(document).ready(function(){
 			.append($("<td>").append($("<span>").text("Room type")))
 			.append($("<td>").append($selectRoomType))
 		;
+		$("<tr>").appendTo($table)
+			.append($("<td>").text("Price"))
+			.append($("<td>").html($("<input required type=\"text\" name=\"price\" value=\"" + roomObject.price + "\">")));
+		$("<tr>").appendTo($table)
+			.append($("<td>").text("Discount"))
+			.append($("<td>").html($("<input required type=\"text\" name=\"discount\" value=\"" + roomObject.discount + "\">")));
 		$("<button id=\"submit-add-hotel\" type=\"submit\">").text("Submit").appendTo($form);
 		$('#room-update-form').on("submit", onSubmit);
 	}

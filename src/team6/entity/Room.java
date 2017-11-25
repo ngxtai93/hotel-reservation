@@ -5,6 +5,8 @@ public class Room {
 	private Hotel hotel;
 	private Integer roomNumber;
 	private RoomType roomType;
+	private Double price;
+	private Double discount;
 	
 	public Integer getSeqNo() {
 		return seqNo;
@@ -29,5 +31,17 @@ public class Room {
 	}
 	public void setRoomType(RoomType roomType) {
 		this.roomType = roomType;
+	}
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	public Double getDiscount() {
+		return discount;
+	}
+	public void setDiscount(Double discount) {
+		this.discount = discount;
 	}
 }

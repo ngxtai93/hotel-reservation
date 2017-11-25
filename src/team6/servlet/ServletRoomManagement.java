@@ -299,8 +299,10 @@ public class ServletRoomManagement extends HttpServlet {
 		int hotelId = Integer.parseInt(request.getParameter("hotel-id"));
 		int roomNum = Integer.parseInt(request.getParameter("room-num"));
 		int roomTypeId = Integer.parseInt(request.getParameter("room-type"));
+		double price = Double.parseDouble(request.getParameter("price"));
+		double discount = Double.parseDouble(request.getParameter("discount"));
 		
-		hotel.addRoom(hotelId, roomNum, roomTypeId);
+		hotel.addRoom(hotelId, roomNum, roomTypeId, price, discount);
 		
 		request.getSession().setAttribute("action", "add-room");
 		response.sendRedirect(request.getContextPath() + "/success");

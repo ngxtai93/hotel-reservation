@@ -78,7 +78,11 @@ $(document).ready(function(){
 			.append($("<td>").append($("<span>").text("ZIP Code")))
 			.append($("<td>").append($("<input required size=\"5\" name=\"zip\" type=\"text\" value=\"" + hotelObject.location.zip + "\">")))
 		;
-		$("<button id=\"submit-add-hotel\" type=\"submit\">").text("Submit").appendTo($form);
+		$("<tr>").appendTo($table)
+		.append($("<td>").append($("<span>").text("Description")))
+		.append($("<td>").append(($("<textarea required name=\"description\">").text(hotelObject.description))))
+		;
+		$("<button id=\"submit-update-hotel\" type=\"submit\">").text("Submit").appendTo($form);
 		$('#hotel-update-form').on("submit", onSubmit);
 		
 	}
