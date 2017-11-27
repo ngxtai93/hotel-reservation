@@ -49,7 +49,7 @@ $(document).ready(function(){
 		$('#room-delete-step-3').empty();
 		
 		$.ajax({
-			url: (url + "?action=getRoom&hotel=" + hotel_id),
+			url: (url + "?action=getRoomType&hotel=" + hotel_id),
 			success: function(responseJson) {
 				var $form = $("<form name=\"room-delete-form\" method=\"post\">").appendTo($('#room-delete-step-3'));
 				var $table = $("<table>").appendTo($form);
@@ -57,11 +57,11 @@ $(document).ready(function(){
 					$("<tr>").appendTo($table)
 						.append($("<td>")
 							.html(
-									$("<input type=\"radio\" name=\"room-id\" value=\""
+									$("<input type=\"radio\" name=\"room-type-id\" value=\""
 									+ room.seqNo
 									+ "\">")
 							))
-						.append($("<td>").html($("<span>").text("Room " + room.roomNumber)))
+						.append($("<td>").html($("<span>").text(room.name)))
 					;
 				});
 				$("<button id=\"submit-delete-hotel\" type=\"submit\">").text("Delete").appendTo($form);

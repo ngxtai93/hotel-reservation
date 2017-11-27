@@ -1,7 +1,9 @@
 package team6.servlet;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,17 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import team6.entity.BedType;
 import team6.entity.Hotel;
 import team6.entity.Location;
 import team6.entity.Role;
-import team6.entity.Room;
 import team6.entity.RoomType;
 import team6.entity.User;
 import team6.model.HotelManager;
 
-/**
- * Servlet implementation class ServletRoomManagement
- */
 @WebServlet("/room/*")
 public class ServletRoomManagement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -50,25 +49,22 @@ public class ServletRoomManagement extends HttpServlet {
 		switch(uriSplit[roomIndex + 1]) {
 			case "add":
 			{
-				processGetAddRoom(request, response);
+				processGetAddRoomType(request, response);
 				break;
 			}
 			case "update":
 			{
-				processGetUpdateRoom(request, response);
+				processGetUpdateRoomType(request, response);
 				break;
 			}
 			case "delete":
 			{
-				processGetDeleteRoom(request, response);
+				processGetDeleteRoomType(request, response);
 				break;
 			}
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User currentUser = (User) request.getSession().getAttribute("current-user");
 		if(currentUser == null || currentUser.getRole() != Role.MANAGER) {
@@ -107,7 +103,7 @@ public class ServletRoomManagement extends HttpServlet {
 		}
 	}
 
-	private void processGetAddRoom(HttpServletRequest request, HttpServletResponse response)
+	private void processGetAddRoomType(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		String queryString = request.getQueryString();
 		
@@ -135,19 +131,36 @@ public class ServletRoomManagement extends HttpServlet {
 					}
 					break;
 				}
-				case "getRoomType":
+				case "getBedType":
 				{
-					processGetRoomType(request, response);
+					processGetBedType(request, response);
+					break;
+				}
+				case "isRoomTypeExist":
+				{
+					String[] hotelParam = queryStringSplit[1].split("=");
+					String[] roomNameParam = queryStringSplit[2].split("=");
+					if(hotelParam[0].equals("hotel") && roomNameParam[0].equals("roomName")) {
+						processCheckRoomTypeExist
+							(request, response
+							, Integer.parseInt(hotelParam[1]), roomNameParam[1].replaceAll("\\+", " "));
+					}
 					break;
 				}
 				case "isRoomExist":
 				{
 					String[] hotelParam = queryStringSplit[1].split("=");
-					String[] roomParam = queryStringSplit[2].split("=");
-					if(hotelParam[0].equals("hotel") && roomParam[0].equals("room")) {
+					String[] roomListParam = queryStringSplit[2].split("=");
+					if(hotelParam[0].equals("hotel") && roomListParam[0].equals("roomList")) {
+						List<Integer> roomList = Arrays.asList(roomListParam[1].replaceAll("\\+", ",")
+													.split(","))
+													.stream()
+													.map(Integer::parseInt)
+													.collect(Collectors.toList())
+						;
 						processCheckRoomExist
 							(request, response
-							, Integer.parseInt(hotelParam[1]), Integer.parseInt(roomParam[1]));
+							, Integer.parseInt(hotelParam[1]), roomList);
 					}
 					break;
 				}
@@ -155,7 +168,7 @@ public class ServletRoomManagement extends HttpServlet {
 		}
 	}
 
-	private void processGetUpdateRoom(HttpServletRequest request, HttpServletResponse response)
+	private void processGetUpdateRoomType(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		String queryString = request.getQueryString();
 		
@@ -183,17 +196,45 @@ public class ServletRoomManagement extends HttpServlet {
 					}
 					break;
 				}
-				case "getRoom":
+				case "getRoomType":
 				{
 					String[] hotelParam = queryStringSplit[1].split("=");
 					if(hotelParam[0].equals("hotel")) {
-						processGetListRoom(request, response, Integer.parseInt(hotelParam[1]));
+						processGetListRoomType(request, response, Integer.parseInt(hotelParam[1]));
 					}
 					break;
 				}
-				case "getRoomType":
+				case "getBedType":
 				{
-					processGetRoomType(request, response);
+					processGetBedType(request, response);
+					break;
+				}
+				case "isRoomTypeExist":
+				{
+					String[] hotelParam = queryStringSplit[1].split("=");
+					String[] roomNameParam = queryStringSplit[2].split("=");
+					if(hotelParam[0].equals("hotel") && roomNameParam[0].equals("roomName")) {
+						processCheckRoomTypeExist
+							(request, response
+							, Integer.parseInt(hotelParam[1]), roomNameParam[1].replaceAll("\\+", " "));
+					}
+					break;
+				}
+				case "isRoomExist":
+				{
+					String[] hotelParam = queryStringSplit[1].split("=");
+					String[] roomListParam = queryStringSplit[2].split("=");
+					if(hotelParam[0].equals("hotel") && roomListParam[0].equals("roomList")) {
+						List<Integer> roomList = Arrays.asList(roomListParam[1].replaceAll("\\+", ",")
+													.split(","))
+													.stream()
+													.map(Integer::parseInt)
+													.collect(Collectors.toList())
+						;
+						processCheckRoomExist
+							(request, response
+							, Integer.parseInt(hotelParam[1]), roomList);
+					}
 					break;
 				}
 			}
@@ -201,7 +242,7 @@ public class ServletRoomManagement extends HttpServlet {
 		
 	}
 
-	private void processGetDeleteRoom(HttpServletRequest request, HttpServletResponse response)
+	private void processGetDeleteRoomType(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		String queryString = request.getQueryString();
 		
@@ -229,17 +270,17 @@ public class ServletRoomManagement extends HttpServlet {
 					}
 					break;
 				}
-				case "getRoom":
+				case "getRoomType":
 				{
 					String[] hotelParam = queryStringSplit[1].split("=");
 					if(hotelParam[0].equals("hotel")) {
-						processGetListRoom(request, response, Integer.parseInt(hotelParam[1]));
+						processGetListRoomType(request, response, Integer.parseInt(hotelParam[1]));
 					}
 					break;
 				}
-				case "getRoomType":
+				case "getBedType":
 				{
-					processGetRoomType(request, response);
+					processGetBedType(request, response);
 					break;
 				}
 			}
@@ -247,34 +288,23 @@ public class ServletRoomManagement extends HttpServlet {
 		
 	}
 
-	private void processGetListRoom(HttpServletRequest request, HttpServletResponse response, int hotelId)
+	private void processGetListRoomType(HttpServletRequest request, HttpServletResponse response, int hotelId)
 		throws IOException {
-		List<Room> listRoom = hotel.getListRoom(hotelId);
+		List<RoomType> listRoom = hotel.getListRoomType(hotelId);
 		String json = listRoom == null ? "" : gson.toJson(listRoom);
 		response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
 	    response.getWriter().write(json);
 	}
 
-	private void processCheckRoomExist
-		(HttpServletRequest request, HttpServletResponse response, int hotelId, int roomNum)
-		throws IOException {
-		boolean isRoomExist = hotel.isRoomExist(hotelId, roomNum);
-		String json = isRoomExist ? gson.toJson("true"): gson.toJson("false");
-		
-		response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8");
-	    response.getWriter().write(json);
-	}
-
 	/**
-	 * Process AJAX request get list room type. Return an JSON object of list room type 
+	 * Process AJAX request get list bed type. Return an JSON object of list room type 
 	 * @throws IOException 
 	 */
-	private void processGetRoomType(HttpServletRequest request, HttpServletResponse response)
+	private void processGetBedType(HttpServletRequest request, HttpServletResponse response)
 		throws IOException {
-		List<RoomType> listRoomType = hotel.getListRoomType();
-		String json = listRoomType == null ? "" : gson.toJson(listRoomType);
+		List<String> listBedType = hotel.getListBedType();
+		String json = listBedType == null ? "" : gson.toJson(listBedType);
 		
 		response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
@@ -297,12 +327,35 @@ public class ServletRoomManagement extends HttpServlet {
 	private void processPostAddRoom(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		int hotelId = Integer.parseInt(request.getParameter("hotel-id"));
-		int roomNum = Integer.parseInt(request.getParameter("room-num"));
-		int roomTypeId = Integer.parseInt(request.getParameter("room-type"));
+		String roomName = request.getParameter("name");
+		BedType bedType = BedType.valueOf(request.getParameter("bed-type"));
+		int bedAmount = Integer.parseInt(request.getParameter("bed-amount"));
+		int peopleNo = Integer.parseInt(request.getParameter("people-no"));
+		String view = request.getParameter("view");
+		boolean isWifi = (request.getParameter("is-wifi") == null ? false : true);
+		boolean isTv = (request.getParameter("is-tv") == null ? false : true);
 		double price = Double.parseDouble(request.getParameter("price"));
 		double discount = Double.parseDouble(request.getParameter("discount"));
 		
-		hotel.addRoom(hotelId, roomNum, roomTypeId, price, discount);
+		List<Integer> roomList = Arrays.asList(request.getParameter("room-list").split(","))
+									.stream()
+									.map(Integer::parseInt)
+									.collect(Collectors.toList())
+		;
+		
+		RoomType roomType = new RoomType();
+		roomType.setName(roomName);
+		roomType.setBedType(bedType);
+		roomType.setBedAmount(Integer.valueOf(bedAmount));
+		roomType.setPeopleNo(Integer.valueOf(peopleNo));
+		roomType.setView(view);
+		roomType.setIsWifi(Boolean.valueOf(isWifi));
+		roomType.setIsTV(Boolean.valueOf(isTv));
+		roomType.setPrice(Double.valueOf(price));
+		roomType.setDiscount(Double.valueOf(discount));
+		roomType.setRoomList(roomList);
+		
+		hotel.addRoomType(hotelId, roomType);
 		
 		request.getSession().setAttribute("action", "add-room");
 		response.sendRedirect(request.getContextPath() + "/success");
@@ -311,10 +364,37 @@ public class ServletRoomManagement extends HttpServlet {
 	private void processPostUpdateRoom(HttpServletRequest request, HttpServletResponse response)
 		throws IOException {
 		int roomId = Integer.parseInt(request.getParameter("room-id"));
-		int roomNum = Integer.parseInt(request.getParameter("room-num"));
-		int roomTypeId = Integer.parseInt(request.getParameter("room-type"));
 		
-		hotel.updateRoom(roomId, roomNum, roomTypeId);
+		String roomName = request.getParameter("name");
+		BedType bedType = BedType.valueOf(request.getParameter("bed-type"));
+		int bedAmount = Integer.parseInt(request.getParameter("bed-amount"));
+		int peopleNo = Integer.parseInt(request.getParameter("people-no"));
+		String view = request.getParameter("view");
+		boolean isWifi = (request.getParameter("is-wifi") == null ? false : true);
+		boolean isTv = (request.getParameter("is-tv") == null ? false : true);
+		double price = Double.parseDouble(request.getParameter("price"));
+		double discount = Double.parseDouble(request.getParameter("discount"));
+		
+		List<Integer> roomList = Arrays.asList(request.getParameter("room-list").split(","))
+									.stream()
+									.map(Integer::parseInt)
+									.collect(Collectors.toList())
+		;
+		
+		RoomType roomType = new RoomType();
+		roomType.setSeqNo(Integer.valueOf(roomId));
+		roomType.setName(roomName);
+		roomType.setBedType(bedType);
+		roomType.setBedAmount(Integer.valueOf(bedAmount));
+		roomType.setPeopleNo(Integer.valueOf(peopleNo));
+		roomType.setView(view);
+		roomType.setIsWifi(Boolean.valueOf(isWifi));
+		roomType.setIsTV(Boolean.valueOf(isTv));
+		roomType.setPrice(Double.valueOf(price));
+		roomType.setDiscount(Double.valueOf(discount));
+		roomType.setRoomList(roomList);
+		
+		hotel.updateRoomType(roomType);
 		
 		request.getSession().setAttribute("action", "update-room");
 		response.sendRedirect(request.getContextPath() + "/success");
@@ -322,12 +402,34 @@ public class ServletRoomManagement extends HttpServlet {
 	
 	private void processPostDeleteRoom(HttpServletRequest request, HttpServletResponse response)
 		throws IOException {
-		int roomId = Integer.parseInt(request.getParameter("room-id"));
+		int roomTypeId = Integer.parseInt(request.getParameter("room-type-id"));
 		
-		hotel.deleteRoom(roomId);
+		hotel.deleteRoomType(roomTypeId);
 		
 		request.getSession().setAttribute("action", "delete-room");
 		response.sendRedirect(request.getContextPath() + "/success");
+	}
+
+	private void processCheckRoomTypeExist
+		(HttpServletRequest request, HttpServletResponse response, int hotelId, String roomName)
+		throws IOException {
+		boolean isRoomExist = hotel.isRoomExist(hotelId, roomName);
+		String json = isRoomExist ? gson.toJson("true"): gson.toJson("false");
+		
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json);
+	}
+
+	private void processCheckRoomExist(HttpServletRequest request, HttpServletResponse response, int hotelId,
+			List<Integer> roomList) throws IOException {
+		List<Integer> listRoomExist = hotel.getListRoomExist(hotelId, roomList);
+		String json = listRoomExist == null ? "" : gson.toJson(listRoomExist);
+		
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json);		
+		
 	}
 
 }

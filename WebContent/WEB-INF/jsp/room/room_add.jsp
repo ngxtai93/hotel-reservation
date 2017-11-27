@@ -7,7 +7,7 @@
 <script src="<%= rootPath %>/resources/js/room/room_add.js" type="text/javascript"></script>
 <div id="room-add-step-1">
 	<form method="get">
-		<h2>Add room: </h2>
+		<h2>Add room type: </h2>
 		<select name="location" id="location">
 			<option value="0">Choose a location: </option>
 			<% for(Location l: listLocation) { %>

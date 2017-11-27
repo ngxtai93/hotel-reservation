@@ -10,8 +10,8 @@
         <p><a href="<%= rootPath %>/hotel/delete"> Delete hotel </a></p>
         <br>
         <h2>Room management</h2>
-        <p><a href="<%= rootPath %>/room/add"> Add room </a></p>
-        <p><a href="<%= rootPath %>/room/update"> Update room </a></p>
-        <p><a href="<%= rootPath %>/room/delete"> Delete room </a></p>
+        <p><a href="<%= rootPath %>/room/add"> Add room type</a></p>
+        <p><a href="<%= rootPath %>/room/update"> Update room type</a></p>
+        <p><a href="<%= rootPath %>/room/delete"> Delete room type</a></p>
 
 <%@include file="../partials/footer.jsp" %>

@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import team6.dao.HotelDAO;
+import team6.entity.BedType;
 import team6.entity.Hotel;
 import team6.entity.Location;
-import team6.entity.Room;
 import team6.entity.RoomType;
 
 public class HotelManager {
@@ -17,19 +17,6 @@ public class HotelManager {
 	private HotelDAO hotelDao = new HotelDAO();
 	private final String CHECK_IN_TIME = "14:00";
 	private final String CHECK_OUT_TIME = "12:00";
-	/**
-	 * Get list of available room type from DB 
-	 */
-	public List<RoomType> getListRoomType() {
-		return hotelDao.selectAllRoomType();
-	}
-
-	/**
-	 * Return list of room by given hotel 
-	 */
-	public List<Room> getListRoom(int hotelId) {
-		return hotelDao.selectRoomByHotel(hotelId);
-	}
 
 	/**
 	 * Input validation. Return a list of error
@@ -61,13 +48,13 @@ public class HotelManager {
 		hotelDao.updateHotel(hotel);
 	}
 
-	public void deleteHotel(int hotelId) {
-		List<Room> listRoom = hotelDao.selectRoomByHotel(hotelId);
-		for(Room r: listRoom) {
-			hotelDao.deleteRoom(r.getSeqNo());
-		}
-		hotelDao.deleteHotel(hotelId);
-	}
+//	public void deleteHotel(int hotelId) {
+//		List<Room> listRoom = hotelDao.selectRoomByHotel(hotelId);
+//		for(Room r: listRoom) {
+//			hotelDao.deleteRoom(r.getSeqNo());
+//		}
+//		hotelDao.deleteHotel(hotelId);
+//	}
 
 	public List<Location> getAvailableLocation() {
 		return hotelDao.selectAllLocation();
@@ -80,21 +67,29 @@ public class HotelManager {
 		return hotelDao.selectHotelByLocation(locationId);
 	}
 
+	public List<RoomType> getListRoomType(int hotelId) {
+		return hotelDao.selectRoomTypeByHotel(hotelId);
+	}
+
+	public void addRoomType(int hotelId, RoomType paramObject) {
+		hotelDao.insertRoomType(hotelId, paramObject);
+	}
+
 	public void addRoom(int hotelId, int roomNum, int roomTypeId, double price, double discount) {
 		hotelDao.insertRoom(hotelId, roomNum, roomTypeId, price, discount);
 	}
 
-	public boolean isRoomExist(int hotelId, int roomNum) {
-		Room room = hotelDao.selectRoom(hotelId, roomNum);
-		return (room != null ? true : false);
+	public boolean isRoomExist(int hotelId, String roomName) {
+		RoomType roomType = hotelDao.selectRoomType(hotelId, roomName);
+		return (roomType != null ? true : false);
 	}
 
-	public void updateRoom(int roomId, int roomNum, int roomTypeId) {
-		hotelDao.updateRoom(roomId, roomNum, roomTypeId);
+	public void updateRoomType(RoomType rt) {
+		hotelDao.updateRoomType(rt);
 	}
 
-	public void deleteRoom(int roomId) {
-		hotelDao.deleteRoom(roomId);
+	public void deleteRoomType(int roomId) {
+		hotelDao.deleteRoomType(roomId);
 	}
 
 	public Location getLocation(String city, String state, String zip) {
@@ -119,6 +114,37 @@ public class HotelManager {
 
 	public void addNewListImage(int hotelId, List<String> listImage) {
 		hotelDao.updateListImage(hotelId, listImage);
+	}
+
+	public List<String> getListBedType() {
+		List<String> listBedType = new ArrayList<>();
+		for(BedType bt: BedType.values()) {
+			String value = bt.toString().toLowerCase();
+			String[] valueSplit = value.split("_");
+			StringBuilder sb = new StringBuilder();
+			for(int i = 0; i < valueSplit.length; i++) {
+				if(valueSplit[i].length() > 1) {
+					valueSplit[i] = valueSplit[i].substring(0, 1).toUpperCase() + valueSplit[i].substring(1);
+				}
+				else if(valueSplit[i].length() == 1) {
+					valueSplit[i] = valueSplit[i].toUpperCase();
+				}
+				sb.append(valueSplit[i])
+				.append(i == valueSplit.length - 1 ? "" : " ");
+			}
+			listBedType.add(sb.toString());
+		}
+		return listBedType;
+	}
+
+	/**
+	 * Compare list of room number to existing DB.
+	 * Return a list of room number that belongs to another room type.
+	 */
+	public List<Integer> getListRoomExist(int hotelId, List<Integer> toCheck) {
+		List<Integer> listRoomInHotel = hotelDao.selectRoomListByHotel(hotelId);
+		toCheck.retainAll(listRoomInHotel);	// intersection of 2 set
+		return (toCheck.size() == 0 ? null : toCheck);
 	}
 
 }

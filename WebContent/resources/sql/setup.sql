@@ -130,35 +130,6 @@ LOCK TABLES `order` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `room`
---
-
-DROP TABLE IF EXISTS `room`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `room` (
-  `seq_no` int(255) NOT NULL AUTO_INCREMENT,
-  `hotel` int(11) DEFAULT NULL,
-  `room_number` int(11) DEFAULT NULL,
-  `room_type` int(11) DEFAULT NULL,
-  `price` double DEFAULT NULL,
-  `discount` double DEFAULT NULL,
-  `del_flag` tinyint(4) DEFAULT '0',
-  PRIMARY KEY (`seq_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `room`
---
-
-LOCK TABLES `room` WRITE;
-/*!40000 ALTER TABLE `room` DISABLE KEYS */;
-INSERT INTO `room` VALUES (1,1,523,1,139,3,0),(2,1,312,1,139,3,0);
-/*!40000 ALTER TABLE `room` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `room_type`
 --
 
@@ -167,12 +138,18 @@ DROP TABLE IF EXISTS `room_type`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `room_type` (
   `seq_no` int(11) NOT NULL AUTO_INCREMENT,
+  `hotel` int(11) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `bed` varchar(255) DEFAULT NULL,
+  `bed_type` varchar(255) DEFAULT NULL,
+  `bed_amount` int(11) DEFAULT NULL,
   `people_no` int(11) DEFAULT NULL,
   `view` varchar(45) DEFAULT NULL,
   `is_wifi` tinyint(4) DEFAULT NULL,
   `is_tv` tinyint(4) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `discount` double DEFAULT NULL,
+  `room_list` text,
+  `del_flag` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`seq_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -183,7 +160,7 @@ CREATE TABLE `room_type` (
 
 LOCK TABLES `room_type` WRITE;
 /*!40000 ALTER TABLE `room_type` DISABLE KEYS */;
-INSERT INTO `room_type` VALUES (1,'1 King Bed','king_bed,1;',4,'City',1,1),(2,'Room B','double_bed,2;',2,'City',1,1);
+INSERT INTO `room_type` VALUES (1,1,'1 King Bed','king_bed',1,4,'City',1,1,139,3,'523,312',0);
 /*!40000 ALTER TABLE `room_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -277,4 +254,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-25  0:46:24
+-- Dump completed on 2017-11-27 12:28:23

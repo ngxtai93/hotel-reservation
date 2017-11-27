@@ -1,5 +1,5 @@
 package team6.entity;
 
 public enum BedType {
-	KINGBED,QUEENBED,DOUBLEBED,SUITE
+	KING_BED,QUEEN_BED,DOUBLE_BED,SUITE
 }

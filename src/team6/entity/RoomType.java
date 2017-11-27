@@ -1,15 +1,20 @@
 package team6.entity;
 
-import java.util.Map;
+import java.util.List;
 
 public class RoomType {
 	private Integer seqNo;
+	private Hotel hotelBelong;
 	private String name;
-	private Map<BedType, Integer> bedMap;
+	private BedType bedType;
+	private Integer bedAmount;
 	private Integer peopleNo;
 	private String view;
 	private Boolean isWifi;
 	private Boolean isTV;
+	private Double price;
+	private Double discount;
+	private List<Integer> roomList;
 	
 	public Integer getSeqNo() {
 		return seqNo;
@@ -17,17 +22,29 @@ public class RoomType {
 	public void setSeqNo(Integer seqNo) {
 		this.seqNo = seqNo;
 	}
+	public Hotel getHotelBelong() {
+		return hotelBelong;
+	}
+	public void setHotelBelong(Hotel hotelBelong) {
+		this.hotelBelong = hotelBelong;
+	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Map<BedType, Integer> getBedMap() {
-		return bedMap;
+	public BedType getBedType() {
+		return bedType;
 	}
-	public void setBedMap(Map<BedType, Integer> bedMap) {
-		this.bedMap = bedMap;
+	public void setBedType(BedType bedType) {
+		this.bedType = bedType;
+	}
+	public Integer getBedAmount() {
+		return bedAmount;
+	}
+	public void setBedAmount(Integer bedAmount) {
+		this.bedAmount = bedAmount;
 	}
 	public Integer getPeopleNo() {
 		return peopleNo;
@@ -52,5 +69,23 @@ public class RoomType {
 	}
 	public void setIsTV(Boolean isTV) {
 		this.isTV = isTV;
+	}
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	public Double getDiscount() {
+		return discount;
+	}
+	public void setDiscount(Double discount) {
+		this.discount = discount;
+	}
+	public List<Integer> getRoomList() {
+		return roomList;
+	}
+	public void setRoomList(List<Integer> roomList) {
+		this.roomList = roomList;
 	}
 }

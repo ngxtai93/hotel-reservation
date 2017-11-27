@@ -7,7 +7,7 @@
 <script src="<%= rootPath %>/resources/js/room/room_update.js" type="text/javascript"></script>
 <div id="room-update-step-1">
 	<form method="get">
-		<h2>Update room: </h2>
+		<h2>Update room type: </h2>
 		<select name="location" id="location">
 			<option value="0">Choose a location: </option>
 			<% for(Location l: listLocation) { %>
