@@ -181,37 +181,41 @@
 								<div class="k2t-search-booking" id="homepage1-search-booking">
 									<div class="k2t-booking-form pull-left w100">
 										<div class="container k2t-wrap">
-											<div class="pull-left k2t-cal-colf">
-												<span class="pull-left relative k2t-step1-input">
-												<input class="k2t-select-checkin pull-left w100" placeholder="Check In">
-												</span>
-												<span class="pull-right relative k2t-step1-input">
-												<input class="k2t-select-checkout pull-left w100" placeholder="Check Out">
-												</span>
-											</div>
-											<div class="pull-right k2t-cal-cols">
-												<span class="relative pull-left k2t-step1-span">
-													<select class="k2t-step1-select pull-left w100 relative">
-														<option>Room</option>
-														<option>1</option>
-														<option>2</option>
-														<option>3</option>
-													</select>
-												</span>
-												<div class="pull-left k2t-select-people">
-													<span class="relative w100 pull-left k2t-step1-span">
-														<select class="k2t-step1-select pull-left w100">
-															<option>1 Guest</option>
-															<option>2 Guest</option>
-															<option>3 Guest</option>
-															<option>4 Guest</option>
-															<option>5 Guest</option>
-															<option>6 Guest</option>
-														</select>
+											<form method="get" action="<%= rootPath %>/search">
+												<div class="pull-left k2t-cal-colf">
+													<span class="pull-left relative k2t-step1-input">
+													<input name="check-in-date" class="k2t-select-checkin pull-left w100" placeholder="Check In">
+													</span>
+													<span class="pull-right relative k2t-step1-input">
+													<input name="check-out-date" class="k2t-select-checkout pull-left w100" placeholder="Check Out">
 													</span>
 												</div>
-												<a href="choose-room.jsp" class="k2t-btn-editbooking pull-right">Book Now</a>
-											</div>
+												<div class="pull-right k2t-cal-cols">
+													<%--<span class="relative pull-left k2t-step1-span">
+														<select class="k2t-step1-select pull-left w100 relative">
+															<option>Room</option>
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+														</select>
+													</span>
+													 <div class="pull-left k2t-select-people">
+														<span class="relative w100 pull-left k2t-step1-span">
+															<select class="k2t-step1-select pull-left w100">
+																<option>1 Guest</option>
+																<option>2 Guest</option>
+																<option>3 Guest</option>
+																<option>4 Guest</option>
+																<option>5 Guest</option>
+																<option>6 Guest</option>
+															</select>
+														</span>
+													</div>--%>
+													<input type="text" name="location" size="40" placeholder="City">
+													<!-- <a href="choose-room.jsp" class="k2t-btn-editbooking pull-right">Go</a> -->
+													<button type="submit" class="k2t-btn-editbooking pull-right">Go</button>
+												</div>
+											</form>
 										</div>
 										<!-- k2t wrap -->
 									</div>
