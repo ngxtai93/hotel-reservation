@@ -15,6 +15,7 @@ public class RoomType {
 	private Double price;
 	private Double discount;
 	private List<Integer> roomList;
+	private String image;
 	
 	public Integer getSeqNo() {
 		return seqNo;
@@ -87,5 +88,11 @@ public class RoomType {
 	}
 	public void setRoomList(List<Integer> roomList) {
 		this.roomList = roomList;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 }

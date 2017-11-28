@@ -524,6 +524,7 @@ public class HotelDAO {
 			roomType.setPrice(rs.getDouble("price"));
 			roomType.setDiscount(rs.getDouble("discount"));
 			roomType.setRoomList(parseRoomList(rs.getString("room_list")));
+			roomType.setImage(rs.getString("image"));
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
