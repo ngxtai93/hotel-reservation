@@ -331,6 +331,26 @@ public class HotelDAO {
 		return rt;
 	}
 
+	public RoomType selectRoomType(int seqNo) {
+		String sql = "SELECT * from csp584_project.room_type WHERE seq_no = ? AND del_flag = 0";
+		RoomType rt = null;
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, seqNo);
+			ResultSet rs = ps.executeQuery();
+			if(rs.isBeforeFirst()) {
+				rs.next();
+				rt = buildRoomTypeObject(rs);
+			}
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		return rt;
+	}
+
 	public void insertRoomType(int hotelId, RoomType paramObject) {
 		String sql = "INSERT INTO `csp584_project`.`room_type`"
 					+ "(hotel, name, bed_type, bed_amount, people_no, view, is_wifi, is_tv, price, discount, room_list)"

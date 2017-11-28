@@ -1,5 +1,17 @@
-<%@include file="header.jsp" %>
-		
+<%@include file="./partials/header.jsp" %>
+<%@ page import="team6.entity.Hotel, team6.entity.RoomType" %>
+<%@ page import="java.util.*, java.time.LocalDate, java.time.format.DateTimeFormatter, java.text.NumberFormat" %>
+<%
+	Hotel hotel = (Hotel) request.getAttribute("hotel");
+	RoomType rt = (RoomType) request.getAttribute("room-type");
+	LocalDate checkIn = (LocalDate) request.getAttribute("check-in-date");
+	LocalDate checkOut = (LocalDate) request.getAttribute("check-out-date");
+	Integer numDay = (Integer) request.getAttribute("num-day");
+	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+	NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US);
+	
+	Double total = (rt.getPrice() - rt.getDiscount()) * numDay;
+%>
 		
 		<div class="k2t-body">
 			<div class="k2t-title-bar">
@@ -56,16 +68,8 @@
 									<div class="div-border"><textarea placeholder="Special Requirements"></textarea></div>
 									<div class="k2t-field-button pull-left w100">
 										<a class="pull-left k2t-field-backstep" href="choose-room.jsp"> <i class="zmdi zmdi-long-arrow-left"></i> &nbsp; Back Step </a>
-										<a class="pull-right k2t-field-booknow" href="javascript:void(0)">Book Now By Email</a>
+										<a class="pull-right k2t-field-booknow" href="javascript:void(0)">Place Order</a>
 									</div>
-									<p class="k2t-title-grfield w100 pull-left"> Pay 20% Deposit </p>
-									<div class="w100 pull-left k2t-payment">
-										<a href="javascript:void(0)" class="col-3"><img src="images/upload/paypal.png" alt="paypal" /></a>
-										<a href="javascript:void(0)" class="col-3"><img src="images/upload/payoneer.png" alt="payoneer" /></a>
-										<a href="javascript:void(0)" class="col-3"><img src="images/upload/visa.png" alt="visa" /></a>
-										<a href="javascript:void(0)" class="col-3"><img src="images/upload/mastercard.png" alt="mastercard" /></a>
-									</div>
-									<a href="reservation-confirm.jsp" class="pull-left w100 k2t-pay-now"> Pay Now </a>
 								</div>
 								<div class="k2t-branch-confirm k2t-step3-right pull-right">
 									<p class="title-confirm">Your Reservation</p>
@@ -74,42 +78,49 @@
 					
 										<p class="k2t-confirm-p"> 
 											<span class="k2t-col-f"> Check In: </span>
-											<span class="k2t-col-s"> 28/09/2015 </span>
+											<span class="k2t-col-s"> <%= dtf.format(checkIn) %> </span>
 										</p>
 										<p class="k2t-confirm-p">
 											<span class="k2t-col-f"> Check Out: </span>
-											<span class="k2t-col-s"> 06/10/2015 </span>
+											<span class="k2t-col-s"> <%= dtf.format(checkOut) %> </span>
 										</p>
 										<p class="k2t-confirm-p"> 
 											<span class="k2t-col-f"> Room: </span>
-											<span class="k2t-col-s"> King Suite Room </span>
+											<span class="k2t-col-s"> <%= rt.getName() %> </span>
 										</p>
 										<p class="k2t-confirm-p"> 
-											<span class="k2t-col-f"> Adult: </span>
-											<span class="k2t-col-s"> 2 </span> 
-										</p>
-										<p class="k2t-confirm-p"> 
-											<span class="k2t-col-f"> Children: </span>
-											<span class="k2t-col-s"> 0 </span>
+											<span class="k2t-col-f"> Max: </span>
+											<span class="k2t-col-s"> <%= rt.getPeopleNo() %> People </span> 
 										</p>
 									</div>
 									<div class="k2t-entry-cr k2t-entry-sub">
 										<p class="k2t-confirm-p k2t-total"> 
-											<span class="k2t-col-total"> Total </span>
-											<span class="k2t-col-price k2t-col-s"> $ 1,280 </span>
+											<span class="k2t-col-total"> Price </span>
+											<span class="k2t-col-price k2t-col-s">
+												<%= currencyFormatter.format(rt.getPrice()).replaceAll("\\$", "\\$ ") %>
+											</span>
 										</p>
+										<% if(rt.getDiscount() > 0.0) { %>
+											<p class="k2t-confirm-p k2t-vat"> 
+												<span class="k2t-col-vat"> Discount </span>
+												<span class="k2t-col-pvat k2t-col-s">
+												 <%= currencyFormatter.format(rt.getDiscount()).replaceAll("\\$", "\\$ ") %>
+												</span>
+											</p>
+										<% } %>
 										<p class="k2t-confirm-p k2t-vat"> 
-											<span class="k2t-col-vat"> VAT 10% </span>
-											<span class="k2t-col-pvat k2t-col-s"> $ 128 </span>
+											<span class="k2t-col-vat"> Booking for: </span>
+											<span class="k2t-col-pvat k2t-col-s">
+											 <%= numDay %> Days
+											</span>
 										</p>
 									</div>
 									<p class="k2t-confirm-p kt2-grand"> 
 										<span class="k2t-grand-total"> Grand Total </span>
-										<span class="k2t-col-s"> $ 1,408 </span>
+										<span class="k2t-col-s">
+										 <%= currencyFormatter.format(total).replaceAll("\\$", "\\$ ") %>
+										 </span>
 									</p>
-									<div class="pull-left w100" style="padding:0 23%; margin-top:50px">
-										<a href="javascript:void(0)" class="k2t-btn-editbooking w100 pull-left">Confirm</a>
-									</div>
 								</div>
 							</div>
 						</div>
@@ -121,4 +132,4 @@
 		
 		
 		
-<%@include file="footer.jsp" %>
+<%@include file="./partials/footer.jsp" %>

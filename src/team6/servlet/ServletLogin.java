@@ -12,7 +12,7 @@ import team6.model.Authenticator;
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Authenticator auth;
-	private boolean debug = true;	// debug purpose
+	private boolean debug = false;	// debug purpose
 	
 	public ServletLogin() {
 		auth = new Authenticator();
@@ -45,8 +45,25 @@ public class ServletLogin extends HttpServlet {
 		User loggedUser = auth.doLogin(username, password);
 		
 		if(loggedUser != null) {
+			HttpSession session = request.getSession();
 			request.getSession().setAttribute("current-user", loggedUser);
-			response.sendRedirect(request.getContextPath());
+			String hotelParam = (String) session.getAttribute("reservation-hotel");
+			String roomParam = (String) session.getAttribute("reservation-room");
+			String checkInParam = (String) session.getAttribute("reservation-check-in");
+			String checkOutParam = (String) session.getAttribute("reservation-check-out");
+			if(hotelParam == null || roomParam == null || checkInParam == null || checkOutParam == null) {
+				response.sendRedirect(request.getContextPath());
+			}
+			else {
+				String reservationUrl = request.getContextPath() + "/reserve?"
+										+ "action=reservation"
+										+ "&hotel=" + hotelParam
+										+ "&room=" + roomParam
+										+ "&checkIn=" + checkInParam
+										+ "&checkOut=" + checkOutParam
+				;
+				response.sendRedirect(reservationUrl);
+			}
 		}
 		else {
 			request.setAttribute("login-failed", Boolean.TRUE);

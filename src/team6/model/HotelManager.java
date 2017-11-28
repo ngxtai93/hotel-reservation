@@ -147,4 +147,18 @@ public class HotelManager {
 		return (toCheck.size() == 0 ? null : toCheck);
 	}
 
+	public RoomType getRoomType(int roomTypeId) {
+		return hotelDao.selectRoomType(roomTypeId);
+	}
+
+	public int calcDayBetween(LocalDate checkInDate, LocalDate checkOutDate) {
+		int count = 0;
+		LocalDate tmp = LocalDate.of(checkInDate.getYear(), checkInDate.getMonthValue(), checkInDate.getDayOfMonth());
+		while(!tmp.isAfter(checkOutDate)) {
+			count++;
+			tmp = tmp.plusDays(1);
+		}
+		return count;
+	}
+
 }
