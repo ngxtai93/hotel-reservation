@@ -1,9 +1,12 @@
 <%@ page import = "team6.entity.Hotel" %>
-
+<%@ page import = "java.time.LocalDate, java.time.format.DateTimeFormatter" %>
 <%
 	String rootPath = request.getContextPath();
 	Hotel hotel = (Hotel) request.getAttribute("hotel");
 	Boolean isAvail = (Boolean) request.getAttribute("is-available");
+	LocalDate checkInDate = (LocalDate) request.getAttribute("query-check-in");
+	LocalDate checkOutDate = (LocalDate) request.getAttribute("query-check-out");
+	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMddyyyy");
 	
 %>
 
@@ -24,6 +27,8 @@
   	<form method="get" action="<%= rootPath %>/reserve">
   		<input type="hidden" name="action" value="chooseRoom">
   		<input type="hidden" name="hotel" value="<%= hotel.getSeqNo() %>">
+  		<input type="hidden" name="checkIn" value="<%= dtf.format(checkInDate) %>">
+  		<input type="hidden" name="checkOut" value="<%= dtf.format(checkOutDate) %>">
   		<button type="submit">Choose</button>
   	</form>
 	<% }

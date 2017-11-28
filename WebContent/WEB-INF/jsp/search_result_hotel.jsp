@@ -19,6 +19,8 @@ else { %>
 	<% for(Map.Entry<Hotel, Boolean> entry: mapHotel.entrySet()) {
 		request.setAttribute("hotel", entry.getKey());
 		request.setAttribute("is-available", entry.getValue());
+		request.setAttribute("query-check-in", checkInDate);
+		request.setAttribute("query-check-out", checkOutDate);
 	%>
 		<jsp:include page="/WEB-INF/jsp/partials/hotel_description.jsp"/>
 	<% }

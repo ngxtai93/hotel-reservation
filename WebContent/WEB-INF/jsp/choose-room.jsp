@@ -6,6 +6,8 @@
 	Map<RoomType, Boolean> mapRoomTypeAvailable = (Map<RoomType, Boolean>) request.getAttribute("map-room-type");
 	String hotelId = (String) request.getAttribute("hotel-id");
 	NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US);
+	String checkInDate = (String) request.getAttribute("check-in");
+	String checkOutDate = (String) request.getAttribute("check-out");
 %>		
 
 		<div class="k2t-body">
@@ -91,7 +93,9 @@
 																</div>
 															</div>
 															<h3 class="title title-room">
-																<a href="<%= rootPath %>/reserve?action=reservation&hotel=<%= hotelId %>&room=<%= rt.getSeqNo() %>" title="<%= rt.getName() %>">
+																<a 
+																href="<%= rootPath %>/reserve?action=reservation&hotel=<%= hotelId %>&room=<%= rt.getSeqNo() %>
+																	&checkIn=<%= checkInDate %>&checkOut=<%= checkOutDate %>">
 																<%= rt.getName() %>
 																</a>
 																<span class="count-ratings pull-right"> (42 ratings)</span>
@@ -110,7 +114,9 @@
 															</p>
 															<% if(isAvail) { %>
 																<div class="div-read-more">
-																	<a class="" href="<%= rootPath %>/reserve?action=reservation&hotel=<%= hotelId %>&room=<%= rt.getSeqNo() %>"
+																	<a class="" 
+																	href="<%= rootPath %>/reserve?action=reservation&hotel=<%= hotelId %>&room=<%= rt.getSeqNo() %>
+																	&checkIn=<%= checkInDate %>&checkOut=<%= checkOutDate %>"
 																	 title="<%= rt.getName()%>">Book This Room</a>
 																</div>
 															<% }

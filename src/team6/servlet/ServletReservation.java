@@ -30,6 +30,25 @@ public class ServletReservation extends HttpServlet {
 				case "chooseRoom":
 				{
 					String[] hotelParam = queryStringSplit[1].split("=");
+					String[] checkInParam = queryStringSplit[2].split("=");
+					String[] checkOutParam = queryStringSplit[3].split("=");
+					if(hotelParam[0].equals("hotel") && checkInParam[0].equals("checkIn") && checkOutParam[0].equals("checkOut")) {
+						List<RoomType> listRoomType = hotel.getListRoomType(Integer.parseInt(hotelParam[1]));
+						Map<RoomType, Boolean> mapRoomTypeAvailable = new HashMap<>();
+						for(RoomType rt: listRoomType) {
+							mapRoomTypeAvailable.put(rt, Boolean.TRUE);
+						}
+						request.setAttribute("map-room-type", mapRoomTypeAvailable);
+						request.setAttribute("hotel-id", hotelParam[1]);
+						request.setAttribute("check-in", checkInParam[1]);
+						request.setAttribute("check-out", checkOutParam[1]);
+						request.getRequestDispatcher("/WEB-INF/jsp/choose-room.jsp").forward(request, response);
+					}
+					break;
+				}
+				case "reserve":
+				{
+					String[] hotelParam = queryStringSplit[1].split("=");
 					if(hotelParam[0].equals("hotel")) {
 						List<RoomType> listRoomType = hotel.getListRoomType(Integer.parseInt(hotelParam[1]));
 						Map<RoomType, Boolean> mapRoomTypeAvailable = new HashMap<>();
