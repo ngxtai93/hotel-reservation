@@ -15,8 +15,6 @@ import team6.entity.RoomType;
 public class HotelManager {
 
 	private HotelDAO hotelDao = new HotelDAO();
-	private final String CHECK_IN_TIME = "14:00";
-	private final String CHECK_OUT_TIME = "12:00";
 
 	/**
 	 * Input validation. Return a list of error
@@ -159,6 +157,10 @@ public class HotelManager {
 			tmp = tmp.plusDays(1);
 		}
 		return count;
+	}
+
+	public Hotel getHotel(int hotelId) {
+		return hotelDao.selectHotel(hotelId);
 	}
 
 }

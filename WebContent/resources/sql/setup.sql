@@ -25,15 +25,19 @@ DROP TABLE IF EXISTS `customer_profile`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_profile` (
-  `cID` int(255) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `gender` varchar(255) DEFAULT NULL,
-  `creditCard` int(255) DEFAULT NULL,
-  `creditCardExpDate` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `zipcode` int(10) DEFAULT NULL,
-  `uID` int(255) DEFAULT NULL,
-  PRIMARY KEY (`cID`)
+  `seq_no` int(255) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(20) DEFAULT NULL,
+  `last_name` varchar(20) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  `city` varchar(20) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL,
+  `zip` varchar(5) DEFAULT NULL,
+  `cc_num` varchar(16) DEFAULT NULL,
+  `cc_exp` varchar(5) DEFAULT NULL,
+  `del_flag` tinyint(4) DEFAULT '0',
+  PRIMARY KEY (`seq_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -111,11 +115,14 @@ DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
   `seq_no` int(11) NOT NULL AUTO_INCREMENT,
   `user` int(11) DEFAULT NULL,
+  `customer` int(11) DEFAULT NULL,
   `hotel` int(11) DEFAULT NULL,
-  `room` text,
+  `room` int(11) DEFAULT NULL,
+  `order_date` date DEFAULT NULL,
   `check_in` datetime DEFAULT NULL,
   `check_out` datetime DEFAULT NULL,
   `status` varchar(20) DEFAULT NULL,
+  `del_flag` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`seq_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -255,4 +262,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-27 18:45:25
+-- Dump completed on 2017-11-28 22:05:23

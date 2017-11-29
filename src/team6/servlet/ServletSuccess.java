@@ -1,12 +1,16 @@
 package team6.servlet;
 
 import java.io.IOException;
+import java.time.LocalTime;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import team6.business.BusinessLogic;
 
 /**
  * Servlet implementation class ServletSuccess
@@ -67,6 +71,16 @@ public class ServletSuccess extends HttpServlet {
 			{
 				session.removeAttribute("action");
 				request.getRequestDispatcher("/WEB-INF/jsp/success/delete-room.jsp").forward(request, response);
+				break;
+			}
+			case "reservation":
+			{
+				session.removeAttribute("action");
+				LocalTime checkInTime = BusinessLogic.INSTANCE.getCheckInTime();
+				LocalTime checkOutTime = BusinessLogic.INSTANCE.getCheckOutTime();
+				request.setAttribute("check-in-time", checkInTime);
+				request.setAttribute("check-out-time", checkOutTime);
+				request.getRequestDispatcher("/WEB-INF/jsp/success/reservation.jsp").forward(request, response);
 				break;
 			}
 		}

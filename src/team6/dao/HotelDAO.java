@@ -100,6 +100,29 @@ public class HotelDAO {
 		return listHotel;
 	}
 
+	public Hotel selectHotel(int seqNo) {
+		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address, h.image_link, h.description"
+				+ " FROM csp584_project.hotel h JOIN csp584_project.location l"
+				+ " ON h.location = l.seq_no"
+				+ " WHERE h.seq_no = ? AND h.del_flag = 0;"
+		;
+		Hotel hotel = null;
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, seqNo);
+			ResultSet rs = ps.executeQuery();
+			if(rs.isBeforeFirst()) {
+				rs.next();
+				hotel = buildHotelObject(rs);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return hotel;
+	}
+
 	/**
 	 * Select hotel by address and given location
 	 */

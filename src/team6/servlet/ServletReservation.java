@@ -2,6 +2,8 @@ package team6.servlet;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import team6.business.BusinessLogic;
+import team6.entity.CustomerProfile;
 import team6.entity.Hotel;
+import team6.entity.Order;
 import team6.entity.RoomType;
 import team6.entity.User;
 import team6.model.HotelManager;
+import team6.model.OrderManager;
 
 /**
  * Servlet implementation class ServletReservation
@@ -26,6 +32,8 @@ import team6.model.HotelManager;
 public class ServletReservation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private HotelManager hm = new HotelManager();
+	private OrderManager om = new OrderManager();
+	private BusinessLogic logic = BusinessLogic.INSTANCE;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String[] queryStringSplit = request.getQueryString().split("&");
@@ -63,8 +71,8 @@ public class ServletReservation extends HttpServlet {
 						&& checkOutParam[0].equals("checkOut")
 					) {
 						HttpSession session = request.getSession();
-						session.setAttribute("reservation-hotel", hotelParam[1]);
-						session.setAttribute("reservation-room", roomParam[1]);
+						session.setAttribute("reservation-hotel-id", hotelParam[1]);
+						session.setAttribute("reservation-room-id", roomParam[1]);
 						session.setAttribute("reservation-check-in", checkInParam[1]);
 						session.setAttribute("reservation-check-out", checkOutParam[1]);
 						
@@ -73,7 +81,7 @@ public class ServletReservation extends HttpServlet {
 							response.sendRedirect(request.getContextPath() +"/login");
 						}
 						else {
-							DateTimeFormatter dtf = DateTimeFormatter.ofPattern("mmDDyyyy");
+							DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMddyyyy");
 							LocalDate checkInDate = LocalDate.parse(checkInParam[1], dtf);
 							LocalDate checkOutDate = LocalDate.parse(checkOutParam[1], dtf);
 							RoomType rt = hm.getRoomType(Integer.parseInt(roomParam[1]));
@@ -97,8 +105,59 @@ public class ServletReservation extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		CustomerProfile cp = buildCustomerProfile(request);
+		Order order = buildOrder(request, cp);
+
+		om.processOrderPlaced(order);
+		
+		HttpSession session = request.getSession();
+		session.removeAttribute("reservation-hotel");
+		session.removeAttribute("reservation-room");
+		session.removeAttribute("reservation-check-in");
+		session.removeAttribute("reservation-check-out");
+		
+		session.setAttribute("action", "reservation");
+		response.sendRedirect(request.getContextPath() + "/success");
 	}
 
+	private Order buildOrder(HttpServletRequest request, CustomerProfile cp) {
+		Order order = new Order();
+		HttpSession session = request.getSession();
+		User currentUser = (User) session.getAttribute("current-user");
+		
+		order.setUser(currentUser);
+		order.setHotel(
+			hm.getHotel(Integer.parseInt((String) session.getAttribute("reservation-hotel-id")))
+		);
+		order.setRoomType(
+			hm.getRoomType(Integer.parseInt((String) session.getAttribute("reservation-room-id")))
+		);
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMddyyyy");
+		LocalDate checkInDate = LocalDate.parse((String) session.getAttribute("reservation-check-in"), dtf);
+		LocalDate checkOutDate = LocalDate.parse((String) session.getAttribute("reservation-check-out"), dtf);
+		LocalTime checkInTime = logic.getCheckInTime();
+		LocalTime checkOutTime = logic.getCheckOutTime();
+		order.setOrderDate(LocalDate.now());
+		order.setCheckInDateTime(LocalDateTime.of(checkInDate, checkInTime));
+		order.setCheckOutDateTime(LocalDateTime.of(checkOutDate, checkOutTime));
+		order.setPrice(Double.valueOf(request.getParameter("total-price")));
+		order.setCustomer(cp);
+		return order;
+	}
+
+	private CustomerProfile buildCustomerProfile(HttpServletRequest request) {
+		CustomerProfile cp = new CustomerProfile();
+		cp.setFirstName(request.getParameter("first-name"));
+		cp.setLastName(request.getParameter("last-name"));
+		cp.setEmail(request.getParameter("email"));
+		cp.setPhone(request.getParameter("phone"));
+		cp.setAddress(request.getParameter("address"));
+		cp.setCity(request.getParameter("city"));
+		cp.setState(request.getParameter("state"));
+		cp.setZip(request.getParameter("zip"));
+		cp.setCreditCardNum(request.getParameter("cc-num"));
+		cp.setExpirationDate(request.getParameter("cc-exp"));
+		return cp;
+	}
 }
