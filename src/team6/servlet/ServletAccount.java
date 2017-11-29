@@ -84,7 +84,7 @@ public class ServletAccount extends HttpServlet {
 	
 	private void processCustomerAccount(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/jsp/account/manager_menu.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/account/staff_menu.jsp").forward(request, response);
 	}
 
 }
