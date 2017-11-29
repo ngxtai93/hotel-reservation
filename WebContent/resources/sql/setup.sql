@@ -159,7 +159,7 @@ CREATE TABLE `room_type` (
   `image` text,
   `del_flag` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`seq_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,7 +168,7 @@ CREATE TABLE `room_type` (
 
 LOCK TABLES `room_type` WRITE;
 /*!40000 ALTER TABLE `room_type` DISABLE KEYS */;
-INSERT INTO `room_type` VALUES (1,1,'1 King Bed','king_bed',1,2,'City',1,1,139,3,'523,312','1.jpg',0),(2,1,'2 Queen Bed','queen_bed',2,4,'City',1,1,199,4,'101,102','1.jpg',0);
+INSERT INTO `room_type` VALUES (1,1,'1 King Bed','king_bed',1,2,'City',1,1,139,3,'523,312','1.jpg',0),(2,1,'2 Queen Bed','queen_bed',2,4,'City',1,1,199,4,'101,102','1.jpg',0),(3,2,'CLASSIC KING ROOM NONSMOKING','king_bed',1,2,'City',1,1,499,9,'201,203,204,','SVZUMMYDD72WIE0BG5.jpg',0),(4,2,'CLASSIC TWO QUEEN ROOM NONSMOKING','queen_bed',2,4,'City',1,1,429,9,'300,','QHRVADLZXHEV3JS4FF.jpg',0);
 /*!40000 ALTER TABLE `room_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,4 +262,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-28 22:05:23
+-- Dump completed on 2017-11-28 23:55:52

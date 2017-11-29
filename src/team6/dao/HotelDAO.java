@@ -192,7 +192,7 @@ public class HotelDAO {
 		
 	}
 
-	public void updateListImage(int seqNo, List<String> listImage) {
+	public void updateHotelListImage(int seqNo, List<String> listImage) {
 		// listImage -> image_link
 		StringBuilder imageLink = new StringBuilder();
 		for(String s: listImage) {
@@ -310,6 +310,19 @@ public class HotelDAO {
 		return listLocation;
 	}
 
+	public void updateRoomImage(int seqNo, String image) {
+		String sql = "UPDATE csp584_project.room_type SET image = ? WHERE seq_no = ?;";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, image);
+			ps.setInt(2, seqNo);
+			ps.execute();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+
 	public List<RoomType> selectRoomTypeByHotel(int hotelId) {
 		String sql = "SELECT * from csp584_project.room_type WHERE hotel = ? AND del_flag = 0";
 		List<RoomType> result = null;
@@ -374,7 +387,7 @@ public class HotelDAO {
 		return rt;
 	}
 
-	public void insertRoomType(int hotelId, RoomType paramObject) {
+	public Integer insertRoomType(int hotelId, RoomType paramObject) {
 		String sql = "INSERT INTO `csp584_project`.`room_type`"
 					+ "(hotel, name, bed_type, bed_amount, people_no, view, is_wifi, is_tv, price, discount, room_list)"
 					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -401,6 +414,19 @@ public class HotelDAO {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
+		
+		Integer result = null;
+		sql = "SELECT LAST_INSERT_ID()";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			result = Integer.valueOf(rs.getInt(1));
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}		
+		return result;
 	}
 
 	public void updateRoomType(RoomType paramObject) {

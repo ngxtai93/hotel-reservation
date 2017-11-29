@@ -212,10 +212,10 @@ public class ServletHotelManagement extends HttpServlet {
 		List<String> listError = hotel.validateInput(name, address, city, state, zip);
 		if(listError == null) {
 			Hotel newHotel = hotel.addHotel(name, address, city, state, zip, description);
-			listImage = fuh.uploadImage(this, request.getServletContext(), toBeUploaded, newHotel.getSeqNo().intValue());
+			listImage = fuh.uploadHotelImage(request.getServletContext(), toBeUploaded, newHotel.getSeqNo().intValue());
 			newHotel.setListImage(listImage);
 			
-			hotel.addNewListImage(newHotel.getSeqNo().intValue(), listImage);
+			hotel.addNewListImageHotel(newHotel.getSeqNo().intValue(), listImage);
 			request.getSession().setAttribute("action", "add-hotel");
 			response.sendRedirect(request.getContextPath() + "/success");
 		}

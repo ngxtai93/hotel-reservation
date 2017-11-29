@@ -61,7 +61,7 @@ $(document).ready(function(){
 			}
 		});
 		
-		var $form = $("<form name=\"room-form\" id=\"room-form\" method=\"post\">")
+		var $form = $("<form name=\"room-form\" id=\"room-form\" method=\"post\" enctype=\"multipart/form-data\">")
 		.appendTo($('#room-add-step-3'));
 		$(
 			"<input type=\"hidden\" name=\"hotel-id\" value=\""
@@ -99,6 +99,9 @@ $(document).ready(function(){
 		$("<tr>").appendTo($table)
 			.append($("<td>").text("List room(e.g. 413,414)"))
 			.append($("<td>").html($("<input required type=\"text\" name=\"room-list\">")));
+		$("<tr>").appendTo($table)
+			.append($("<td>").text("Image"))
+			.append($("<td>").html($("<input required type=\"file\" name=\"image\">")));
 		$("<button id=\"submit-add-hotel\" type=\"submit\">").text("Submit").appendTo($form);
 		$('#room-form').on("submit", onSubmit);
 	}

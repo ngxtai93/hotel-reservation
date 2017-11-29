@@ -1,8 +1,11 @@
 package team6.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -10,6 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.google.gson.Gson;
 
@@ -19,6 +25,7 @@ import team6.entity.Location;
 import team6.entity.Role;
 import team6.entity.RoomType;
 import team6.entity.User;
+import team6.helper.FileUploadHelper;
 import team6.model.HotelManager;
 
 @WebServlet("/room/*")
@@ -326,18 +333,33 @@ public class ServletRoomManagement extends HttpServlet {
 
 	private void processPostAddRoom(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		int hotelId = Integer.parseInt(request.getParameter("hotel-id"));
-		String roomName = request.getParameter("name");
-		BedType bedType = BedType.valueOf(request.getParameter("bed-type"));
-		int bedAmount = Integer.parseInt(request.getParameter("bed-amount"));
-		int peopleNo = Integer.parseInt(request.getParameter("people-no"));
-		String view = request.getParameter("view");
-		boolean isWifi = (request.getParameter("is-wifi") == null ? false : true);
-		boolean isTv = (request.getParameter("is-tv") == null ? false : true);
-		double price = Double.parseDouble(request.getParameter("price"));
-		double discount = Double.parseDouble(request.getParameter("discount"));
+		if(!ServletFileUpload.isMultipartContent(request)) {return;}	// ensure it's multi part request
+		FileUploadHelper fuh = new FileUploadHelper();
 		
-		List<Integer> roomList = Arrays.asList(request.getParameter("room-list").split(","))
+		List<FileItem> listItem = fuh.parseMultipartRequest(request);
+		Map<String, String> paramMap = new HashMap<>();
+		List<FileItem> toBeUploaded = new ArrayList<>();
+		for(FileItem fi: listItem) {
+			if(fi.isFormField()) {
+				paramMap.put(fi.getFieldName(), fi.getString());
+			}
+			else {
+				toBeUploaded.add(fi);
+			}
+		}
+		
+		int hotelId = Integer.parseInt(paramMap.get("hotel-id"));
+		String roomName = paramMap.get("name");
+		BedType bedType = BedType.valueOf(paramMap.get("bed-type"));
+		int bedAmount = Integer.parseInt(paramMap.get("bed-amount"));
+		int peopleNo = Integer.parseInt(paramMap.get("people-no"));
+		String view = paramMap.get("view");
+		boolean isWifi = (paramMap.get("is-wifi") == null ? false : true);
+		boolean isTv = (paramMap.get("is-tv") == null ? false : true);
+		double price = Double.parseDouble(paramMap.get("price"));
+		double discount = Double.parseDouble(paramMap.get("discount"));
+		
+		List<Integer> roomList = Arrays.asList(paramMap.get("room-list").split(","))
 									.stream()
 									.map(Integer::parseInt)
 									.collect(Collectors.toList())
@@ -355,7 +377,11 @@ public class ServletRoomManagement extends HttpServlet {
 		roomType.setDiscount(Double.valueOf(discount));
 		roomType.setRoomList(roomList);
 		
-		hotel.addRoomType(hotelId, roomType);
+		Integer roomId = hotel.addRoomType(hotelId, roomType);
+		String image = fuh.uploadRoomImage(request.getServletContext(), toBeUploaded, roomId);
+		roomType.setImage(image);
+		
+		hotel.addNewRoomImage(roomId.intValue(), image);
 		
 		request.getSession().setAttribute("action", "add-room");
 		response.sendRedirect(request.getContextPath() + "/success");

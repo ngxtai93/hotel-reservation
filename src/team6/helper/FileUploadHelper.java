@@ -48,14 +48,14 @@ public class FileUploadHelper {
 
 	/**
 	 * Do upload image. Return a list of image file name
-	 * Uploaded image goes to ./resources/images/upload/[hotel-id]/ 
+	 * Uploaded image goes to ./resources/images/upload/hotel/[hotel-id]/ 
 	 */
-	public List<String> uploadImage(ServletHotelManagement servletHotelManagement, ServletContext sc, List<FileItem> toBeUploaded, int hotelId) {
+	public List<String> uploadHotelImage(ServletContext sc, List<FileItem> toBeUploaded, int hotelId) {
 		if(toBeUploaded.size() == 0) {
 			return null;
 		}
 		List<String> listFileName = new ArrayList<>();
-		String realImageFilePath = sc.getRealPath(IMAGE_FILE_PATH);
+		String realImageFilePath = sc.getRealPath(IMAGE_FILE_PATH) + "/hotel";
 		Path path = Paths.get(realImageFilePath);
 		try {
 			path = path.resolve(String.valueOf(hotelId));
@@ -100,6 +100,61 @@ public class FileUploadHelper {
 		}
 		
 		return listFileName;
+	}
+
+	/**
+	 * Do upload image. Return a list of image file name
+	 * Uploaded image goes to ./resources/images/upload/room/[room-id]/ 
+	 */
+	public String uploadRoomImage(ServletContext sc, List<FileItem> toBeUploaded, Integer roomId) {
+		if(toBeUploaded.size() == 0) {
+			return null;
+		}
+		String fileName = null;
+		String realImageFilePath = sc.getRealPath(IMAGE_FILE_PATH) + "/room";
+		Path path = Paths.get(realImageFilePath);
+		try {
+			path = path.resolve(String.valueOf(roomId));
+			if(Files.notExists(path)) {
+				Files.createDirectory(path);
+			}
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		for(FileItem fi: toBeUploaded) {
+			String extension = null;
+	        switch(fi.getContentType()) {
+	            case MIME_JPG:
+	            {
+	                extension = ".jpg";
+	                break;
+	            }
+	            case MIME_PNG:
+	            {
+	                extension = ".png";
+	                break;
+	            }
+	        }
+	        if(extension != null) {
+	        	fileName = StringUtilities.INSTANCE.generateRandomString(10) + extension;
+	            Path fiFilePath = path.resolve(fileName);	// full file path
+	            while(Files.exists(fiFilePath)) {
+	            	fileName = StringUtilities.INSTANCE.generateRandomString(10) + extension;
+	            	fiFilePath = path.resolve(fileName);
+	            }
+	            // do upload file
+	            try {
+	                fi.write(fiFilePath.toFile());
+	            }
+	            catch(Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+		}
+		
+		return fileName;
 	}
 
 }

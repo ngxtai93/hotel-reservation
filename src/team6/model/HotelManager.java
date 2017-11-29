@@ -46,14 +46,6 @@ public class HotelManager {
 		hotelDao.updateHotel(hotel);
 	}
 
-//	public void deleteHotel(int hotelId) {
-//		List<Room> listRoom = hotelDao.selectRoomByHotel(hotelId);
-//		for(Room r: listRoom) {
-//			hotelDao.deleteRoom(r.getSeqNo());
-//		}
-//		hotelDao.deleteHotel(hotelId);
-//	}
-
 	public List<Location> getAvailableLocation() {
 		return hotelDao.selectAllLocation();
 	}
@@ -69,8 +61,8 @@ public class HotelManager {
 		return hotelDao.selectRoomTypeByHotel(hotelId);
 	}
 
-	public void addRoomType(int hotelId, RoomType paramObject) {
-		hotelDao.insertRoomType(hotelId, paramObject);
+	public Integer addRoomType(int hotelId, RoomType paramObject) {
+		return hotelDao.insertRoomType(hotelId, paramObject);
 	}
 
 	public void addRoom(int hotelId, int roomNum, int roomTypeId, double price, double discount) {
@@ -110,8 +102,12 @@ public class HotelManager {
 		return mapHotelRoomAvail;
 	}
 
-	public void addNewListImage(int hotelId, List<String> listImage) {
-		hotelDao.updateListImage(hotelId, listImage);
+	public void addNewListImageHotel(int hotelId, List<String> listImage) {
+		hotelDao.updateHotelListImage(hotelId, listImage);
+	}
+
+	public void addNewRoomImage(int roomId, String image) {
+		hotelDao.updateRoomImage(roomId, image);
 	}
 
 	public List<String> getListBedType() {
@@ -141,7 +137,7 @@ public class HotelManager {
 	 */
 	public List<Integer> getListRoomExist(int hotelId, List<Integer> toCheck) {
 		List<Integer> listRoomInHotel = hotelDao.selectRoomListByHotel(hotelId);
-		toCheck.retainAll(listRoomInHotel);	// intersection of 2 set
+		toCheck.retainAll(listRoomInHotel == null ? new ArrayList<Integer>() : listRoomInHotel);	// intersection of 2 set
 		return (toCheck.size() == 0 ? null : toCheck);
 	}
 
