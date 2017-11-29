@@ -38,7 +38,7 @@ CREATE TABLE `customer_profile` (
   `cc_exp` varchar(5) DEFAULT NULL,
   `del_flag` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`seq_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,6 +47,7 @@ CREATE TABLE `customer_profile` (
 
 LOCK TABLES `customer_profile` WRITE;
 /*!40000 ALTER TABLE `customer_profile` DISABLE KEYS */;
+INSERT INTO `customer_profile` VALUES (1,'Tai','Nguyen','ng.xtai93@gmail.com','3124159202','3241 S Wabash Ave','Chicago','IL','60616','2344446678991645','05/18',0);
 /*!40000 ALTER TABLE `customer_profile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,7 +125,7 @@ CREATE TABLE `order` (
   `status` varchar(20) DEFAULT NULL,
   `del_flag` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`seq_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,6 +134,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
+INSERT INTO `order` VALUES (1,3,1,2,3,'2017-11-29','2017-11-30 14:00:00','2017-12-05 12:00:00','PLACED',0);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,7 +242,7 @@ CREATE TABLE `user` (
   `role` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -249,7 +251,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'manager','manager','manager@website','manager'),(2,'staff','staff','staff@website','staff');
+INSERT INTO `user` VALUES (1,'manager','manager','manager@website','manager'),(2,'staff','staff','staff@website','staff'),(3,'customer','cust','customer@','customer');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -262,4 +264,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-28 23:55:52
+-- Dump completed on 2017-11-29 15:00:26
