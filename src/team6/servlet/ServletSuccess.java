@@ -80,7 +80,7 @@ public class ServletSuccess extends HttpServlet {
 				LocalTime checkOutTime = BusinessLogic.INSTANCE.getCheckOutTime();
 				request.setAttribute("check-in-time", checkInTime);
 				request.setAttribute("check-out-time", checkOutTime);
-				request.getRequestDispatcher("/WEB-INF/jsp/success/reservation.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/jsp/reservation-completed.jsp").forward(request, response);
 				break;
 			}
 		}
