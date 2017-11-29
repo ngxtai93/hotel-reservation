@@ -100,25 +100,11 @@ User currentUser = (User) session.getAttribute("current-user");
 
 
 						<ul class="h-element k2t-menu " id="menu-menu-1">
-
 							<li
 								class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876"
 								id="menu-item-1876"><a class="btn-ripple"
 								href="<%= rootPath %>"> <span class="k2t-title-menu">HOME</span></a>
 							</li>
-
-							<li
-								class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876"
-								id="menu-item-1876"><a class="btn-ripple"
-								href="jsp/choose-date.jsp"> <span class="k2t-title-menu">Reservation</span></a>
-							</li>
-
-							<li
-								class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876"
-								id="menu-item-1876"><a class="btn-ripple"
-								href="<%= rootPath %>/room/all"><span class="k2t-title-menu">ROOMS</span></a>
-							</li>
-
 						</ul>
 
 
