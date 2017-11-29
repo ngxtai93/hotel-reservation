@@ -1,10 +1,13 @@
 package team6.model;
 
+import java.util.List;
+
 import team6.business.BusinessLogic;
 import team6.dao.OrderDAO;
 import team6.entity.CustomerProfile;
 import team6.entity.Order;
 import team6.entity.OrderStatus;
+import team6.entity.User;
 
 public class OrderManager {
 
@@ -29,6 +32,10 @@ public class OrderManager {
 		cp.setSeqNo(customerId);
 		
 		orderDao.insertOrder(order);
+	}
+
+	public List<Order> getListOrder(User user) {
+		return orderDao.selectOrder(user);
 	}
 
 }

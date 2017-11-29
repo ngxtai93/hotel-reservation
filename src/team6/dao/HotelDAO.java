@@ -527,7 +527,7 @@ public class HotelDAO {
 	/**
 	 * Populate hotel given seq_no
 	 */
-	private void populateHotel(Hotel hotel) {
+	void populateHotel(Hotel hotel) {
 		String sql = "SELECT * from csp584_project.hotel WHERE seq_no = ?";
 		try(PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, hotel.getSeqNo());
@@ -568,6 +568,40 @@ public class HotelDAO {
 			System.out.println(e.getMessage());
 		}
 		
+	}
+
+	/**
+	 * Populate RoomType object given seq_no
+	 */
+	void populateRoomType(RoomType roomType) {
+		String sql = "SELECT * from csp584_project.room_type WHERE seq_no = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, roomType.getSeqNo().intValue());
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			
+			Hotel hotel = new Hotel();
+			hotel.setSeqNo(Integer.valueOf(rs.getInt("hotel")));
+			roomType.setHotelBelong(hotel);
+			
+			roomType.setName(rs.getString("name"));
+			roomType.setBedType(BedType.valueOf(rs.getString("bed_type").toUpperCase()));
+			roomType.setBedAmount(Integer.valueOf(rs.getInt("bed_amount")));
+			roomType.setPeopleNo(Integer.valueOf(rs.getInt("people_no")));
+			roomType.setView(rs.getString("view"));
+			roomType.setIsWifi(Boolean.valueOf(rs.getBoolean("is_wifi")));
+			roomType.setIsTV(Boolean.valueOf(rs.getBoolean("is_tv")));
+			roomType.setPrice(Double.valueOf(rs.getDouble("price")));
+			roomType.setDiscount(Double.valueOf(rs.getDouble("discount")));
+			roomType.setRoomList(parseRoomList(rs.getString("room_list")));
+			roomType.setImage(rs.getString("image"));
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		populateHotel(roomType.getHotelBelong());
 	}
 
 	/**

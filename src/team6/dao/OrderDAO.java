@@ -6,14 +6,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import team6.entity.CustomerProfile;
+import team6.entity.Hotel;
 import team6.entity.Order;
+import team6.entity.OrderStatus;
+import team6.entity.RoomType;
+import team6.entity.User;
 
 public class OrderDAO {
 
 	private Connection conn;
-	
+	private HotelDAO hotelDao = new HotelDAO();
 	public OrderDAO() {
 		conn = MySQLDatabaseOperator.INSTANCE.getConnection();
 	}
@@ -117,6 +123,102 @@ public class OrderDAO {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
+	}
+
+	public List<Order> selectOrder(User user) {
+		String sql = "SELECT * from csp584_project.order WHERE user = ? AND del_flag = 0";
+		List<Order> listOrder = null;
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, user.getuId().intValue());
+			ResultSet rs = ps.executeQuery();
+			if(rs.isBeforeFirst()) {
+				listOrder = new ArrayList<>();
+			}
+			while(rs.next()) {
+				Order order = buildOrderObject(rs);
+				listOrder.add(order);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		if(listOrder != null) {
+			for(Order o: listOrder) {
+				o.setUser(user);
+				populateCustomerProfile(o.getCustomer());
+				hotelDao.populateRoomType(o.getRoomType());
+				o.setHotel(o.getRoomType().getHotelBelong());
+			}
+		}
+		
+		return listOrder;
+	}
+
+	/**
+	 * Populate customer profile given seq_no
+	 */
+	private void populateCustomerProfile(CustomerProfile customer) {
+		String sql = "SELECT * from csp584_project.customer_profile WHERE seq_no = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, customer.getSeqNo().intValue());
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			
+			customer.setFirstName(rs.getString("first_name"));
+			customer.setLastName(rs.getString("last_name"));
+			customer.setEmail(rs.getString("email"));
+			customer.setPhone(rs.getString("phone"));
+			customer.setAddress(rs.getString("address"));
+			customer.setCity(rs.getString("city"));
+			customer.setState(rs.getString("state"));
+			customer.setZip(rs.getString("zip"));
+			customer.setCreditCardNum(rs.getString("cc_num"));
+			customer.setExpirationDate(rs.getString("cc_exp"));
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
+	/**
+	 * Build order object from SQL ResultSet 
+	 */
+	private Order buildOrderObject(ResultSet rs) {
+		Order order = new Order();
+		try {
+			order.setSeqNo(rs.getInt("seq_no"));
+			
+			User user = new User();
+			user.setuId(Integer.valueOf(rs.getInt("user")));
+			order.setUser(user);
+			
+			CustomerProfile cp = new CustomerProfile();
+			cp.setSeqNo(Integer.valueOf(rs.getInt("customer")));
+			order.setCustomer(cp);
+			
+			Hotel hotel = new Hotel();
+			hotel.setSeqNo(Integer.valueOf(rs.getInt("hotel")));
+			order.setHotel(hotel);
+			
+			RoomType rt = new RoomType();
+			rt.setSeqNo(Integer.valueOf(rs.getInt("room")));
+			order.setRoomType(rt);
+			
+			order.setOrderDate(rs.getDate("order_date").toLocalDate());
+			order.setCheckInDateTime(rs.getTimestamp("check_in").toLocalDateTime());
+			order.setCheckOutDateTime(rs.getTimestamp("check_out").toLocalDateTime());
+			order.setStatus(OrderStatus.valueOf(rs.getString("status")));
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		
+		return order;
 	}
 	
 }
