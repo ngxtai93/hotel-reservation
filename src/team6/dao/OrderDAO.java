@@ -20,6 +20,7 @@ public class OrderDAO {
 
 	private Connection conn;
 	private HotelDAO hotelDao = new HotelDAO();
+	private UserDAO userDao = new UserDAO();
 	public OrderDAO() {
 		conn = MySQLDatabaseOperator.INSTANCE.getConnection();
 	}
@@ -105,7 +106,7 @@ public class OrderDAO {
 		String sql = "INSERT INTO csp584_project.order"
 				+ "(user, customer, hotel"
 				+ ", room, order_date, check_in"
-				+ ", check_out, status)"
+				+ ", check_out, price, status)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
 		;
 		try(PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -116,7 +117,26 @@ public class OrderDAO {
 			ps.setDate(5, Date.valueOf(order.getOrderDate()));
 			ps.setTimestamp(6, Timestamp.valueOf(order.getCheckInDateTime()));
 			ps.setTimestamp(7, Timestamp.valueOf(order.getCheckOutDateTime()));
-			ps.setString(8, order.getStatus().toString());
+			ps.setDouble(8, order.getPrice().doubleValue());
+			ps.setString(9, order.getStatus().toString());
+			ps.execute();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void updateOrder(Order order) {
+		String sql = "UPDATE `csp584_project`.`order` SET customer = ?, room = ?, check_in = ?, check_out = ?, price = ?, status = ? WHERE seq_no= ?;";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, order.getCustomer().getSeqNo());
+			ps.setInt(2, order.getRoomType().getSeqNo());
+			ps.setTimestamp(3, Timestamp.valueOf(order.getCheckInDateTime()));
+			ps.setTimestamp(4, Timestamp.valueOf(order.getCheckOutDateTime()));
+			ps.setDouble(5, order.getPrice().doubleValue());
+			ps.setString(6, order.getStatus().toString());
+			ps.setInt(7, order.getSeqNo());
 			ps.execute();
 		}
 		catch(SQLException e) {
@@ -153,6 +173,34 @@ public class OrderDAO {
 		}
 		
 		return listOrder;
+	}
+
+	public Order selectOrder(int seqNo) {
+		String sql = "SELECT * from csp584_project.order WHERE seq_no = ?";
+		Order order = null;
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, seqNo);
+			ResultSet rs = ps.executeQuery();
+			if(rs.isBeforeFirst()) {
+				order = new Order();
+			}
+			while(rs.next()) {
+				order = buildOrderObject(rs);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		if(order != null) {
+			
+			order.setUser(userDao.selectUser(order.getUser().getuId().intValue()));
+			populateCustomerProfile(order.getCustomer());
+			hotelDao.populateRoomType(order.getRoomType());
+			order.setHotel(order.getRoomType().getHotelBelong());
+		}
+		
+		return order;
 	}
 
 	/**
@@ -210,6 +258,7 @@ public class OrderDAO {
 			order.setOrderDate(rs.getDate("order_date").toLocalDate());
 			order.setCheckInDateTime(rs.getTimestamp("check_in").toLocalDateTime());
 			order.setCheckOutDateTime(rs.getTimestamp("check_out").toLocalDateTime());
+			order.setPrice(rs.getDouble("price"));
 			order.setStatus(OrderStatus.valueOf(rs.getString("status")));
 		}
 		catch(SQLException e) {

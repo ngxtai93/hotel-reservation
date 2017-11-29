@@ -122,6 +122,7 @@ CREATE TABLE `order` (
   `order_date` date DEFAULT NULL,
   `check_in` datetime DEFAULT NULL,
   `check_out` datetime DEFAULT NULL,
+  `price` double DEFAULT NULL,
   `status` varchar(20) DEFAULT NULL,
   `del_flag` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`seq_no`)
@@ -134,7 +135,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,3,1,2,3,'2017-11-29','2017-11-30 14:00:00','2017-12-05 12:00:00','PLACED',0);
+INSERT INTO `order` VALUES (1,3,1,2,3,'2017-11-29','2017-11-30 14:00:00','2017-12-05 12:00:00',2940,'PLACED',0);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -264,4 +265,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-29 15:00:26
+-- Dump completed on 2017-11-29 15:19:56

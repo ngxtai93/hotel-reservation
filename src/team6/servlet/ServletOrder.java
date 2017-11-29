@@ -40,18 +40,54 @@ public class ServletOrder extends HttpServlet {
 		switch(uriSplit[orderIndex + 1]) {
 			case "view":
 			{
-				List<Order> listOrder = om.getListOrder(user);
-				
-				request.setAttribute("list-order", listOrder);
-				request.getRequestDispatcher("/WEB-INF/jsp/order/view_order.jsp").forward(request, response);
+				String queryString = request.getQueryString();
+				if(queryString == null) {
+					List<Order> listOrder = om.getListOrder(user);
+					
+					request.setAttribute("list-order", listOrder);
+					request.getRequestDispatcher("/WEB-INF/jsp/order/view_order.jsp").forward(request, response);
+				}
+				else {
+					String[] queryStringSplit = queryString.split("&");
+					String[] orderIdParam = queryStringSplit[0].split("=");
+					if(orderIdParam[0].equals("orderId")) {
+						Order order = om.getOrder(Integer.parseInt(orderIdParam[1]));
+						request.setAttribute("queried-order", order);
+						request.getRequestDispatcher("/WEB-INF/jsp/order/order_details.jsp").forward(request, response);
+					}
+				}
 				break;
 			}
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String[] uriSplit = request.getRequestURI().split("/");
+		int orderIndex = -1;
+		for(int i = 0; i < uriSplit.length; i++) {
+			if(uriSplit[i].equals("order")) {
+				orderIndex = i;
+				break;
+			}
+		}
+		
+		switch(uriSplit[orderIndex + 1]) {
+			case "cancel":
+			{
+				int orderId = Integer.parseInt(uriSplit[orderIndex + 2]);
+				
+				User currentUser = (User) request.getSession().getAttribute("current-user");
+				Order order = om.getOrder(orderId);
+				if(!currentUser.getuId().equals(order.getUser().getuId())) {
+					response.sendRedirect(request.getContextPath());
+					return;
+				}
+				
+				om.cancelOrder(order);
+				request.getSession().setAttribute("action", "cancel-order");
+				response.sendRedirect(request.getContextPath() + "/success");
+			}
+		}
 	}
 
 }

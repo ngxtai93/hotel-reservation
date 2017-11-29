@@ -16,6 +16,23 @@ public class UserDAO {
 		conn = MySQLDatabaseOperator.INSTANCE.getConnection();
 	}
 	
+	public User selectUser(int uid) {
+		String sql = "SELECT * from csp584_project.user WHERE uid = ?";
+		User user = null;
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, uid);
+			ResultSet rs = ps.executeQuery();
+			user = buildUser(rs);
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		return user; 
+	}
+
 	public User selectUser(String username) {
 		String sql = "SELECT * from csp584_project.user WHERE username = ?";
 		User user = null;

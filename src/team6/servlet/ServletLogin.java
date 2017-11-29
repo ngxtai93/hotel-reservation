@@ -12,7 +12,7 @@ import team6.model.Authenticator;
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Authenticator auth;
-	private boolean debug = true;	// debug purpose
+	private boolean debug = false;	// debug purpose
 	
 	public ServletLogin() {
 		auth = new Authenticator();

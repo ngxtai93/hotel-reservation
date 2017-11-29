@@ -38,4 +38,13 @@ public class OrderManager {
 		return orderDao.selectOrder(user);
 	}
 
+	public Order getOrder(int orderId) {
+		return orderDao.selectOrder(orderId);
+	}
+
+	public void cancelOrder(Order order) {
+		order.setStatus(OrderStatus.CANCELLED);
+		orderDao.updateOrder(order);
+	}
+
 }
