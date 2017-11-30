@@ -16,14 +16,6 @@ import team6.entity.User;
 public class ServletAccount extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletAccount() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -79,7 +71,26 @@ public class ServletAccount extends HttpServlet {
 	
 	private void processStaffAccount(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/jsp/account/staff_menu.jsp").forward(request, response);
+		String[] uriSplit = request.getRequestURI().split("/");
+		int accountIndex = -1;
+		for(int i = 0; i < uriSplit.length; i++) {
+			if(uriSplit[i].equals("account")) {
+				accountIndex = i;
+				break;
+			}
+		}
+		
+		if(uriSplit.length == accountIndex + 1) {
+			request.getRequestDispatcher("/WEB-INF/jsp/account/staff_menu.jsp").forward(request, response);
+		}
+		else {
+			switch(uriSplit[accountIndex + 1]) {
+				case "createAccount":
+				{
+					request.getRequestDispatcher("/WEB-INF/jsp/signup.jsp").forward(request, response);
+				}
+			}
+		}
 	}
 	
 	private void processCustomerAccount(HttpServletRequest request, HttpServletResponse response)

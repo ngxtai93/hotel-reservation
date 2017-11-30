@@ -1,5 +1,8 @@
 package team6.model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import team6.business.BusinessLogic;
@@ -45,6 +48,21 @@ public class OrderManager {
 	public void cancelOrder(Order order) {
 		order.setStatus(OrderStatus.CANCELLED);
 		orderDao.updateOrder(order);
+	}
+
+	public void updateOrder(Order order) {
+		orderDao.updateOrder(order);
+	}
+
+	/**
+	 * Get list of available order for check-in (by hotel ID) 
+	 */
+	public List<Order> getCheckInOrder(int hotelId) {
+		LocalDate date = LocalDate.now();
+		LocalTime checkIn = logic.getCheckInTime();
+		LocalDateTime ldt = LocalDateTime.of(date, checkIn);
+		
+		return orderDao.selectOrderByCheckInDateTime(hotelId, ldt);
 	}
 
 }

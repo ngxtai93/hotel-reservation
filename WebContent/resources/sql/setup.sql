@@ -135,8 +135,36 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,3,1,2,3,'2017-11-29','2017-11-30 14:00:00','2017-12-05 12:00:00',2940,'PLACED',0);
+INSERT INTO `order` VALUES (1,3,1,2,3,'2017-11-29','2017-11-29 14:00:00','2017-12-05 12:00:00',2940,'CHECKED_IN',0);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `room_assign`
+--
+
+DROP TABLE IF EXISTS `room_assign`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `room_assign` (
+  `seq_no` int(11) NOT NULL AUTO_INCREMENT,
+  `user` int(11) DEFAULT NULL,
+  `room_type` int(11) DEFAULT NULL,
+  `room_num` int(11) DEFAULT NULL,
+  `check_in` timestamp NULL DEFAULT NULL,
+  `check_out` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`seq_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `room_assign`
+--
+
+LOCK TABLES `room_assign` WRITE;
+/*!40000 ALTER TABLE `room_assign` DISABLE KEYS */;
+INSERT INTO `room_assign` VALUES (1,3,3,203,'2017-11-29 20:00:00','2017-12-05 18:00:00');
+/*!40000 ALTER TABLE `room_assign` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -265,4 +293,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-29 15:19:56
+-- Dump completed on 2017-11-29 22:39:16

@@ -1,9 +1,12 @@
 package team6.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +16,7 @@ import team6.entity.BedType;
 import team6.entity.Hotel;
 import team6.entity.Location;
 import team6.entity.RoomType;
+import team6.entity.User;
 
 public class HotelDAO {
 
@@ -460,6 +464,49 @@ public class HotelDAO {
 	}
 
 	/**
+	 * Get list of available room number for given room_type and dates 
+	 */
+	public List<Integer> selectAvailableRoomNumber(Integer seqNo, LocalDateTime from) {
+		List<Integer> occupiedRoom = null;
+		String sql = "SELECT * from csp584_project.room_assign WHERE check_out >= ? AND room_type = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setTimestamp(1, Timestamp.valueOf(from));
+			ps.setInt(2, seqNo.intValue());
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.isBeforeFirst()) {
+				occupiedRoom = new ArrayList<>();
+			}
+			while(rs.next()) {
+				occupiedRoom.add(Integer.valueOf(rs.getInt("room_type")));
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		List<Integer> listRoomNumber = null;
+		sql = "SELECT room_list from csp584_project.room_type WHERE seq_no = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, seqNo.intValue());
+			ResultSet rs = ps.executeQuery();
+			
+			rs.next();
+			listRoomNumber = parseRoomList(rs.getString("room_list"));
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		if(occupiedRoom != null) {
+			listRoomNumber.removeAll(occupiedRoom);
+		}
+		return listRoomNumber;
+	}
+
+	/**
 	 * Select all room list by hotel ID 
 	 */
 	public List<Integer> selectRoomListByHotel(int hotelId) {
@@ -515,6 +562,25 @@ public class HotelDAO {
 		String sql = "UPDATE csp584_project.room_type SET del_flag = 1 WHERE seq_no = ?;";
 		try(PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, seqNo);
+			ps.execute();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
+	public void insertRoomAssign(User user, RoomType roomType, int roomNum, LocalDateTime checkInDateTime,
+			LocalDateTime checkOutDateTime) {
+		String sql = "INSERT INTO csp584_project.room_assign (user, room_type, room_num, check_in, check_out)"
+				+ " VALUES (?, ?, ?, ?, ?);";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, user.getuId().intValue());
+			ps.setInt(2, roomType.getSeqNo().intValue());
+			ps.setInt(3, roomNum);
+			ps.setTimestamp(4, Timestamp.valueOf(checkInDateTime));
+			ps.setTimestamp(5, Timestamp.valueOf(checkOutDateTime));
 			ps.execute();
 		}
 		catch(SQLException e) {

@@ -22,21 +22,24 @@ import com.google.gson.Gson;
 import team6.entity.BedType;
 import team6.entity.Hotel;
 import team6.entity.Location;
+import team6.entity.Order;
 import team6.entity.Role;
 import team6.entity.RoomType;
 import team6.entity.User;
 import team6.helper.FileUploadHelper;
 import team6.model.HotelManager;
+import team6.model.OrderManager;
 
 @WebServlet("/room/*")
 public class ServletRoomManagement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private HotelManager hotel = new HotelManager();
+	private OrderManager om = new OrderManager();
     private Gson gson = new Gson();
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User currentUser = (User) request.getSession().getAttribute("current-user");
-		if(currentUser == null || currentUser.getRole() != Role.MANAGER) {
+		if(currentUser == null || currentUser.getRole() == Role.CUSTOMER) {
 			response.sendRedirect(request.getContextPath());
 			return;
 		}
@@ -67,6 +70,11 @@ public class ServletRoomManagement extends HttpServlet {
 			case "delete":
 			{
 				processGetDeleteRoomType(request, response);
+				break;
+			}
+			case "checkin":
+			{
+				processGetCheckIn(request, response);
 				break;
 			}
 		}
@@ -107,11 +115,22 @@ public class ServletRoomManagement extends HttpServlet {
 				processPostDeleteRoom(request, response);
 				break;
 			}
+			case "checkin":
+			{
+				processPostCheckInRoom(request, response);
+				break;
+			}
 		}
 	}
 
 	private void processGetAddRoomType(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
+		User currentUser = (User) request.getSession().getAttribute("current-user");
+		if(currentUser.getRole() != Role.MANAGER) {
+			response.sendRedirect(request.getContextPath());
+			return;
+		}
+		
 		String queryString = request.getQueryString();
 		
 		// go to page if no query string
@@ -177,6 +196,11 @@ public class ServletRoomManagement extends HttpServlet {
 
 	private void processGetUpdateRoomType(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
+		User currentUser = (User) request.getSession().getAttribute("current-user");
+		if(currentUser.getRole() != Role.MANAGER) {
+			response.sendRedirect(request.getContextPath());
+			return;
+		}
 		String queryString = request.getQueryString();
 		
 		// go to page if no query string
@@ -251,6 +275,11 @@ public class ServletRoomManagement extends HttpServlet {
 
 	private void processGetDeleteRoomType(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
+		User currentUser = (User) request.getSession().getAttribute("current-user");
+		if(currentUser.getRole() != Role.MANAGER) {
+			response.sendRedirect(request.getContextPath());
+			return;
+		}
 		String queryString = request.getQueryString();
 		
 		// go to page if no query string
@@ -292,6 +321,84 @@ public class ServletRoomManagement extends HttpServlet {
 				}
 			}
 		}
+		
+	}
+
+	private void processGetCheckIn(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		String queryString = request.getQueryString();
+		// go to page if no query string
+		if(queryString == null) {
+			List<Location> listLocation = hotel.getAvailableLocation();
+			request.setAttribute("list-location", listLocation);
+			request.getRequestDispatcher("/WEB-INF/jsp/room/check_in.jsp").forward(request, response);
+		}
+		else {
+			String[] queryStringSplit = queryString.split("&");
+			String[] queryAction = queryStringSplit[0].split("=");
+			if(!queryAction[0].equals("action")) {
+				return;
+			}
+			
+			String action = queryAction[1];
+			switch(action) {
+				case "getHotel":
+				{
+					String[] locationParam = queryStringSplit[1].split("=");
+					if(locationParam[0].equals("location")) {
+						processGetHotelByLocation
+							(request, response, Integer.parseInt(locationParam[1]));
+					}
+					break;
+				}
+				case "getCheckInOrder":
+				{
+					String[] hotelParam = queryStringSplit[1].split("=");
+					if(hotelParam[0].equals("hotel")) {
+						processGetCheckInOrder(request, response, Integer.parseInt(hotelParam[1]));
+					}
+					break;
+				}
+				case "getAvailableRoomNumber":
+				{
+					String[] orderParam = queryStringSplit[1].split("=");
+					if(orderParam[0].equals("order")) {
+						processGetAvailableRoomNumber(request, response, Integer.parseInt(orderParam[1]));
+					}
+					break;
+				}
+			}
+		}
+
+	}
+
+	/**
+	 *	Process AJAX request get available reservation for current date 
+	 */
+	private void processGetCheckInOrder(HttpServletRequest request, HttpServletResponse response, int hotelId)
+		throws IOException {
+		List<Order> listOrder = om.getCheckInOrder(hotelId);
+		String json = gson.toJson(listOrder == null ? "" : listOrder);
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json);
+		
+	}
+
+	/**
+	 * Process AJAX request get available room number given room type 
+	 * @param orderId 
+	 * @throws IOException 
+	 */
+	private void processGetAvailableRoomNumber(HttpServletRequest request, HttpServletResponse response, int orderId)
+		throws IOException {
+		Order order = om.getOrder(orderId);
+		List<Integer> listRoomNumber = hotel.getAvailableRoomNumber
+			(order.getRoomType(), order.getCheckInDateTime());
+		String json = listRoomNumber == null ? "" : gson.toJson(listRoomNumber);
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json);
 		
 	}
 
@@ -433,6 +540,17 @@ public class ServletRoomManagement extends HttpServlet {
 		hotel.deleteRoomType(roomTypeId);
 		
 		request.getSession().setAttribute("action", "delete-room");
+		response.sendRedirect(request.getContextPath() + "/success");
+	}
+
+	private void processPostCheckInRoom(HttpServletRequest request, HttpServletResponse response)
+		throws IOException {
+		int roomNum = Integer.parseInt(request.getParameter("room-num"));
+		int orderId = Integer.parseInt(request.getParameter("order-id"));
+		
+		hotel.processAssignRoom(orderId, roomNum);
+		
+		request.getSession().setAttribute("action", "assign-room");
 		response.sendRedirect(request.getContextPath() + "/success");
 	}
 

@@ -1,6 +1,7 @@
 package team6.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,11 +11,14 @@ import team6.dao.HotelDAO;
 import team6.entity.BedType;
 import team6.entity.Hotel;
 import team6.entity.Location;
+import team6.entity.Order;
+import team6.entity.OrderStatus;
 import team6.entity.RoomType;
 
 public class HotelManager {
 
 	private HotelDAO hotelDao = new HotelDAO();
+	private OrderManager om = new OrderManager();
 
 	/**
 	 * Input validation. Return a list of error
@@ -55,6 +59,10 @@ public class HotelManager {
 	 */
 	public List<Hotel> getAvailableHotel(int locationId) {
 		return hotelDao.selectHotelByLocation(locationId);
+	}
+
+	public List<Integer> getAvailableRoomNumber(RoomType roomType, LocalDateTime from) {
+		return hotelDao.selectAvailableRoomNumber(roomType.getSeqNo(), from);
 	}
 
 	public List<RoomType> getListRoomType(int hotelId) {
@@ -100,6 +108,19 @@ public class HotelManager {
 			}
 		}
 		return mapHotelRoomAvail;
+	}
+
+	/**
+	 * Do assign room:
+	 * - Set status of order to CHECK_IN
+	 * - Log transaction into room_assign 
+	 */
+	public void processAssignRoom(int orderId, int roomNum) {
+		Order order = om.getOrder(orderId);
+		order.setStatus(OrderStatus.CHECKED_IN);
+		om.updateOrder(order);
+		
+		hotelDao.insertRoomAssign(order.getUser(), order.getRoomType(), roomNum, order.getCheckInDateTime(), order.getCheckOutDateTime());
 	}
 
 	public void addNewListImageHotel(int hotelId, List<String> listImage) {
