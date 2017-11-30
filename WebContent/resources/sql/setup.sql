@@ -47,7 +47,7 @@ CREATE TABLE `customer_profile` (
 
 LOCK TABLES `customer_profile` WRITE;
 /*!40000 ALTER TABLE `customer_profile` DISABLE KEYS */;
-INSERT INTO `customer_profile` VALUES (1,'Tai','Nguyen','ng.xtai93@gmail.com','3124159202','3241 S Wabash Ave','Chicago','IL','60616','2344446678991645','05/18',0);
+INSERT INTO `customer_profile` VALUES (1,'Tai','Nguyen','tnguye52@hawk.iit.edu','3124159202','IIT','Chicago','IL','60616','2344446678991645','05/18',0);
 /*!40000 ALTER TABLE `customer_profile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,7 +135,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,3,1,2,3,'2017-11-29','2017-11-29 14:00:00','2017-12-05 12:00:00',2940,'CHECKED_IN',0);
+INSERT INTO `order` VALUES (1,3,1,2,3,'2017-11-29','2017-11-29 14:00:00','2017-12-05 12:00:00',2940,'CHECKED_OUT',0);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,7 +163,7 @@ CREATE TABLE `room_assign` (
 
 LOCK TABLES `room_assign` WRITE;
 /*!40000 ALTER TABLE `room_assign` DISABLE KEYS */;
-INSERT INTO `room_assign` VALUES (1,3,3,203,'2017-11-29 20:00:00','2017-12-05 18:00:00');
+INSERT INTO `room_assign` VALUES (1,3,1,203,'2017-11-29 20:00:00','2017-11-30 05:07:42');
 /*!40000 ALTER TABLE `room_assign` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,59 +204,6 @@ INSERT INTO `room_type` VALUES (1,1,'1 King Bed','king_bed',1,2,'City',1,1,139,3
 UNLOCK TABLES;
 
 --
--- Table structure for table `staff_profile`
---
-
-DROP TABLE IF EXISTS `staff_profile`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `staff_profile` (
-  `sID` int(255) NOT NULL,
-  `type` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `uID` int(255) DEFAULT NULL,
-  PRIMARY KEY (`sID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `staff_profile`
---
-
-LOCK TABLES `staff_profile` WRITE;
-/*!40000 ALTER TABLE `staff_profile` DISABLE KEYS */;
-INSERT INTO `staff_profile` VALUES (1,'role manager','Manager',1),(2,'role staff','staff',2);
-/*!40000 ALTER TABLE `staff_profile` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `transaction`
---
-
-DROP TABLE IF EXISTS `transaction`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `transaction` (
-  `tid` int(255) NOT NULL,
-  `room_number` int(255) DEFAULT NULL,
-  `customer_id` int(255) DEFAULT NULL,
-  `check_in_date` varchar(255) DEFAULT NULL,
-  `check_out_date` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`tid`),
-  UNIQUE KEY `room_number` (`room_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `transaction`
---
-
-LOCK TABLES `transaction` WRITE;
-/*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-/*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `user`
 --
 
@@ -293,4 +240,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-29 22:39:16
+-- Dump completed on 2017-11-29 23:09:00
