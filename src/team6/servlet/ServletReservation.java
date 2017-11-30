@@ -78,13 +78,11 @@ public class ServletReservation extends HttpServlet {
 						&& checkOutParam[0].equals("checkOut")
 					) {
 						HttpSession session = request.getSession();
-						session.setAttribute("reservation-hotel-id", hotelParam[1]);
-						session.setAttribute("reservation-room-id", roomParam[1]);
-						session.setAttribute("reservation-check-in", checkInParam[1]);
-						session.setAttribute("reservation-check-out", checkOutParam[1]);
+						String url = request.getRequestURL().toString() + "?" + request.getQueryString();
 						
 						User currentUser = (User) request.getSession().getAttribute("current-user");
 						if(currentUser == null) {
+							session.setAttribute("request-url", url);
 							response.sendRedirect(request.getContextPath() +"/login");
 						}
 						else {
