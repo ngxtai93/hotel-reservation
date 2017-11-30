@@ -13,6 +13,7 @@
 <span>You searched for: <b><%= location %></b>: <b><%= checkInDate.format(dtf) %></b> - <b><%= checkOutDate.format(dtf) %></b></span>
 
 <% if(mapHotel == null) { %>
+	<br>
 	<span style="color:red">No hotel found in this area.</span>
 <% }
 else { %>
