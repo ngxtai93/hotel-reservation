@@ -1,4 +1,4 @@
-<%@ page import="team6.entity.User"%>
+<%@ page import="team6.entity.User, team6.entity.Role"%>
 
 <!DOCTYPE html>
 
@@ -111,6 +111,16 @@ User currentUser = (User) session.getAttribute("current-user");
 						<ul class="h-element k2t-menu " id="menu-menu-2">
 
 							<% if(currentUser != null) { %>
+								<% if(currentUser.getRole().equals(Role.MANAGER)) { %>
+									<li
+										class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876"
+										id="menu-item-1876"
+									>
+										<a class="btn-ripple" href="<%= rootPath %>/trending">
+											<span class="k2t-title-menu">Trending</span>
+										</a>
+									</li>
+								<% } %>
 								<li
 									class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1876"
 									id="menu-item-1876"

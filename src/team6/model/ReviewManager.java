@@ -1,6 +1,7 @@
 package team6.model;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 import team6.dao.ReviewDAO;
 import team6.entity.CustomerProfile;
@@ -24,6 +25,18 @@ public class ReviewManager {
 									, Double.valueOf(rating), LocalDate.now(), comment);
 		
 		reviewDao.insertReview(review);
+	}
+
+	public Map<String, Double> getTopFiveHotelByRating() {
+		return reviewDao.selectTopHotelByRating(5);
+	}
+
+	public Map<String, Integer> getTopZipByReview() {
+		return reviewDao.selectTopZipByReviewCount(5);
+	}
+
+	public Map<String, Integer> getTopFiveHotelByOrder() {
+		return reviewDao.selectTopHotelByOrder(5);
 	}
 
 }
