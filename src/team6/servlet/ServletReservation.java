@@ -47,9 +47,16 @@ public class ServletReservation extends HttpServlet {
 					String[] checkOutParam = queryStringSplit[3].split("=");
 					if(hotelParam[0].equals("hotel") && checkInParam[0].equals("checkIn") && checkOutParam[0].equals("checkOut")) {
 						List<RoomType> listRoomType = hm.getListRoomType(Integer.parseInt(hotelParam[1]));
+						
+						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMddyyyy");
+						LocalDate checkInDate = LocalDate.parse(checkInParam[1], dtf);
+						LocalTime checkInTime = BusinessLogic.INSTANCE.getCheckInTime();
+						LocalDateTime checkInDateTime = LocalDateTime.of(checkInDate, checkInTime);
+								
 						Map<RoomType, Boolean> mapRoomTypeAvailable = new HashMap<>();
 						for(RoomType rt: listRoomType) {
-							mapRoomTypeAvailable.put(rt, Boolean.TRUE);
+							List<Integer> listAvailableRoomNum = hm.getAvailableRoomNumber(rt, checkInDateTime);
+							mapRoomTypeAvailable.put(rt, listAvailableRoomNum == null ? Boolean.FALSE : Boolean.TRUE);
 						}
 						request.setAttribute("map-room-type", mapRoomTypeAvailable);
 						request.setAttribute("hotel-id", hotelParam[1]);
