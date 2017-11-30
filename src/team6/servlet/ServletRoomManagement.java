@@ -77,6 +77,11 @@ public class ServletRoomManagement extends HttpServlet {
 				processGetCheckIn(request, response);
 				break;
 			}
+			case "checkout":
+			{
+				processGetCheckOut(request, response);
+				break;
+			}
 		}
 	}
 
@@ -118,6 +123,11 @@ public class ServletRoomManagement extends HttpServlet {
 			case "checkin":
 			{
 				processPostCheckInRoom(request, response);
+				break;
+			}
+			case "checkout":
+			{
+				processPostCheckOutRoom(request, response);
 				break;
 			}
 		}
@@ -369,9 +379,55 @@ public class ServletRoomManagement extends HttpServlet {
 				}
 			}
 		}
-
 	}
 
+	private void processGetCheckOut(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		String queryString = request.getQueryString();
+		// go to page if no query string
+		if(queryString == null) {
+			List<Location> listLocation = hotel.getAvailableLocation();
+			request.setAttribute("list-location", listLocation);
+			request.getRequestDispatcher("/WEB-INF/jsp/room/check_out.jsp").forward(request, response);
+		}
+		else {
+			String[] queryStringSplit = queryString.split("&");
+			String[] queryAction = queryStringSplit[0].split("=");
+			if(!queryAction[0].equals("action")) {
+				return;
+			}
+			
+			String action = queryAction[1];
+			switch(action) {
+				case "getHotel":
+				{
+					String[] locationParam = queryStringSplit[1].split("=");
+					if(locationParam[0].equals("location")) {
+						processGetHotelByLocation
+							(request, response, Integer.parseInt(locationParam[1]));
+					}
+					break;
+				}
+				case "getCheckOutOrder":
+				{
+					String[] hotelParam = queryStringSplit[1].split("=");
+					if(hotelParam[0].equals("hotel")) {
+						processGetCheckOutOrder(request, response, Integer.parseInt(hotelParam[1]));
+					}
+					break;
+				}
+				case "getAvailableRoomNumber":
+				{
+					String[] orderParam = queryStringSplit[1].split("=");
+					if(orderParam[0].equals("order")) {
+						processGetAvailableRoomNumber(request, response, Integer.parseInt(orderParam[1]));
+					}
+					break;
+				}
+			}
+		}
+	}
+	
 	/**
 	 *	Process AJAX request get available reservation for current date 
 	 */
@@ -382,7 +438,18 @@ public class ServletRoomManagement extends HttpServlet {
 		response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
 	    response.getWriter().write(json);
-		
+	}
+	
+	/**
+	 *	Process AJAX request get available reservation for current date 
+	 */
+	private void processGetCheckOutOrder(HttpServletRequest request, HttpServletResponse response, int hotelId)
+		throws IOException {
+		List<Order> listOrder = om.getCheckOutOrder(hotelId);
+		String json = gson.toJson(listOrder == null ? "" : listOrder);
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json);
 	}
 
 	/**
@@ -553,6 +620,16 @@ public class ServletRoomManagement extends HttpServlet {
 		request.getSession().setAttribute("action", "assign-room");
 		response.sendRedirect(request.getContextPath() + "/success");
 	}
+	
+	private void processPostCheckOutRoom(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+			int orderId = Integer.parseInt(request.getParameter("order-id"));
+			
+			hotel.processCheckOutRoom(orderId);
+			
+			request.getSession().setAttribute("action", "check-out-room");
+			response.sendRedirect(request.getContextPath() + "/success");
+		}
 
 	private void processCheckRoomTypeExist
 		(HttpServletRequest request, HttpServletResponse response, int hotelId, String roomName)

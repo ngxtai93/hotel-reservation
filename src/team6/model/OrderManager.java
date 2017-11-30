@@ -65,4 +65,8 @@ public class OrderManager {
 		return orderDao.selectOrderByCheckInDateTime(hotelId, ldt);
 	}
 
+	public List<Order> getCheckOutOrder(int hotelId) {
+		return orderDao.selectOrderByStatus(hotelId, OrderStatus.CHECKED_IN);
+	}
+
 }

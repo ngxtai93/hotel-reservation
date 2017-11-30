@@ -15,12 +15,14 @@ import java.util.stream.Collectors;
 import team6.entity.BedType;
 import team6.entity.Hotel;
 import team6.entity.Location;
+import team6.entity.RoomAssign;
 import team6.entity.RoomType;
 import team6.entity.User;
 
 public class HotelDAO {
 
 	private Connection conn;
+	private UserDAO userDao = new UserDAO();
 	
 	public HotelDAO() {
 		conn = MySQLDatabaseOperator.INSTANCE.getConnection();
@@ -571,6 +573,31 @@ public class HotelDAO {
 		
 	}
 
+	public RoomAssign selectRoomAssign(User user, RoomType roomType, LocalDateTime checkInDateTime) {
+		RoomAssign ra = null;
+		
+		String sql = "SELECT * from csp584_project.room_assign WHERE user = ? AND room_type = ? AND check_in = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, user.getuId().intValue());
+			ps.setInt(2, roomType.getSeqNo().intValue());
+			ps.setTimestamp(3, Timestamp.valueOf(checkInDateTime));
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.isBeforeFirst()) {
+				ra = new RoomAssign();
+			}
+			
+			rs.next();
+			ra = buildRoomAssignObject(rs);
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		return ra;
+	}
+
 	public void insertRoomAssign(User user, RoomType roomType, int roomNum, LocalDateTime checkInDateTime,
 			LocalDateTime checkOutDateTime) {
 		String sql = "INSERT INTO csp584_project.room_assign (user, room_type, room_num, check_in, check_out)"
@@ -588,6 +615,26 @@ public class HotelDAO {
 			System.out.println(e.getMessage());
 		}
 		
+	}
+
+	public void updateRoomAssign(RoomAssign ra) {
+		String sql = "UPDATE csp584_project.room_assign"
+				+ " SET user = ?, room_type = ?, room_num = ?, check_in = ?, check_out = ?"
+				+ " WHERE seq_no = ?"
+		;
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, ra.getUser().getuId().intValue());
+			ps.setInt(2, ra.getRoomType().getSeqNo().intValue());
+			ps.setInt(3, ra.getRoomNum().intValue());
+			ps.setTimestamp(4, Timestamp.valueOf(ra.getCheckIn()));
+			ps.setTimestamp(5, Timestamp.valueOf(ra.getCheckOut()));
+			ps.setInt(6, ra.getSeqNo().intValue());
+			ps.execute();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
 	}
 
 	/**
@@ -747,33 +794,34 @@ public class HotelDAO {
 		return hotel;
 	}
 
-	/**
-	 * Build Hotel object from SQL
-	 */
-//	private Room buildRoomObject(ResultSet rs) {
-//		Room room = new Room();
-//		
-//		try {
-//			room.setSeqNo(Integer.valueOf(rs.getInt("seq_no")));
-//			
-//			room.setHotel(new Hotel());
-//			room.getHotel().setSeqNo(Integer.valueOf(rs.getInt("hotel")));
-//			
-//			room.setRoomNumber(Integer.valueOf(rs.getInt("room_number")));
-//			
-//			room.setRoomType(new RoomType());
-//			room.getRoomType().setSeqNo(Integer.valueOf(rs.getInt("room_type")));
-//			
-//			room.setPrice(Double.valueOf(rs.getDouble("price")));
-//			
-//			room.setDiscount(Double.valueOf(rs.getDouble("discount")));
-//		}
-//		catch(SQLException e) {
-//			e.printStackTrace();
-//			System.out.println(e.getMessage());
-//		}
-//		return room;
-//	}
+	private RoomAssign buildRoomAssignObject(ResultSet rs) {
+		RoomAssign ra = new RoomAssign();
+		
+		try {
+			ra.setSeqNo(Integer.valueOf(rs.getInt("seq_no")));
+			
+			User user = new User();
+			user.setuId(rs.getInt("user"));
+			ra.setUser(user);
+			
+			RoomType roomType = new RoomType();
+			roomType.setSeqNo(rs.getInt("seq_no"));
+			ra.setRoomType(roomType);
+			
+			ra.setRoomNum(rs.getInt("room_num"));
+			ra.setCheckIn(rs.getTimestamp("check_in").toLocalDateTime());
+			ra.setCheckOut(rs.getTimestamp("check_out").toLocalDateTime());
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		ra.setUser(userDao.selectUser(ra.getUser().getuId().intValue()));
+		populateRoomType(ra.getRoomType());
+		
+		return ra;
+	}
 
 	/**
 	 * Parse room list entry with format: <room,room,>

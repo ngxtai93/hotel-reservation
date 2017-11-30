@@ -13,6 +13,7 @@ import team6.entity.Hotel;
 import team6.entity.Location;
 import team6.entity.Order;
 import team6.entity.OrderStatus;
+import team6.entity.RoomAssign;
 import team6.entity.RoomType;
 
 public class HotelManager {
@@ -121,6 +122,22 @@ public class HotelManager {
 		om.updateOrder(order);
 		
 		hotelDao.insertRoomAssign(order.getUser(), order.getRoomType(), roomNum, order.getCheckInDateTime(), order.getCheckOutDateTime());
+	}
+
+	/**
+	 * Do check out room:
+	 * - Set status of order to CHECK_OUT
+	 * - Set check-out time to current date on room_assign entry 
+	 */
+	public void processCheckOutRoom(int orderId) {
+		Order order = om.getOrder(orderId);
+		order.setStatus(OrderStatus.CHECKED_OUT);
+		om.updateOrder(order);
+		
+		RoomAssign ra = hotelDao.selectRoomAssign(order.getUser(), order.getRoomType(), order.getCheckInDateTime());
+		ra.setCheckOut(LocalDateTime.now());
+		hotelDao.updateRoomAssign(ra);
+			
 	}
 
 	public void addNewListImageHotel(int hotelId, List<String> listImage) {

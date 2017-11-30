@@ -204,6 +204,37 @@ public class OrderDAO {
 		return order;
 	}
 
+	public List<Order> selectOrderByStatus(int hotel, OrderStatus status) {
+		String sql = "SELECT * from csp584_project.order WHERE hotel = ? AND status = ? AND del_flag = 0";
+		List<Order> listOrder = null;
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, hotel);
+			ps.setString(2, status.toString());
+			ResultSet rs = ps.executeQuery();
+			if(rs.isBeforeFirst()) {
+				listOrder = new ArrayList<>();
+			}
+			while(rs.next()) {
+				Order order = buildOrderObject(rs);
+				listOrder.add(order);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		if(listOrder != null) {
+			for(Order o: listOrder) {
+				o.setUser(userDao.selectUser(o.getUser().getuId().intValue()));
+				populateCustomerProfile(o.getCustomer());
+				hotelDao.populateRoomType(o.getRoomType());
+				o.setHotel(o.getRoomType().getHotelBelong());
+			}
+		}
+		
+		return listOrder;
+	}
+
 	public List<Order> selectOrderByCheckInDateTime(int hotelId, LocalDateTime checkInDateTime) {
 		String sql = "SELECT * from csp584_project.order WHERE hotel = ? AND check_in = ? AND status = 'PLACED' AND del_flag = 0";
 		List<Order> listOrder = null;
