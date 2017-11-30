@@ -89,6 +89,6 @@ $(document).ready(function(){
 		if(isError) {
 			return false;
 		}
-		return false;
+		return true;
 	}
 });

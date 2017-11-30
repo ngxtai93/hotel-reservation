@@ -88,6 +88,11 @@ public class ServletSuccess extends HttpServlet {
 				session.removeAttribute("action");
 				request.getRequestDispatcher("/WEB-INF/jsp/success/cancel-order.jsp").forward(request, response);
 			}
+			case "submit-review":
+			{
+				session.removeAttribute("action");
+				request.getRequestDispatcher("/WEB-INF/jsp/success/submit-review.jsp").forward(request, response);
+			}
 		}
 	}
 

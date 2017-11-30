@@ -14,11 +14,13 @@ import com.google.gson.Gson;
 import team6.entity.Order;
 import team6.entity.User;
 import team6.model.OrderManager;
+import team6.model.ReviewManager;
 
 @WebServlet("/review")
 public class ServletReview extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	OrderManager om = new OrderManager();
+	ReviewManager rm = new ReviewManager();
 	Gson gson = new Gson();
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -59,8 +61,14 @@ public class ServletReview extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		int orderId = Integer.parseInt(request.getParameter("order-id"));
+		double rating = Double.parseDouble(request.getParameter("rating"));
+		String comment = request.getParameter("comment");
+		
+		rm.doSubmitReview(orderId, rating, comment);
+		
+		request.getSession().setAttribute("action", "submit-review");
+		response.sendRedirect(request.getContextPath() + "/success");
 	}
 
 }
