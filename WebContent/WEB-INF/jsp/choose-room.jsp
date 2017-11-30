@@ -65,32 +65,10 @@
 														<div class="info">
 															<div class="product-price">
 																<span class="price">
-																<span class="amount">
-																	<%= currencyFormatter.format(rt.getPrice()).replaceAll("\\$", "\\$&nbsp;") %>
+																	<span class="amount">
+																		<%= currencyFormatter.format(rt.getPrice()).replaceAll("\\$", "\\$&nbsp;") %>
+																	</span>
 																</span>
-																</span>
-																<div id="post-ratings-2209" class="post-ratings">
-																	<img src="<%= rootPath %>/resources/images/stars_crystal/rating_on.gif"
-																		 alt="5 votes, average: 3.20 out of 5"
-																		 title="5 votes, average: 3.20 out of 5"
-																		 class="post-ratings-image"/>
-																	 <img src="<%= rootPath %>/resources/images/stars_crystal/rating_on.gif"
-																		 alt="5 votes, average: 3.20 out of 5"
-																		 title="5 votes, average: 3.20 out of 5"
-																		 class="post-ratings-image"/>
-																	 <img src="<%= rootPath %>/resources/images/stars_crystal/rating_on.gif"
-																		 alt="5 votes, average: 3.20 out of 5"
-																		 title="5 votes, average: 3.20 out of 5"
-																		 class="post-ratings-image"/>
-																	 <img src="<%= rootPath %>/resources/images/stars_crystal/rating_off.gif"
-																		 alt="5 votes, average: 3.20 out of 5"
-																		 title="5 votes, average: 3.20 out of 5"
-																		 class="post-ratings-image"/>
-																	 <img src="<%= rootPath %>/resources/images/stars_crystal/rating_off.gif"
-																		 alt="5 votes, average: 3.20 out of 5"
-																		 title="5 votes, average: 3.20 out of 5"
-																		 class="post-ratings-image"/>
-																</div>
 															</div>
 															<h3 class="title title-room">
 																<a 
@@ -98,7 +76,6 @@
 																	&checkIn=<%= checkInDate %>&checkOut=<%= checkOutDate %>">
 																<%= rt.getName() %>
 																</a>
-																<span class="count-ratings pull-right"> (42 ratings)</span>
 															</h3>
 															<p class="attribute">
 																<i class="zmdi zmdi-check"></i>

@@ -242,7 +242,8 @@ public class ServletHotelManagement extends HttpServlet {
 		throws IOException {
 		int hotelId = Integer.valueOf(request.getParameter("hotel-id"));
 		
-//		hotel.deleteHotel(hotelId);
+		hotel.deleteHotel(hotelId);
+		
 		request.getSession().setAttribute("action", "delete-hotel");
 		response.sendRedirect(request.getContextPath() + "/success");
 			

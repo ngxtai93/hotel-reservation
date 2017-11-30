@@ -51,6 +51,10 @@ public class HotelManager {
 		hotelDao.updateHotel(hotel);
 	}
 
+	public void deleteHotel(int hotelId) {
+		hotelDao.deleteHotel(hotelId);
+	}
+
 	public List<Location> getAvailableLocation() {
 		return hotelDao.selectAllLocation();
 	}

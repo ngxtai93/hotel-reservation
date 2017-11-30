@@ -170,6 +170,35 @@
 											            }
 											        });
 											    }
+											    // Script for auto-completion(Tai Nguyen)
+											    tpj('#search-input').on("input", onChangeSearchInput);
+												
+												function onChangeSearchInput() {
+													tpj("#auto-completion-search-location").empty();
+													var searchVal = tpj("#search-input").val();
+													var url = window.location.href;
+													
+													if(searchVal != "") {
+														tpj.ajax({
+															url: (url + "/search?action=searchLocation&input=" + searchVal),
+															success: function(responseJson) {
+																if(responseJson != "") {
+																	for(var i = 0; i < responseJson.length; i++) {
+																		var location = responseJson[i];
+																		(tpj("<span style=\"cursor: pointer; z-index:5;\"class=\"location-result\">").text(location))
+																			.appendTo(tpj("#auto-completion-search-location"));
+																		tpj("<br>").appendTo(tpj("#auto-completion-search-location"));
+																		tpj(".location-result").on("click", function() {
+																			tpj("#search-input").val(location);
+																			tpj("#auto-completion-search-location").empty();
+																		});
+																	}
+																}
+															}
+														});
+													}
+												}
+												// End script
 											});	/*ready*/
 										</script>
 									</div>
@@ -180,6 +209,7 @@
 									<div class="k2t-booking-form pull-left w100">
 										<div class="container k2t-wrap">
 											<form method="get" action="<%= rootPath %>/search">
+												<input type="hidden" name="action" value="searchHotel">
 												<div class="pull-left k2t-cal-colf">
 													<span class="pull-left relative k2t-step1-input">
 													<input required name="check-in-date" class="k2t-select-checkin pull-left w100" placeholder="Check In">
@@ -189,30 +219,11 @@
 													</span>
 												</div>
 												<div class="pull-right k2t-cal-cols">
-													<%--<span class="relative pull-left k2t-step1-span">
-														<select class="k2t-step1-select pull-left w100 relative">
-															<option>Room</option>
-															<option>1</option>
-															<option>2</option>
-															<option>3</option>
-														</select>
-													</span>
-													 <div class="pull-left k2t-select-people">
-														<span class="relative w100 pull-left k2t-step1-span">
-															<select class="k2t-step1-select pull-left w100">
-																<option>1 Guest</option>
-																<option>2 Guest</option>
-																<option>3 Guest</option>
-																<option>4 Guest</option>
-																<option>5 Guest</option>
-																<option>6 Guest</option>
-															</select>
-														</span>
-													</div>--%>
-													<input type="text" name="location" size="40" placeholder="City">
-													<!-- <a href="choose-room.jsp" class="k2t-btn-editbooking pull-right">Go</a> -->
-													<button type="submit" class="k2t-btn-editbooking pull-right">Go</button>
+													<input id="search-input" type="text" name="location" size="40" placeholder="City" autocomplete="off">
+													<div id="auto-completion-search-location"></div>
+													<button type="submit" style="position: absolute;right: 10%;top: 56.5%;" class="k2t-btn-editbooking pull-right">Go</button>
 												</div>
+												
 											</form>
 										</div>
 										<!-- k2t wrap -->
