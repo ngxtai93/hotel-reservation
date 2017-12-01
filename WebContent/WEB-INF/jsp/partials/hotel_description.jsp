@@ -12,7 +12,13 @@
 
 <div class="hotel-description">
   <div class="col-1">
-    <img class="hotel-images" src="<%= rootPath %>/resources/images/upload/hotel/<%= hotel.getSeqNo() %>/<%= hotel.getListImage().get(0) %>">
+  	<div class="search-image-carousel">
+  		<% for(String image: hotel.getListImage()) { %>
+	  		<div>
+	    		<img class="hotel-images" src="<%= rootPath %>/resources/images/upload/hotel/<%= hotel.getSeqNo() %>/<%= image %>">
+	    	</div>
+    	<% } %>
+    </div>
   </div>
    <div class="col-2">
     <span>
