@@ -59,6 +59,10 @@ public class HotelManager {
 		return hotelDao.selectAllLocation();
 	}
 
+	public List<Hotel> getAvailableHotel() {
+		return hotelDao.selectAllHotel();
+	}
+
 	/**
 	 * Get all available hotel in an Location 
 	 */
@@ -68,6 +72,10 @@ public class HotelManager {
 
 	public List<Integer> getAvailableRoomNumber(RoomType roomType, LocalDateTime from) {
 		return hotelDao.selectAvailableRoomNumber(roomType.getSeqNo(), from);
+	}
+
+	public List<RoomType> getAvailableRoomType() {
+		return hotelDao.selectAllRoomType();
 	}
 
 	public List<RoomType> getListRoomType(int hotelId) {

@@ -50,7 +50,37 @@ public class HotelDAO {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
+		if(listRoomType != null) {
+			for(RoomType rt: listRoomType) {
+				populateHotel(rt.getHotelBelong());
+			}
+		}
 		return listRoomType;
+	}
+
+	public List<Hotel> selectAllHotel() {
+		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address, h.image_link, h.description"
+				+ " FROM csp584_project.hotel h JOIN csp584_project.location l"
+				+ " ON h.location = l.seq_no"
+				+ " WHERE h.del_flag = 0;"
+		;
+		List<Hotel> listHotel = null;
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ResultSet rs = ps.executeQuery();
+			if(rs.isBeforeFirst()) {
+				listHotel = new ArrayList<>();
+				while(rs.next()) {
+					Hotel hotel = buildHotelObject(rs);
+					listHotel.add(hotel);
+				}
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return listHotel;
 	}
 
 	public List<Hotel> selectHotelByLocation(String city, String state) {
