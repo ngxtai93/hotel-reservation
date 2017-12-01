@@ -15,6 +15,11 @@
         <p><a href="<%= rootPath %>/room/update"> Update room type</a></p>
         <p><a href="<%= rootPath %>/room/delete"> Delete room type</a></p>
         <br>
+        <h2>Order management</h2>
+        <p><a href="<%= rootPath %>/order/add"> Add order</a></p>
+        <p><a href="<%= rootPath %>/order/update"> Update order</a></p>
+        <p><a href="<%= rootPath %>/order/delete"> Delete order</a></p>
+        <br>
         <h2>Analytics</h2>
         <p><a href="<%= rootPath %>/report/hotel"> Hotels report</a></p>
         <p><a href="<%= rootPath %>/report/sales"> Sales report</a></p>

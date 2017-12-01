@@ -1,6 +1,11 @@
 package team6.servlet;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -8,9 +13,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
+import team6.business.BusinessLogic;
+import team6.entity.CustomerProfile;
+import team6.entity.Hotel;
+import team6.entity.Location;
 import team6.entity.Order;
+import team6.entity.Role;
+import team6.entity.RoomType;
 import team6.entity.User;
+import team6.model.HotelManager;
 import team6.model.OrderManager;
 
 /**
@@ -20,6 +35,9 @@ import team6.model.OrderManager;
 public class ServletOrder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private OrderManager om = new OrderManager();
+	private HotelManager hotel = new HotelManager();
+	private BusinessLogic logic = BusinessLogic.INSTANCE;
+	private Gson gson = new Gson();
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User) request.getSession().getAttribute("current-user");
@@ -58,6 +76,11 @@ public class ServletOrder extends HttpServlet {
 				}
 				break;
 			}
+			case "add":
+			{
+				processGetAddOrder(request, response);
+				break;
+			}
 		}
 	}
 
@@ -72,6 +95,11 @@ public class ServletOrder extends HttpServlet {
 		}
 		
 		switch(uriSplit[orderIndex + 1]) {
+			case "add":
+			{
+				processPostAddOrder(request, response);
+				break;
+			}
 			case "cancel":
 			{
 				int orderId = Integer.parseInt(uriSplit[orderIndex + 2]);
@@ -90,4 +118,133 @@ public class ServletOrder extends HttpServlet {
 		}
 	}
 
+	private void processGetAddOrder(HttpServletRequest request, HttpServletResponse response)
+		throws IOException, ServletException {
+		User currentUser = (User) request.getSession().getAttribute("current-user");
+		if(currentUser.getRole() != Role.MANAGER && currentUser.getRole() != Role.STAFF) {
+			response.sendRedirect(request.getContextPath());
+			return;
+		}
+		
+
+		String queryString = request.getQueryString();
+		
+		// go to page if no query string
+		if(queryString == null) {
+			List<Location> listLocation = hotel.getAvailableLocation();
+			request.setAttribute("list-location", listLocation);
+			request.getRequestDispatcher("/WEB-INF/jsp/order/order_add.jsp").forward(request, response);
+		}
+		else {
+			String[] queryStringSplit = queryString.split("&");
+			String[] queryAction = queryStringSplit[0].split("=");
+			if(!queryAction[0].equals("action")) {
+				return;
+			}
+			
+			String action = queryAction[1];
+			switch(action) {
+				case "getHotel":
+				{
+					String[] locationParam = queryStringSplit[1].split("=");
+					if(locationParam[0].equals("location")) {
+						processGetHotelByLocation
+							(request, response, Integer.parseInt(locationParam[1]));
+					}
+					break;
+				}
+				case "getRoomType":
+				{
+					String[] hotelParam = queryStringSplit[1].split("=");
+					if(hotelParam[0].equals("hotel")) {
+						processGetListRoomType
+							(request, response, Integer.parseInt(hotelParam[1]));
+					}
+					break;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Process AJAX request get list hotel. Return an JSON object of list hotel 
+	 */
+	private void processGetHotelByLocation(HttpServletRequest request, HttpServletResponse response, int locationId)
+		throws IOException {
+		List<Hotel> listHotel = hotel.getAvailableHotel(locationId);
+		String json = listHotel == null ? "" : gson.toJson(listHotel);
+		
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json);
+	}
+
+	private void processGetListRoomType(HttpServletRequest request, HttpServletResponse response, int hotelId)
+		throws IOException {
+		List<RoomType> listRoom = hotel.getListRoomType(hotelId);
+		List<RoomType> listRoomOccupied = new ArrayList<>();
+		for(RoomType rt: listRoom) {
+			List<Integer> listRoomTypeNumber = hotel.getAvailableRoomNumber(rt, LocalDateTime.now());
+			if(listRoomTypeNumber == null) {
+				listRoomOccupied.add(rt);
+			}
+		}
+		listRoom.removeAll(listRoomOccupied);
+		String json = listRoom == null ? "" : gson.toJson(listRoom);
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json);
+	}
+
+	private void processPostAddOrder(HttpServletRequest request, HttpServletResponse response)
+		throws IOException {
+		CustomerProfile cp = buildCustomerProfile(request);
+		Order order = buildOrder(request, cp);
+
+		om.processOrderPlaced(order);
+		
+		request.getSession().setAttribute("action", "add-order");
+		response.sendRedirect(request.getContextPath() + "/success");
+	}
+	
+	private Order buildOrder(HttpServletRequest request, CustomerProfile cp) {
+		Order order = new Order();
+		HttpSession session = request.getSession();
+		User currentUser = (User) session.getAttribute("current-user");
+		
+		order.setUser(currentUser);
+		order.setHotel(
+			hotel.getHotel(Integer.parseInt((String) request.getParameter("hotel-id")))
+		);
+		order.setRoomType(
+			hotel.getRoomType(Integer.parseInt((String) request.getParameter("room-type")))
+		);
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		LocalDate checkInDate = LocalDate.parse((String) request.getParameter("check-in"), dtf);
+		LocalDate checkOutDate = LocalDate.parse((String) request.getParameter("check-out"), dtf);
+		LocalTime checkInTime = logic.getCheckInTime();
+		LocalTime checkOutTime = logic.getCheckOutTime();
+		order.setOrderDate(LocalDate.now());
+		order.setCheckInDateTime(LocalDateTime.of(checkInDate, checkInTime));
+		order.setCheckOutDateTime(LocalDateTime.of(checkOutDate, checkOutTime));
+		order.setPrice(Double.valueOf(request.getParameter("price")));
+		order.setCustomer(cp);
+		return order;
+	}
+
+	private CustomerProfile buildCustomerProfile(HttpServletRequest request) {
+		CustomerProfile cp = new CustomerProfile();
+		cp.setFirstName(request.getParameter("first-name"));
+		cp.setLastName(request.getParameter("last-name"));
+		cp.setEmail(request.getParameter("email"));
+		cp.setPhone(request.getParameter("phone"));
+		cp.setAddress(request.getParameter("address"));
+		cp.setCity(request.getParameter("city"));
+		cp.setState(request.getParameter("state"));
+		cp.setZip(request.getParameter("zip"));
+		cp.setCreditCardNum(request.getParameter("cc-num"));
+		cp.setExpirationDate(request.getParameter("cc-exp"));
+		return cp;
+	}
 }

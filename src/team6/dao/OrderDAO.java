@@ -108,7 +108,7 @@ public class OrderDAO {
 				+ "(user, customer, hotel"
 				+ ", room, order_date, check_in"
 				+ ", check_out, price, status)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
 		;
 		try(PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, order.getUser().getuId());
