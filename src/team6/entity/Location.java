@@ -6,6 +6,10 @@ public class Location {
 	private String state;
 	private String zip;
 	
+	@Override
+	public String toString() {
+		return city + ", " + state + " " + zip;
+	}
 	
 	public Integer getSeqNo() {
 		return seqNo;

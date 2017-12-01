@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import team6.entity.Hotel;
+import team6.entity.Location;
 import team6.entity.Role;
 import team6.entity.RoomType;
 import team6.entity.User;
@@ -61,6 +62,16 @@ public class ServletReport extends HttpServlet {
 	                    processGetHotelReportList(request, response);
 	                    break;
 	                }
+					case "barchart":
+	                {
+	                    processGetHotelReportBarchart(request, response);
+	                    break;
+	                }
+					case "ondiscount":
+					{
+	                    processGetHotelReportDiscount(request, response);
+	                    break;
+	                }	
 				}
 			}
 			break;
@@ -76,6 +87,50 @@ public class ServletReport extends HttpServlet {
 			break;
 		}
 	}
+	}
+
+	private void processGetHotelReportDiscount(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		List<Hotel> listHotel = hm.getAvailableHotel();
+		List<RoomType> listRoomType = hm.getAvailableRoomType();
+		Map<Hotel, List<RoomType>> mapHotelRoomType = new HashMap<>();
+		for(Hotel h: listHotel) {
+			List<RoomType> listRoomTypeHotel = new ArrayList<>();
+			for(RoomType rt: listRoomType) {
+				if(rt.getHotelBelong().getSeqNo().equals(h.getSeqNo()) && (rt.getDiscount() != null && rt.getDiscount() > 0.0)) {
+					listRoomTypeHotel.add(rt);
+				}
+			}
+			mapHotelRoomType.put(h, listRoomTypeHotel);
+		}
+		
+		request.setAttribute("map-hotel-room-type", mapHotelRoomType);
+		request.getRequestDispatcher("/WEB-INF/jsp/report/hotel_list.jsp").forward(request, response);		
+	}
+
+	/**
+	 *	Build a bar chart of <Location, Hotel> 
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	private void processGetHotelReportBarchart(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		List<Hotel> listHotel = hm.getAvailableHotel();
+		List<Location> listLocation = hm.getAvailableLocation();
+		
+		Map<String, Integer> mapLocationHotelCount = new HashMap<>();
+		for(Location l: listLocation) {
+			int count = 0;
+			for(Hotel h: listHotel) {
+				if(h.getLocation().getSeqNo().equals(l.getSeqNo())) {
+					count++;
+				}
+			}
+			mapLocationHotelCount.put(l.toString(), Integer.valueOf(count));
+		}
+		
+		request.setAttribute("map-location-hotel-count", mapLocationHotelCount);
+		request.getRequestDispatcher("/WEB-INF/jsp/report/hotel_barchart.jsp").forward(request, response);
 	}
 
 	private void processGetHotelReportList(HttpServletRequest request, HttpServletResponse response)
