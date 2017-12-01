@@ -1,6 +1,6 @@
 <%@include file="./partials/header.jsp" %>
 <%@ page import="java.util.*, java.text.NumberFormat" %>
-<%@ page import="team6.entity.RoomType" %>
+<%@ page import="team6.entity.RoomType, team6.entity.Deal, team6.entity.Hotel" %>
 
 <%
 	Map<RoomType, Boolean> mapRoomTypeAvailable = (Map<RoomType, Boolean>) request.getAttribute("map-room-type");
@@ -8,6 +8,16 @@
 	NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US);
 	String checkInDate = (String) request.getAttribute("check-in");
 	String checkOutDate = (String) request.getAttribute("check-out");
+	Map<Deal, Hotel> mapDeal = (Map<Deal, Hotel>) application.getAttribute("map-deal");
+	Deal deal = null;
+	if(mapDeal != null) {
+		for(Map.Entry<Deal, Hotel> entry: mapDeal.entrySet()) {
+			if(entry.getValue().getSeqNo().equals(Integer.valueOf(hotelId))) {
+				deal = entry.getKey();
+				break;
+			}
+		}
+	}
 %>		
 
 		<div class="k2t-body">
@@ -49,6 +59,13 @@
 									<p class="k2t-p-next"> Confirmation </p>
 								</div>
 							</div>
+							<% if(deal != null) { %>
+								<div class="k2t-content no-sidebar">
+									<span style="font-size:150%;color:red">FOUND DEAL MATCH:</span>
+									<br>
+									<span style="font-size:125%;color:chocolate"><%= deal.getTweet() %></span>
+								</div>
+							<% } %>
 							<div class="k2t-step-select-room w100 pull-left">
 								<div class="event-listing-masonry-wrapper">
 									<div class="event-listing-masonrys columns-3" style="position: relative; height: 1530px;">

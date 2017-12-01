@@ -1,7 +1,6 @@
 package team6.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -81,6 +80,28 @@ public class HotelDAO {
 			System.out.println(e.getMessage());
 		}
 		return listHotel;
+	}
+
+	public Hotel selectHotelByName(String hotelName) {
+		String sql = "SELECT h.seq_no, h.location, l.city, l. state, l.zip, h.name, h.address, h.image_link, h.description"
+				+ " FROM csp584_project.hotel h JOIN csp584_project.location l"
+				+ " ON h.location = l.seq_no"
+				+ " WHERE h.name = ? AND h.del_flag = 0;"
+		;
+		Hotel hotel = null;
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, hotelName);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				hotel = buildHotelObject(rs);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return hotel;
 	}
 
 	public List<Hotel> selectHotelByLocation(String city, String state) {

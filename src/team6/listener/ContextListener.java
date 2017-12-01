@@ -4,11 +4,13 @@ import javax.servlet.*;
 
 import team6.dao.MongoDBDatabaseOperator;
 import team6.dao.MySQLDatabaseOperator;
+import team6.model.DealMatches;
 
 public class ContextListener implements ServletContextListener {
 	
 	private MySQLDatabaseOperator mySql = MySQLDatabaseOperator.INSTANCE;
 	private MongoDBDatabaseOperator mongoDb = MongoDBDatabaseOperator.INSTANCE;
+	private DealMatches deal = new DealMatches();
 	
 	@Override
     public void contextDestroyed(ServletContextEvent e) {
@@ -21,6 +23,8 @@ public class ContextListener implements ServletContextListener {
 		ServletContext sc = e.getServletContext();
 		initMySqlConnection(sc);
 		initMongoDbConnection(sc);
+		
+		deal.processDealMatch(sc);
 	}
 
 	private void initMySqlConnection(ServletContext sc) {

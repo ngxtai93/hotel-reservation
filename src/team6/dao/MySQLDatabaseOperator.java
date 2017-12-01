@@ -43,11 +43,17 @@ public enum MySQLDatabaseOperator implements IDatabaseOperator {
 	}
 	
 	public Connection getConnection() {
+		if(conn == null) {
+			initConnection();
+		}
 		return conn;
 	}
 
 	@Override
 	public void initConnection() {
+		if(conn != null) {
+			return;
+		}
 		try {
 	        String sqlUrl = "jdbc:mysql://"
 	            +   DB_URL
