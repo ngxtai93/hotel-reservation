@@ -65,9 +65,19 @@
 														<div class="info">
 															<div class="product-price">
 																<span class="price">
-																	<span class="amount">
-																		<%= currencyFormatter.format(rt.getPrice()).replaceAll("\\$", "\\$&nbsp;") %>
-																	</span>
+																	<% if(rt.getDiscount() > 0.0) { %>
+																		<span class="amount">
+																			<del><%= currencyFormatter.format(rt.getPrice()).replaceAll("\\$", "\\$&nbsp;") %></del>
+																		</span>
+																		<span class="amount">
+																			<%= currencyFormatter.format(rt.getPrice() - rt.getDiscount()).replaceAll("\\$", "\\$&nbsp;") %>
+																		</span>
+																	<% }
+																	else { %>
+																		<span class="amount">
+																			<%= currencyFormatter.format(rt.getPrice()).replaceAll("\\$", "\\$&nbsp;") %>
+																		</span>
+																	<% } %>
 																</span>
 															</div>
 															<h3 class="title title-room">
