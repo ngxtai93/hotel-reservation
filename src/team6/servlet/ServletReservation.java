@@ -54,9 +54,11 @@ public class ServletReservation extends HttpServlet {
 						LocalDateTime checkInDateTime = LocalDateTime.of(checkInDate, checkInTime);
 								
 						Map<RoomType, Boolean> mapRoomTypeAvailable = new HashMap<>();
-						for(RoomType rt: listRoomType) {
-							List<Integer> listAvailableRoomNum = hm.getAvailableRoomNumber(rt, checkInDateTime);
-							mapRoomTypeAvailable.put(rt, listAvailableRoomNum == null ? Boolean.FALSE : Boolean.TRUE);
+						if(listRoomType != null) {
+							for(RoomType rt: listRoomType) {
+								List<Integer> listAvailableRoomNum = hm.getAvailableRoomNumber(rt, checkInDateTime);
+								mapRoomTypeAvailable.put(rt, listAvailableRoomNum == null ? Boolean.FALSE : Boolean.TRUE);
+							}
 						}
 						request.setAttribute("map-room-type", mapRoomTypeAvailable);
 						request.setAttribute("hotel-id", hotelParam[1]);
