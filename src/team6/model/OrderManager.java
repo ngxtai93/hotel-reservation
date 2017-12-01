@@ -37,6 +37,10 @@ public class OrderManager {
 		orderDao.insertOrder(order);
 	}
 
+	public List<Order> getListAllOrder() {
+		return orderDao.selectAllOrder();
+	}
+
 	public List<Order> getListOrder(User user) {
 		return orderDao.selectOrder(user);
 	}

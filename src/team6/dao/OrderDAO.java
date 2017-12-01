@@ -146,6 +146,35 @@ public class OrderDAO {
 		}
 	}
 
+	public List<Order> selectAllOrder() {
+		String sql = "SELECT * from csp584_project.order WHERE del_flag = 0";
+		List<Order> listOrder = null;
+		try(PreparedStatement ps = conn.prepareStatement(sql)) {
+			ResultSet rs = ps.executeQuery();
+			if(rs.isBeforeFirst()) {
+				listOrder = new ArrayList<>();
+			}
+			while(rs.next()) {
+				Order order = buildOrderObject(rs);
+				listOrder.add(order);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		if(listOrder != null) {
+			for(Order o: listOrder) {
+				o.setUser(userDao.selectUser(o.getUser().getuId().intValue()));
+				populateCustomerProfile(o.getCustomer());
+				hotelDao.populateRoomType(o.getRoomType());
+				o.setHotel(o.getRoomType().getHotelBelong());
+			}
+		}
+		
+		return listOrder;
+	}
+
 	public List<Order> selectOrder(User user) {
 		String sql = "SELECT * from csp584_project.order WHERE user = ? AND del_flag = 0";
 		List<Order> listOrder = null;
