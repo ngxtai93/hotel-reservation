@@ -10,9 +10,10 @@
 	
 %>
 
+
 <div class="hotel-description">
   <div class="col-1">
-  	<div class="search-image-carousel">
+  	<div class="single-item">
   		<% for(String image: hotel.getListImage()) { %>
 	  		<div>
 	    		<img class="hotel-images" src="<%= rootPath %>/resources/images/upload/hotel/<%= hotel.getSeqNo() %>/<%= image %>">
@@ -43,3 +44,4 @@
 	<% } %>
   </div>
 </div>
+
