@@ -1,8 +1,6 @@
 package team6.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,11 +16,13 @@ import team6.entity.Role;
 import team6.entity.RoomType;
 import team6.entity.User;
 import team6.model.HotelManager;
+import team6.model.ReportManager;
 
 @WebServlet("/report/*")
 public class ServletReport extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private HotelManager hm = new HotelManager();
+	public HotelManager hm = new HotelManager();
+	private ReportManager rm = new ReportManager();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User) request.getSession().getAttribute("current-user");
@@ -89,24 +89,14 @@ public class ServletReport extends HttpServlet {
 	}
 	}
 
-	private void processGetHotelReportDiscount(HttpServletRequest request, HttpServletResponse response)
+	private void processGetHotelReportList(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		List<Hotel> listHotel = hm.getAvailableHotel();
-		List<RoomType> listRoomType = hm.getAvailableRoomType();
-		Map<Hotel, List<RoomType>> mapHotelRoomType = new HashMap<>();
-		for(Hotel h: listHotel) {
-			List<RoomType> listRoomTypeHotel = new ArrayList<>();
-			for(RoomType rt: listRoomType) {
-				if(rt.getHotelBelong().getSeqNo().equals(h.getSeqNo()) && (rt.getDiscount() != null && rt.getDiscount() > 0.0)) {
-					listRoomTypeHotel.add(rt);
-				}
-			}
-			mapHotelRoomType.put(h, listRoomTypeHotel);
-		}
+		Map<Hotel, List<RoomType>> mapHotelRoomType = rm.prepareHotelReportList();
 		
 		request.setAttribute("map-hotel-room-type", mapHotelRoomType);
-		request.getRequestDispatcher("/WEB-INF/jsp/report/hotel_list.jsp").forward(request, response);		
+		request.getRequestDispatcher("/WEB-INF/jsp/report/hotel_list.jsp").forward(request, response);
 	}
+
 
 	/**
 	 *	Build a bar chart of <Location, Hotel> 
@@ -115,41 +105,18 @@ public class ServletReport extends HttpServlet {
 	 */
 	private void processGetHotelReportBarchart(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		List<Hotel> listHotel = hm.getAvailableHotel();
-		List<Location> listLocation = hm.getAvailableLocation();
-		
-		Map<String, Integer> mapLocationHotelCount = new HashMap<>();
-		for(Location l: listLocation) {
-			int count = 0;
-			for(Hotel h: listHotel) {
-				if(h.getLocation().getSeqNo().equals(l.getSeqNo())) {
-					count++;
-				}
-			}
-			mapLocationHotelCount.put(l.toString(), Integer.valueOf(count));
-		}
+		Map<String, Integer> mapLocationHotelCount = rm.prepareHotelReportBarchart();
 		
 		request.setAttribute("map-location-hotel-count", mapLocationHotelCount);
 		request.getRequestDispatcher("/WEB-INF/jsp/report/hotel_barchart.jsp").forward(request, response);
 	}
 
-	private void processGetHotelReportList(HttpServletRequest request, HttpServletResponse response)
+	private void processGetHotelReportDiscount(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		List<Hotel> listHotel = hm.getAvailableHotel();
-		List<RoomType> listRoomType = hm.getAvailableRoomType();
-		Map<Hotel, List<RoomType>> mapHotelRoomType = new HashMap<>();
-		for(Hotel h: listHotel) {
-			List<RoomType> listRoomTypeHotel = new ArrayList<>();
-			for(RoomType rt: listRoomType) {
-				if(rt.getHotelBelong().getSeqNo().equals(h.getSeqNo())) {
-					listRoomTypeHotel.add(rt);
-				}
-			}
-			mapHotelRoomType.put(h, listRoomTypeHotel);
-		}
+		Map<Hotel, List<RoomType>> mapHotelRoomType = rm.prepareHotelReportDiscount();
 		
 		request.setAttribute("map-hotel-room-type", mapHotelRoomType);
-		request.getRequestDispatcher("/WEB-INF/jsp/report/hotel_list.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/report/hotel_list.jsp").forward(request, response);		
 	}
 
 	private void processGetSalesReport(HttpServletRequest request, HttpServletResponse response) {
