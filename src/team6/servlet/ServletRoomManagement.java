@@ -87,7 +87,7 @@ public class ServletRoomManagement extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User currentUser = (User) request.getSession().getAttribute("current-user");
-		if(currentUser == null || currentUser.getRole() != Role.MANAGER) {
+		if(currentUser == null) {
 			response.sendRedirect(request.getContextPath());
 			return;
 		}

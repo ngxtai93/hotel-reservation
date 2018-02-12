@@ -41,6 +41,10 @@ public class OrderManager {
 		return orderDao.selectAllOrder();
 	}
 
+	public List<Order> getListOrder(int hotelId) {
+		return orderDao.selectOrderByHotel(hotelId);
+	}
+
 	public List<Order> getListOrder(User user) {
 		return orderDao.selectOrder(user);
 	}
@@ -55,7 +59,22 @@ public class OrderManager {
 	}
 
 	public void updateOrder(Order order) {
+		CustomerProfile cp = order.getCustomer();
+		Integer customerId = orderDao.selectCustomerProfile(
+			cp.getFirstName(), cp.getLastName(), cp.getPhone()
+			, cp.getEmail(), cp.getAddress(), cp.getCity()
+			, cp.getState(), cp.getZip(), cp.getCreditCardNum()
+			, cp.getExpirationDate()
+		);
+		if(customerId == null) {
+			customerId = orderDao.insertCustomerProfile(order.getCustomer());
+		}
+		cp.setSeqNo(customerId);
 		orderDao.updateOrder(order);
+	}
+
+	public void deleteOrder(int orderId) {
+		orderDao.deleteOrder(orderId);
 	}
 
 	/**

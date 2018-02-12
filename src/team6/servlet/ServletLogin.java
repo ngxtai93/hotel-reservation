@@ -12,7 +12,6 @@ import team6.model.Authenticator;
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Authenticator auth;
-	private boolean debug = true;	// debug purpose
 	
 	public ServletLogin() {
 		auth = new Authenticator();
@@ -21,12 +20,6 @@ public class ServletLogin extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		if(debug) {
-			User user = auth.doLogin("manager", "manager");
-			request.getSession().setAttribute("current-user", user);
-			response.sendRedirect(request.getContextPath());
-			return;
-		}
 		User currentUser = (User) request.getSession().getAttribute("current-user");
 		if(currentUser != null) {
 			response.sendRedirect(request.getContextPath());

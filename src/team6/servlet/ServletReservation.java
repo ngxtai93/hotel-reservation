@@ -134,15 +134,15 @@ public class ServletReservation extends HttpServlet {
 		
 		order.setUser(currentUser);
 		order.setHotel(
-			hm.getHotel(Integer.parseInt((String) session.getAttribute("reservation-hotel-id")))
+			hm.getHotel(Integer.parseInt(request.getParameter("hotel-id")))
 		);
 		order.setRoomType(
-			hm.getRoomType(Integer.parseInt((String) session.getAttribute("reservation-room-id")))
+			hm.getRoomType(Integer.parseInt(request.getParameter("room-type-id")))
 		);
 		
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMddyyyy");
-		LocalDate checkInDate = LocalDate.parse((String) session.getAttribute("reservation-check-in"), dtf);
-		LocalDate checkOutDate = LocalDate.parse((String) session.getAttribute("reservation-check-out"), dtf);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		LocalDate checkInDate = LocalDate.parse(request.getParameter("check-in"), dtf);
+		LocalDate checkOutDate = LocalDate.parse(request.getParameter("check-out"), dtf);
 		LocalTime checkInTime = logic.getCheckInTime();
 		LocalTime checkOutTime = logic.getCheckOutTime();
 		order.setOrderDate(LocalDate.now());
